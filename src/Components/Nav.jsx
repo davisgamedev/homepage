@@ -1,11 +1,13 @@
 import React from 'react';
 
+import './Components.css'
+
 export default class Nav extends React.Component{
     //constructor(){}
 
     render() {
         return (
-        <div>
+        <div className="Nav">
             <ul>
                 <li>
                     Home

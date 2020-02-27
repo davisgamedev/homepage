@@ -1,0 +1,8 @@
+.Nav ul{
+    list-style: none;
+    width: 25%;
+}
+
+.Nav li {
+    display: inline-block;
+}

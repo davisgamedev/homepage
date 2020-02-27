@@ -13,7 +13,7 @@ export default class ${classname} extends React.Component{
 
     render() {
         return (
-        <div>
+        <div className=${classname}>
         </div>
     )}
 }
