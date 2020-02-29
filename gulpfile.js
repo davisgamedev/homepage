@@ -2,7 +2,7 @@ const gulp = require("gulp");
 const gap = require("gulp-append-prepend");
 
 const fs = require('fs');
-const arv = require('yargs').argv;
+const argv = require('yargs').argv;
 
 gulp.task("licenses", async function() {
   // this is to add Creative Tim licenses in the production mode for the minified js
