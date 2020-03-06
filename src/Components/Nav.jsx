@@ -16,8 +16,11 @@ const useStyles = makeStyles(styles);
 export default function Nav() { 
     const classes = useStyles();
     return (
-        <Header brand="Transparent" color="transparent" rightLinks={
+        <Header brand="Davis Smith" color="transparent" rightLinks={
             <List className={classes.list}>
+            <ListItem className={classes.listItem}>
+                <Button color="transparent" className={ classes.navLink }>Home</Button>
+            </ListItem>
             <ListItem className={classes.listItem}>
                 <Button color="transparent" className={ classes.navLink }>Projects</Button>
             </ListItem>
