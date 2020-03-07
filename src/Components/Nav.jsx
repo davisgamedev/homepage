@@ -10,28 +10,35 @@ import './Components.css'
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "common/assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles({
+
+});
+
+
 
 
 export default function Nav() { 
     const classes = useStyles();
     return (
-        <Header brand="Davis Smith" color="transparent" rightLinks={
-            <List className={classes.list}>
-            <ListItem className={classes.listItem}>
-                <Button color="transparent" className={ classes.navLink }>Home</Button>
-            </ListItem>
-            <ListItem className={classes.listItem}>
-                <Button color="transparent" className={ classes.navLink }>Projects</Button>
-            </ListItem>
-            <ListItem className={classes.listItem}>
-                <Button color="transparent" className={ classes.navLink }>Blog</Button>
-            </ListItem>
-            <ListItem className={classes.listItem}>
-                <Button color="transparent" className={ classes.navLink }>Contact</Button>
-            </ListItem>
-            </List>
-        }
-        />
+        // <Header brand="Davis Smith" color="transparent" rightLinks={
+        //     <List className={classes.list}>
+        //     <ListItem className={classes.listItem}>
+        //         <Button color="transparent" className={ classes.navLink }>Home</Button>
+        //     </ListItem>
+        //     <ListItem className={classes.listItem}>
+        //         <Button color="transparent" className={ classes.navLink }>Projects</Button>
+        //     </ListItem>
+        //     <ListItem className={classes.listItem}>
+        //         <Button color="transparent" className={ classes.navLink }>Blog</Button>
+        //     </ListItem>
+        //     <ListItem className={classes.listItem}>
+        //         <Button color="transparent" className={ classes.navLink }>Contact</Button>
+        //     </ListItem>
+        //     </List>
+        // }
+        // />
+        <List>
+
+        </List>
 )};
 

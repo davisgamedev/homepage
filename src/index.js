@@ -11,22 +11,21 @@ import LandingPage from "common/views/LandingPage/LandingPage.js";
 import ProfilePage from "common/views/ProfilePage/ProfilePage.js";
 import LoginPage from "common/views/LoginPage/LoginPage.js";
 
-import Header from './Components/Header';
 import Fonts from './Tech/Fonts';
+import Home from "Views/Home";
+import ScrollTo from "Tech/ScrollTo";
 
 var hist = createBrowserHistory();
 
+
 ReactDOM.render(
   <Router history={hist}>
-    <Fonts></Fonts>
-      <Header></Header>
-      <Switch>
-        <Route path="/examples/landing-page" component={LandingPage} />
-        <Route path="/examples/profile-page" component={ProfilePage} />
-        <Route path="/examples/login-page" component={LoginPage} />
-        <Route path="/examples/components" component={Components} />
-        <Route path="/" />
-      </Switch>
+      <ScrollTo></ScrollTo>
+      <Fonts></Fonts>
+        <Switch>
+          {/* <Route path="/examples/components" component={Components} /> */}
+          <Route path="/" component={Home}/>
+        </Switch>
   </Router>,
   document.getElementById("root")
 );

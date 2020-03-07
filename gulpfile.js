@@ -8,6 +8,12 @@ const argv = require('yargs').argv;
 const credits = `
 LICENSES AND ATTRIBUTION:
 
+=========================================================
+* Newspaper Design Modified from: 
+* Silke V - Newspaper Style Design
+* https://codepen.io/silkine/pen/jldif
+=========================================================
+
 
 =========================================================
 * Now UI Kit PRO React - v1.0.0
@@ -21,11 +27,6 @@ LICENSES AND ATTRIBUTION:
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 =========================================================
 
-* Hexagon Texture Attribution: 
-=========================================================
-* Attribute Link: https://www.freepik.com/free-photos-vectors/background
-*   Background vector created by kbibibi - www.freepik.com
-=========================================================
 `;
 
 
