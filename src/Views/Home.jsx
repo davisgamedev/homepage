@@ -1,9 +1,10 @@
 import React from 'react';
 
 import Header from '../Components/Header';
+import ExampleBody from 'Components/ExampleBody';
 
 import { makeStyles } from "@material-ui/core/styles";
-import ExampleBody from 'Components/ExampleBody';
+
 const useStyles = makeStyles({
     body: {
       color: "#2f2f2f",
@@ -21,6 +22,7 @@ export default function Home() {
             <Header></Header>
             {/* <Nav></Nav> */}
             <ExampleBody></ExampleBody>
+
         </div>
     );
 }

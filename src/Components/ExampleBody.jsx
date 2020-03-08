@@ -5,12 +5,12 @@ export default function ExampleBody() {
 
 
     return (
-        <div class="content">
-            <div class="collumns">
-                <div class="collumn">
-                    <div class="head">
-                        <span class="headline hl3">When darkness overspreads my eyes</span>
-                        <p><span class="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p>
+        <div className="content">
+            <div className="collumns">
+                <div className="collumn">
+                    <div className="head">
+                        <span className="headline hl3">When darkness overspreads my eyes</span>
+                        <p><span className="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p>
                     </div>
                         When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
                         and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream,
@@ -23,13 +23,13 @@ export default function ExampleBody() {
                         that it might be the mirror of my soul, as my soul is the mirror of the infinite God!
                     </p>
                 </div>
-                <div class="collumn">
-                    <div class="head">
-                        <span class="headline hl5">
+                <div className="collumn">
+                    <div className="head">
+                        <span className="headline hl5">
                             Give people courage
                         </span>
                         <p>
-                            <span class="headline hl6">
+                            <span className="headline hl6">
                                 The crowd seemed to grow
                             </span>
                         </p>
@@ -52,11 +52,11 @@ export default function ExampleBody() {
                     </p>
         
                     </div>
-                <div class="collumn">
-                    <div class="head">
-                        <span class="headline hl1">May the Force be with you</span>
+                <div className="collumn">
+                    <div className="head">
+                        <span className="headline hl1">May the Force be with you</span>
                         <p>
-                            <span class="headline hl2">Let go your conscious self and act on instinct</span>
+                            <span className="headline hl2">Let go your conscious self and act on instinct</span>
                         </p>
                     </div>
                    
@@ -65,10 +65,10 @@ export default function ExampleBody() {
                         only link to finding their secret base.
                         </p>
 
-                    <img class="media" src="http://i.giphy.com/4fDWVPMoSyhgc.gif" alt=""/>
+                    <img className="media" src="http://i.giphy.com/4fDWVPMoSyhgc.gif" alt=""/>
                                     
                     <p>Leave that to me. Send a distress signal, and inform the Senate that all on board were killed. 
-                        <span class="citation">"Don't under&shy,estimate the Force. I suggest you try it again, Luke."</span> 
+                        <span className="citation">"Don't under&shy;estimate the Force. I suggest you try it again, Luke."</span> 
                         This time, let go your conscious self and act on instinct. In my experience, there is no such thing as luck. You're all clear, kid. Let's
                             blow this thing and go home!
                     </p>
@@ -76,11 +76,11 @@ export default function ExampleBody() {
                         The plans you refer to will soon be back in our hands. As you wish.
                     </p>
                 </div>
-                <div class="collumn">
-                    <div class="head">
-                        <span class="headline hl3">The buzz of the little world </span>
+                <div className="collumn">
+                    <div className="head">
+                        <span className="headline hl3">The buzz of the little world </span>
                         <p>
-                            <span class="headline hl4">A thousand unknown plants</span>
+                            <span className="headline hl4">A thousand unknown plants</span>
                         </p>
                     </div>
                     <p>
@@ -92,11 +92,11 @@ export default function ExampleBody() {
                         and the breath
                     </p>
                 </div>
-                <div class="collumn">
-                    <div class="head">
-                        <span class="headline hl1">It wasn't a dream </span>
+                <div className="collumn">
+                    <div className="head">
+                        <span className="headline hl1">It wasn't a dream </span>
                         <p>
-                            <span class="headline hl4">by FRANZ KAFKA</span>
+                            <span className="headline hl4">by FRANZ KAFKA</span>
                         </p>
                     </div>
                     <p>
