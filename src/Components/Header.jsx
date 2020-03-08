@@ -5,8 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import GridContainer from "common/components/Grid/GridContainer.js";
 import GridItem from "common/components/Grid/GridItem.js";
 import Parallax from "common/components/Parallax/Parallax.js";
-import Nav from './Nav';
-import './Components.css'
 
 import WindowDimensions from '../Tech/WindowDimensions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,7 +21,7 @@ const useStyles = makeStyles({
         fontWeight: 900,
         fontSize: 80,
         textTransform: 'uppercase',
-        lineHeight: 72,
+        lineHeight: "72px",
         marginBottom: 20,
     },
     subtitle: {
@@ -40,13 +38,14 @@ export default function Header(props){
     //constructor(){}
     const classes = useStyles();
     const { ...rest } = props;
-    const { height, width } = WindowDimensions();
 
     // will have to add an img tag
     return (
         <div className={classes.container}>
             <div className={classes.headerWrapper}>
-                <div className={classes.title}>Davis Smith</div>   
+                <div className={classes.title}>
+                    Davis Smith
+                </div>   
 
                 <div className={classes.subtitle}>
                     Is a Game and Audio Developer
