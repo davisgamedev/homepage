@@ -14,6 +14,7 @@ const useStyles = makeStyles({
         wordSpacing: '-.31em',
         display: 'inline-block',
         margin: '30px 2% 0 2%',
+        textAlign: 'center',
     }
 });
 
