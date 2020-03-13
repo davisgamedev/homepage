@@ -1,23 +1,49 @@
 import React from 'react';
 
-
-import { makeStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles({
-
-
-});
+import "./Column.css";
 
 
 
-export default function Column1() {
+export default function Column() {
 
-    const classes = useStyles();
+    const styles = 8;
+
+    function getStyleNum(odd) {
+        let style = Math.floor(Math.random() * (styles/2));
+        return (style * 2) + (odd ? 1 : 0);
+    }
+
+    function getFirstHeadlineClass() {
+        return `headline s${getStyleNum(true)}`;
+    }
+
+    function getSecondHeadlineClass() {
+        return `headline s${getStyleNum(false)}`;
+    }
+
+    /// CLASSES SHOULD NOT BE RANDOM ON FINAL BUILD
+
+    /*
+    original first and second pairings:
+    3 4
+    5 6
+    1 2
+    3 4
+    1 4
+
+    primary: 1 3 5
+    secondary: 2 4 6
+    */
 
     return( 
-        <div className="collumn">
+        <div className="column">
             <div className="head">
-                <span className="headline hl3">When darkness overspreads my eyes</span>
-                <p><span className="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p>
+                <div className={getFirstHeadlineClass()}>
+                    When darkness overspreads my eyes
+                </div>
+                <div className={getSecondHeadlineClass()}>
+                    by JOHANN WOLFGANG VON GOETHE
+                </div>
             </div>
                 When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
                 and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream,
@@ -29,6 +55,7 @@ export default function Column1() {
                 often think with longing, Oh, would I could describe these conceptions, could impress upon paper all that is living so full and warm within me, 
                 that it might be the mirror of my soul, as my soul is the mirror of the infinite God!
             </p>
+            <span className="article-footer"></span>
     </div>
     );
 

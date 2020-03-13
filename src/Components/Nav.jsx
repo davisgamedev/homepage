@@ -1,44 +1,23 @@
 import React from 'react';
 
-import Header from "../common/components/Header/Header.js";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Button from "common/components/CustomButtons/Button.js";
-
-import './Components.css'
-
-import { makeStyles } from "@material-ui/core/styles";
-import styles from "common/assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";
-
-const useStyles = makeStyles({
-
-});
-
-
-
+import Icon from '@material-ui/core/Icon';
+import './Nav.css';
 
 export default function Nav() { 
-    const classes = useStyles();
     return (
-        // <Header brand="Davis Smith" color="transparent" rightLinks={
-        //     <List className={classes.list}>
-        //     <ListItem className={classes.listItem}>
-        //         <Button color="transparent" className={ classes.navLink }>Home</Button>
-        //     </ListItem>
-        //     <ListItem className={classes.listItem}>
-        //         <Button color="transparent" className={ classes.navLink }>Projects</Button>
-        //     </ListItem>
-        //     <ListItem className={classes.listItem}>
-        //         <Button color="transparent" className={ classes.navLink }>Blog</Button>
-        //     </ListItem>
-        //     <ListItem className={classes.listItem}>
-        //         <Button color="transparent" className={ classes.navLink }>Contact</Button>
-        //     </ListItem>
-        //     </List>
-        // }
-        // />
-        <List>
+        <div>
+            <button className="dropbtn hoverable">
+                <span>Page &mdash; 1A: Headlines<Icon className="fa fa-caret-down"></Icon></span>
+            </button>
 
-        </List>
+            <div className="dropdown-content">
+                <a className="dropdown-link" href="#">1A: Headlines</a>
+                <a className="dropdown-link" href="#">2A: Game Projects</a>
+                <a className="dropdown-link" href="#">2B: Audio Projects</a>
+                <a className="dropdown-link" href="#">2C: Web Projects</a>
+                <a className="dropdown-link" href="#">2D: Graphics &amp; Misc</a>
+                <a className="dropdown-link" href="#">3A: Write to the Editor</a>
+            </div>
+        </div>
 )};
 
