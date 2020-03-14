@@ -4,6 +4,10 @@ const gap = require("gulp-append-prepend");
 const fs = require('fs');
 const argv = require('yargs').argv;
 
+const htmltoreact = require("gulp-htmltoreactclass");
+const once = require('async-once');
+const del = require('del');
+
 
 const credits = `
 LICENSES AND ATTRIBUTION:
@@ -63,6 +67,34 @@ gulp.task("licenses", async function() {
     .pipe(gulp.dest("./", { overwrite: true }));
   return;
 });
+
+gulp.task("wipe-md", once(function(done){
+  del.sync(["./src/Content-Out/*"]);
+  done();
+}));
+
+gulp.task("md", function() {
+  gulp.watch([
+    "./md-content/**/.md"
+  ]).on("change", gulp.task("md"));
+});
+
+gulp.task("md", gulp.series("wipe-md", "md-convert", "md-media"));
+
+gulp.task("md-convert", function(done){
+  gulp.src("./md-content/**/*.md")
+    .pipe(showdown({ extensions: []}))
+    .pipe(htmltoreact())
+    .pipe(gulp.dest("./src/Content-Out"));
+  done();
+});
+
+gulp.task("md-media", function(done){
+  gulp.src("./md-content/**/media")
+    .pipe(gulp.dest("./src/Content-Out"));
+  done();
+});
+
 
 let classdir = './src/Components';
 
