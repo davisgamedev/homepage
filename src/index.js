@@ -18,7 +18,7 @@ ReactDOM.render(
   <Router history={hist}>
         <Switch>
           {/* <Route path="/examples/components" component={Components} /> */}
-          <Route path="/" component={Home}/>
+          <Route component={Home}/>
         </Switch>
   </Router>,
   document.getElementById("root")

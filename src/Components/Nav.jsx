@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
@@ -11,12 +12,12 @@ export default function Nav() {
             </button>
 
             <div className="dropdown-content">
-                <a className="dropdown-link" href="#">1A: Headlines</a>
-                <a className="dropdown-link" href="#">2A: Game Projects</a>
-                <a className="dropdown-link" href="#">2B: Audio Projects</a>
-                <a className="dropdown-link" href="#">2C: Web Projects</a>
-                <a className="dropdown-link" href="#">2D: Graphics &amp; Misc</a>
-                <a className="dropdown-link" href="#">3A: Write to the Editor</a>
+                <Link className="dropdown-link" to="/"          >1A: Headlines</Link>
+                <Link className="dropdown-link" to="/games"     >2A: Game Projects</Link>
+                <Link className="dropdown-link" to="/audio"     >2B: Audio Projects</Link>
+                <Link className="dropdown-link" to="/web"       >2C: Web Projects</Link>
+                <Link className="dropdown-link" to="/graphics"  >2D: Graphics &amp; Misc</Link>
+                <Link className="dropdown-link" to="/contact"   >3A: Write to the Editor</Link>
             </div>
         </div>
 )};
