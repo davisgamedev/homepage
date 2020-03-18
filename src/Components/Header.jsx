@@ -1,44 +1,54 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { NativeSelect, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import './Header.css';
 import Nav from './Nav';
+import { Link } from 'react-router-dom';
 
-export default function Header(props){
 
-    const { ...rest } = props;
-
+function DateComp() {
     const event = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    const dropLabelId = 'dropLabel';
-    
-
-    useEffect(() => {
-        // let title = document.getElementById(titleId);
-        // title.style.fontFamily = 'Playfair Display';
-    });
-
-    // will have to add an img tag
     return (
-        <div className="container">
+        <div className="date">
+            {event.toLocaleDateString('en-US', options)}
+        </div>
+        );
+}
+
+
+export default class Header extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
+    // componentDidMount() {
+    //     setTimeout(() => {
+    //         let resizeEvent = window.document.createEvent('UIEvents'); 
+    //         resizeEvent.initUIEvent('resize', true, false, window, 0); 
+    //         window.dispatchEvent(resizeEvent);
+    //     }, 100);
+    // }
+
+    render() {
+        return (
+        <div className="headerContainer" id="header">
             <div className="headerWrapper">
-                <div className="title">
+                <Link to="">
+                    <div  className="title">
                     The Davis Report
-                </div>   
+                    </div>
+                </Link>   
 
                 <Grid container className="subtitle">
 
                     <Grid item xs={4} className="dropdown" style={{textAlign: "left"}}>
-
                         <Nav></Nav>
-
                     </Grid>
 
                     <Grid item xs={4}>
-                        <div className="date">
-                            {event.toLocaleDateString('en-US', options)}
-                        </div>
+                        <DateComp></DateComp>
                     </Grid>
 
                     <Grid item xs={4} style={{textAlign: "right"}}>
@@ -54,5 +64,5 @@ export default function Header(props){
                 </Grid>
             </div>
         </div>
-        );
+        );};
 }
