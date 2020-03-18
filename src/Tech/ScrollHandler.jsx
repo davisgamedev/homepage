@@ -2,28 +2,38 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import HeaderHeight from './HeaderHeight';
+import DebugLog from './DebugLog';
+
+import { Pages } from '../Components/Nav';
 
 // modified from https://stackoverflow.com/a/56250408
 
-const ScrollHandler = ({ location, headerId }) => {
+const ScrollHandler = ({ location, history }) => {
 
     const height = HeaderHeight();
+    
+    function getElementFromPath() {
+      const id = location.pathname.replace("/", "");
+      return document.getElementById(id);
+    }
+
 
     React.useEffect(
       () => {
-
-        const id = location.pathname.replace("/", "");
-        //if(id === "") id = "featured";
-        const element = document.getElementById(id);
-
+        const element = getElementFromPath();
+        let scrollTarget =  element ? element.offsetTop : 0;
+        scrollTarget -= height;
 
         setTimeout(() => {
-          console.log(height);
+
+          DebugLog(`Scrolling to ${scrollTarget}, which is ${scrollTarget - window.scrollY} lower.`);
+
           window.scrollTo({
             //behavior: element ? "smooth" : "auto",
             behavior: "smooth",
-            top: element ? (element.offsetTop - height) : -height
+            top: scrollTarget
           });
+
         }, 100);
 
 

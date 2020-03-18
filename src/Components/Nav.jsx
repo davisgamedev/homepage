@@ -1,24 +1,52 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
 
-export default function Nav() { 
+export const Pages = [
+    { route: "/"         , name: "Headlines", },
+    { route: "/games"    , name: "Game Projects", },
+    { route: "/audio"    , name: "Audio Projects", },
+    { route: "/web"      , name: "Web Projects", },
+    { route: "/graphics" , name: "Graphics & Misc Projects", },
+    { route: "/contact"  , name: "Write to the Editor", },
+];
+
+
+function Nav({location}) { 
+
+    function getPageTitle(i) {
+        return `Page ${i+1} — ${Pages[i].name}`;
+    }
+
+    const [pageTitle, setPageTitle] = React.useState(getPageTitle(0));
+    
+    React.useEffect(() => {
+        const pageNum = Pages.findIndex(p => p.route === location.pathname);
+        setPageTitle(getPageTitle(pageNum));
+    });
+
+    const PageLinks = Pages.map((p, i) => {
+        return (
+        <Link 
+            className="dropdown-link"
+            to={p.route} key={`${i+1}: ${p.name}`}
+            >{p.name}
+        </Link>);
+    });
+
     return (
-        <div>
+        <div className="dropdown">
             <button className="dropbtn hoverable">
-                <span>Page &mdash; 1A: Headlines<Icon className="fa fa-caret-down"></Icon></span>
+                    {pageTitle}
+                    <Icon className="fa fa-caret-down"></Icon>
             </button>
 
             <div className="dropdown-content">
-                <Link className="dropdown-link" to="/"          >1A: Headlines</Link>
-                <Link className="dropdown-link" to="/games"     >2A: Game Projects</Link>
-                <Link className="dropdown-link" to="/audio"     >2B: Audio Projects</Link>
-                <Link className="dropdown-link" to="/web"       >2C: Web Projects</Link>
-                <Link className="dropdown-link" to="/graphics"  >2D: Graphics &amp; Misc</Link>
-                <Link className="dropdown-link" to="/contact"   >3A: Write to the Editor</Link>
+                {PageLinks}
             </div>
         </div>
 )};
 
+export default withRouter(Nav);

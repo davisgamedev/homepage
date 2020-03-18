@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import './Header.css';
 import Nav from './Nav';
 import { Link } from 'react-router-dom';
+import DebugLog from 'Tech/DebugLog';
 
 
 function DateComp() {
@@ -23,13 +24,16 @@ export default class Header extends React.Component{
         super(props);
     }
 
-    // componentDidMount() {
-    //     setTimeout(() => {
-    //         let resizeEvent = window.document.createEvent('UIEvents'); 
-    //         resizeEvent.initUIEvent('resize', true, false, window, 0); 
-    //         window.dispatchEvent(resizeEvent);
-    //     }, 100);
-    // }
+    dispatchResizeOnMount() {
+        let resizeEvent = window.document.createEvent('UIEvents'); 
+        resizeEvent.initUIEvent('resize', true, false, window, 0); 
+        window.dispatchEvent(resizeEvent);
+        DebugLog("Header: Manually dispatched resize event.");
+    }
+
+    componentDidMount() {
+        setTimeout(this.dispatchResizeOnMount, 100);
+    }
 
     render() {
         return (
