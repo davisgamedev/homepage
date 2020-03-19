@@ -23,7 +23,7 @@
     "react-swipeable-views": "0.13.3"
   },
   "devDependencies": {
-    "@babel/cli": "7.5.5",
+    "@babel/cli": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "7.5.5",
     "@babel/preset-env": "7.5.5",
     "@babel/preset-react": "7.0.0",
@@ -36,10 +36,10 @@
     "gh-pages": "^2.2.0",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
-    "gulp-htmltoreactclass": "^1.0.0",
+    "gulp-htmltoreactclass": "^1.1.1",
     "gulp-markdown": "^5.0.1",
     "prettier": "1.18.2",
-    "yargs": "^15.1.0"
+    "yargs": "^15.3.1"
   },
   "optionalDependencies": {
     "typescript": "3.5.3"

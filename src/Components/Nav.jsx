@@ -13,6 +13,11 @@ export const Pages = [
     { route: "/contact"  , name: "Write to the Editor", },
 ];
 
+/*
+    - TODO:
+        - Active nav link changes with scroll view
+        - URL changes with scroll view, without updating ScrollHandler
+*/
 
 function Nav({location}) { 
 

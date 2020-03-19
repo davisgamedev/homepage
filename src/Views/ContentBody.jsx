@@ -1,7 +1,14 @@
 
 import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
-import Section from '../Components/Section';
+
+import Featured from './Projects/Featured';
+import Audio from './Projects/Audio'
+import Games from './Projects/Games';
+import Web from './Projects/Web';
+import Graphics from './Projects/Graphics';
+
+import Contact from './Contact';
 
 function Block(props) {
 
@@ -29,28 +36,12 @@ export default function ContentBody(props) {
 
 
     return (<div className={classes.content}>
-        <Section id="featured" >
-            <Block />
-        </Section>
+        <Featured></Featured>
+        <Audio></Audio>
+        <Games></Games>
+        <Web></Web>
+        <Graphics></Graphics>
 
-        <Section id="games" title="games">
-            <Block />
-        </Section>
-
-        <Section id="audio" title="audio">
-            <Block />
-        </Section>
-
-        <Section id="web" title="web">
-            <Block />
-        </Section>
-
-        <Section id="graphics" title="graphics">
-            <Block />
-        </Section>
-
-        <Section id="contact" title="contact">
-            <Block />
-    </Section>
+        <Contact></Contact>
 </div>);
 }
