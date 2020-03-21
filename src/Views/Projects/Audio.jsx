@@ -8,7 +8,7 @@ import Example from 'Content-Out/web/example';
 export default function Audio() {
 
     return(
-        <Section id="audio" title="audio">
+        <Section id="audio" title="audio projects">
             <Column>
                 <Example></Example>
             </Column>

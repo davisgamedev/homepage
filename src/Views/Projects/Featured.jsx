@@ -8,7 +8,7 @@ export default function Featured() {
 
 
 
-    return(<Section id="featured">
+    return(<Section id="featured" title="featured projects">
         <Column>
             <Example></Example>
         </Column>

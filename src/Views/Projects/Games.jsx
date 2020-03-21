@@ -9,7 +9,7 @@ import Example from 'Content-Out/web/example';
 export default function Games() {
 
     return(
-        <Section id="games" title="games">
+        <Section id="games" title="game projects">
             <Column>
                 <Example></Example>
             </Column>

@@ -6,10 +6,20 @@ import {
     Button, 
     Dialog,
     Paper,
-    ClickAwayListener
+    ClickAwayListener,
+    Grow
 } from '@material-ui/core';
 
 import './Column.css';
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Grow 
+    ref={ref} 
+    {...props} 
+    transition={1000}
+    />
+});
 
 
 function Interactable(props) {
@@ -20,17 +30,17 @@ function Interactable(props) {
     return (
         <span>
                 <Button className="container collapsed" onClick={()=>setExpanded(true)}>
-
                     {props.children}
 
                     <Dialog 
-                    className="container expanded"
-                    onClose={()=>setExpanded(false)} 
-                    open={expanded}
-                    maxWidth={'md'}
-                    fullWidth={true}
-                    scroll={'body'}
-                    onRequestClose={props.closeModal}
+                        className="container expanded"
+                        onClose={()=>setExpanded(false)} 
+                        open={expanded}
+                        maxWidth={'md'}
+                        fullWidth={true}
+                        scroll={'body'}
+                        onRequestClose={props.closeModal}
+                        TransitionComponent={Transition}
                     >
                         <ClickAwayListener onClickAway={()=>setExpanded(false)}>
                             <Paper 
@@ -40,6 +50,7 @@ function Interactable(props) {
                                 {props.children}
                             </Paper>
                         </ClickAwayListener>
+
                     </Dialog>
                 </Button>
         </span>

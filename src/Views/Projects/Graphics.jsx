@@ -8,7 +8,7 @@ import Example from 'Content-Out/web/example';
 export default function Graphics() {
 
     return(
-        <Section id="graphics" title="graphics">
+        <Section id="graphics" title="graphics projects">
             <Column>
                 <Example></Example>
             </Column>
