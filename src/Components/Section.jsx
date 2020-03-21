@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         textAlign: 'left',
         width: '100%',
         borderBottom: '1px solid lightgrey',
-    }
+    },
 });
 
 export default function Section(props) {
@@ -20,7 +20,7 @@ export default function Section(props) {
     const headerHeight = HeaderHeight();
     const calcMinHeight = height - headerHeight;
 
-    const applyHeight = { minHeight: calcMinHeight };
+    const style = { minWidth: '100%' };
 
     const title = props.title;
     const id = props.id;
@@ -28,12 +28,12 @@ export default function Section(props) {
     const classes = useStyles();
 
     return (
-        <Grid container id={id} style={applyHeight}>
+        <div>
             {
                 title? 
                     <h2 className={classes.sectionTitle}>{title}</h2> :
                     <span></span>}
-            {props.children}
-        </Grid>
+            <Grid container id={id} style={style}>{props.children}</Grid>
+        </div>
     )
 }

@@ -10,6 +10,8 @@ import Graphics from './Projects/Graphics';
 
 import Contact from './Contact';
 
+import Example from '../Content-Out/web/example';
+
 function Block(props) {
 
     return (
@@ -21,9 +23,6 @@ function Block(props) {
 
 const useStyles = makeStyles({
     content: {  
-        fontSize: 0,
-        lineHeight: 0,
-        wordSpacing: '-.31em',
         display: 'inline-block',
         margin: '30px 2% 0 2%',
         textAlign: 'center',

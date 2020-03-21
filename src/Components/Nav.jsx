@@ -22,6 +22,7 @@ export const Pages = [
 function Nav({location}) { 
 
     function getPageTitle(i) {
+        console.log(i);
         return `Page ${i+1} — ${Pages[i].name}`;
     }
 
@@ -29,7 +30,8 @@ function Nav({location}) {
     
     React.useEffect(() => {
         const pageNum = Pages.findIndex(p => p.route === location.pathname);
-        setPageTitle(getPageTitle(pageNum));
+        setPageTitle(
+            getPageTitle((pageNum < 0)? 0 : pageNum));
     });
 
     const PageLinks = Pages.map((p, i) => {
