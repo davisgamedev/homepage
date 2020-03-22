@@ -15,22 +15,21 @@ const useStyles = makeStyles({
         fontFamily: 'Playfair Display, serif',
         fontWeight: '400',
         textTransform: 'uppercase',
-        fontSize: '48px',
+        fontSize: '36px',
 
         marginBottom: 20,
         borderBottom: '1px solid black',
     },
     smallTitle: {
-        textAlign: 'left',
+        textAlign: 'center',
         flexGrow: 1,
 
         fontFamily: 'Playfair Display, serif',
         fontWeight: '400',
         textTransform: 'uppercase',
-        fontSize: '24px',
+        fontSize: '36px',
 
         marginBottom: 20,
-        borderBottom: '1px solid black',
     },
     grid: {
         flexGrow: 1,

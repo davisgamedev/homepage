@@ -3,6 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
+import { Button, Menu, MenuItem } from '@material-ui/core';
 
 export const Pages = [
     { route: "/"         , name: "Headlines", },
@@ -35,14 +36,60 @@ function Nav({location}) {
 
     const PageLinks = Pages.map((p, i) => {
         return (
+            <MenuItem onClick={close}>
         <Link 
             className="dropdown-link"
             to={p.route} key={`${i+1}: ${p.name}`}
             >{p.name}
-        </Link>);
+        </Link>
+        </MenuItem>);
     });
 
+        
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const open = event => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const close = () => {
+        setAnchorEl(null);
+    };
+
     return (
+        <div className="dropdown"
+            onMouseExit={close}
+            onMouseEnter={open}
+        >
+            <Button 
+                className="dropbtn hoverable" 
+            >
+                    {pageTitle}
+                    <Icon className="fa fa-caret-down"></Icon>
+            </Button>
+
+            <Menu 
+            className="dropdown-content"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={close}
+            style={{padding: 0}}
+            >
+                <span 
+                style={{width: '101%', height:'101%'}}
+                onMouseLeave={close}
+                >
+                    {PageLinks}
+                </span>
+            </Menu>
+
+
+        </div>
+)};
+
+/*
+
         <div className="dropdown">
             <button className="dropbtn hoverable">
                     {pageTitle}
@@ -53,6 +100,6 @@ function Nav({location}) {
                 {PageLinks}
             </div>
         </div>
-)};
+*/
 
 export default withRouter(Nav);

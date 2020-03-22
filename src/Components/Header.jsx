@@ -58,7 +58,7 @@ function BigHeader(props) {
 
                 <Grid container className="subtitle">
 
-                    <Grid item xs={4} className="dropdown" style={{textAlign: "left"}}>
+                    <Grid item xs={4} className="navbar">
                         <Nav></Nav>
                     </Grid>
 
@@ -84,20 +84,20 @@ function BigHeader(props) {
 
 function SmallHeader(props) {
 
-    const {extraSmall} = SmallView();
+    const {extraSmall, small} = SmallView();
 
     return (
         <div className="headerContainer" id="header">
-            <div className="headerWrapper">
+            <div className={"headerWrapper " + (extraSmall? 'extraSmall' : 'small')}>
                 <Link to="">
-                    <div className={`title ${extraSmall? 'extraSmall' : 'small'}`}>
+                    <div className="title">
                     The Davis Report
                     </div>
                 </Link>   
 
                 <div className="subtitle">
 
-                    <div className="dropdown" style={{textAlign: "left"}}>
+                    <div className="navbar">
                         <Nav></Nav>
                     </div>
 
