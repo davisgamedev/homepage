@@ -28,7 +28,7 @@ export default function WindowDimensions() {
 
 /* USE:
 
-const Component = () => {
+function Component = () => {
   const { height, width } = WindowDimensions();
 
   return (

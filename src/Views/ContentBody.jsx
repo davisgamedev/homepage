@@ -7,10 +7,7 @@ import Audio from './Projects/Audio'
 import Games from './Projects/Games';
 import Web from './Projects/Web';
 import Graphics from './Projects/Graphics';
-
 import Contact from './Contact';
-
-import Example from '../Content-Out/web/example';
 
 function Block(props) {
 
@@ -24,7 +21,7 @@ function Block(props) {
 const useStyles = makeStyles({
     content: {  
         display: 'inline-block',
-        margin: '30px 2% 0 2%',
+        margin: '0 2% 0 2%',
         textAlign: 'center',
     }
 });

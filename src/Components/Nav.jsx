@@ -22,7 +22,6 @@ export const Pages = [
 function Nav({location}) { 
 
     function getPageTitle(i) {
-        console.log(i);
         return `Page ${i+1} — ${Pages[i].name}`;
     }
 

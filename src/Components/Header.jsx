@@ -4,24 +4,27 @@ import { Grid } from '@material-ui/core';
 import './Header.css';
 import Nav from './Nav';
 import { Link } from 'react-router-dom';
-import DebugLog from 'Tech/DebugLog';
 
+import DebugLog from '../Tech/DebugLog';
+import { SmallView } from '../Tech/Breakpoints';
 
-function DateComp() {
-    const event = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+export default function Header(props) {
+    const { small, extraSmall } = SmallView();
 
-    return (
-        <div className="date">
-            {event.toLocaleDateString('en-US', options)}
-        </div>
-        );
+    return <HeaderHooks>
+        {
+            small ?
+            <SmallHeader></SmallHeader>
+            :
+            <BigHeader></BigHeader> 
+        }
+    </HeaderHooks>
 }
 
-
-export default class Header extends React.Component{
+class HeaderHooks extends React.Component{
     constructor(props) {
         super(props);
+        this.props = props;
     }
 
     dispatchResizeOnMount() {
@@ -36,7 +39,15 @@ export default class Header extends React.Component{
     }
 
     render() {
-        return (
+        return(
+            <span>
+                {this.props.children}
+            </span>
+        );};
+}
+
+function BigHeader(props) {
+    return(
         <div className="headerContainer" id="header">
             <div className="headerWrapper">
                 <Link to="">
@@ -68,5 +79,41 @@ export default class Header extends React.Component{
                 </Grid>
             </div>
         </div>
-        );};
+    );
+}
+
+function SmallHeader(props) {
+
+    const {extraSmall} = SmallView();
+
+    return (
+        <div className="headerContainer" id="header">
+            <div className="headerWrapper">
+                <Link to="">
+                    <div className={`title ${extraSmall? 'extraSmall' : 'small'}`}>
+                    The Davis Report
+                    </div>
+                </Link>   
+
+                <div className="subtitle">
+
+                    <div className="dropdown" style={{textAlign: "left"}}>
+                        <Nav></Nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function DateComp() {
+    const event = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    return (
+        <div className="date">
+            {event.toLocaleDateString('en-US', options)}
+        </div>
+        );
 }

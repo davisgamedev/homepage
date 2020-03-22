@@ -7,10 +7,12 @@ import {
     Dialog,
     Paper,
     ClickAwayListener,
-    Grow
+    Grow,
+    Divider,
 } from '@material-ui/core';
 
 import './Column.css';
+import { SmallView } from 'Tech/Breakpoints';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -27,51 +29,60 @@ function Interactable(props) {
     // toggleable classes
     const [expanded, setExpanded] = React.useState(false);
 
+    const {small, extraSmall} = SmallView();
+
+
     return (
-        <span>
-                <Button className="container collapsed" onClick={()=>setExpanded(true)}>
-                    {props.children}
+        <Button 
+        className={"container collapsed " + (extraSmall? 'extraSmall' : '')}
+        onClick={()=>setExpanded(true)}
+        >
+            {props.children}
 
-                    <Dialog 
-                        className="container expanded"
-                        onClose={()=>setExpanded(false)} 
-                        open={expanded}
-                        maxWidth={'md'}
-                        fullWidth={true}
-                        scroll={'body'}
-                        onRequestClose={props.closeModal}
-                        TransitionComponent={Transition}
+            <Dialog 
+                className="container expanded"
+                onClose={()=>setExpanded(false)} 
+                open={expanded}
+                maxWidth={'md'}
+                fullWidth={true}
+                scroll={'body'}
+                onRequestClose={props.closeModal}
+                TransitionComponent={Transition}
+            >
+                <ClickAwayListener onClickAway={()=>setExpanded(false)}>
+                    <Paper 
+                    className='paperContainer' 
+                    elevation={3}
                     >
-                        <ClickAwayListener onClickAway={()=>setExpanded(false)}>
-                            <Paper 
-                            className='paperContainer' 
-                            elevation={3}
-                            >
-                                {props.children}
-                            </Paper>
-                        </ClickAwayListener>
+                        {props.children}
+                    </Paper>
+                </ClickAwayListener>
 
-                    </Dialog>
-                </Button>
-        </span>
+            </Dialog>
+        </Button>
     );
 }
 
-
-
-
-
 export default function Column(props) {
 
-    const xs = props.xs || 3;
+    const {extraSmall} = SmallView();
 
     return (
-        <Grid item xs={xs} className="column">
+        <Grid 
+        item 
+        className="column"
+        xs={extraSmall? 12: 6} 
+        sm={4}
+        md={3}
+        lg={2}
+        xl={2}
+        >
             {
             React.Children.map(props.children, c => {
                 return (<Interactable>{c}</Interactable>)
             })
             }
+            <Divider></Divider>
         </Grid>
 
     )

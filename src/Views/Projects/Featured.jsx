@@ -21,5 +21,23 @@ export default function Featured() {
         <Column>
             <Example></Example>
         </Column>
+        <Column>
+            <Example></Example>
+        </Column>
+        <Column>
+            <Example></Example>
+        </Column>
+        <Column>
+            <Example></Example>
+        </Column>
+        <Column>
+            <Example></Example>
+        </Column>
+        <Column>
+            <Example></Example>
+        </Column>
+        <Column>
+            <Example></Example>
+        </Column>
     </Section>)
 }

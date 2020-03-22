@@ -11,15 +11,18 @@ import "common/assets/scss/material-kit-react.scss?v=1.8.0";
 import Home from "Views/Home";
 import './index.css';
 
+import Breakpoints from 'Tech/Breakpoints';
+
 var hist = createBrowserHistory();
 
-
 ReactDOM.render(
-  <Router history={hist}>
-        <Switch>
-          {/* <Route path="/examples/components" component={Components} /> */}
-          <Route component={Home}/>
-        </Switch>
-  </Router>,
-  document.getElementById("root")
+    <Router history={hist}>
+        <Breakpoints>
+            <Switch>
+                {/* <Route path="/examples/components" component={Components} /> */}
+                <Route component={Home}/>
+            </Switch>
+        </Breakpoints>
+    </Router>,
+    document.getElementById("root")
 );

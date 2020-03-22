@@ -5,6 +5,8 @@ import DebugLog from '../Tech/DebugLog';
 const knownHeight = 142;
 /*****************************************/
 
+let logResize = true;
+
 function getHeight() {
     const header = document.getElementById('header');
 
@@ -13,17 +15,26 @@ function getHeight() {
         let height = header.offsetHeight;
 
         if(height != knownHeight) { 
-            DebugLog("%cHEADER STYLED HEIGHT HAS CHANGED", "font-size:32px,color:'red'");
-            DebugLog(
-                `%c Please update HeaderHeight.knownHeight to: %c${height}%c to prevent a scroll jitter on load;`,
-                'color:#17A589;',
-                `   color:orange;
-                    font-weight:bold;
-                    font-style:italic;
-                    text-decoration:underline;
-                `,
-                'color:#17A589;',
+
+            if(logResize) {
+                logResize = false;
+                setTimeout(
+                    () => {
+                        DebugLog("%cHEADER STYLED HEIGHT HAS CHANGED", "font-size:32px,color:'red'");
+                        DebugLog(
+                            `%c Please update HeaderHeight.knownHeight to: %c${height}%c to prevent a scroll jitter on load;`,
+                            'color:#17A589;',
+                            `   color:orange;
+                                font-weight:bold;
+                                font-style:italic;
+                                text-decoration:underline;
+                            `,
+                            'color:#17A589;',
+                        );
+                        logResize = true;
+                    }, 500
                 );
+            }
         }
 
         return height;
