@@ -39,6 +39,7 @@
     "gulp-htmltoreactclass": "^1.2.0",
     "gulp-markdown": "^5.0.1",
     "prettier": "1.18.2",
+    "react-material-ui-form-validator": "^2.0.10",
     "yargs": "^15.3.1"
   },
   "optionalDependencies": {
