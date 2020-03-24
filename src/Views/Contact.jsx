@@ -2,7 +2,8 @@ import React from 'react';
 import Section from '../Components/Section'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import DebugLog from 'Tech/DebugLog';
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
+import {SmallView} from 'Tech/Breakpoints'
 
 import "./Contact.css";
 
@@ -19,6 +20,8 @@ function ContactForm(props) {
 
     const [email, setEmail] = React.useState('');
 
+    const {small, extraSmall} = SmallView();
+
     function handleChange(event) {
         const emailObj = Object.assign(email, event.target.value);
         setEmail(emailObj);
@@ -33,10 +36,11 @@ function ContactForm(props) {
         <ValidatorForm
             onSubmit={handleSubmit}
             onError={errors=>DebugLog(errors)}
-            id="emailForm"
+            id="emailForm" 
+            className={extraSmall? "extraSmall" : "" + small ? "small" : "'"}
         >
         <Grid item xs={12} id="emailGrid">
-            <Grid container direction="row" className="nameInputs" spacing={8}>
+            <Grid container direction="row" className="nameInputs" spacing={4}>
                 <Grid item xs={4}>
                     <TextValidator
                         onChange={handleChange}
@@ -83,7 +87,7 @@ function ContactForm(props) {
                     </TextValidator>
                 </Grid>
             </Grid>
-            <Grid container direction="row" className="emailInputs" spacing={8}>
+            <Grid container direction="row" className="emailInputs" spacing={4}>
                 <Grid item xs={6}>
                     <TextValidator
                         onChange={handleChange}
@@ -113,26 +117,36 @@ function ContactForm(props) {
                     </TextValidator>
                 </Grid>
             </Grid>
-        <Grid container spacing={8}>
-            <Grid item xs={12}>
-                <TextField
-                onChange={handleChange}
-                name="message"
-                value={email.message}
+            <Grid container spacing={8}>
+                <Grid item xs={12}>
+                    <TextField
+                    onChange={handleChange}
+                    name="message"
+                    value={email.message}
 
-                multiline
-                rows="5"
+                    multiline
+                    rows="5"
 
-                variant="outlined"
-                label="Message"
-                placeholder="I'd like to get in touch!"
+                    variant="outlined"
+                    label="Message"
+                    placeholder="I'd like to get in touch!"
 
 
-                ></TextField>
+                    ></TextField>
+                </Grid>
             </Grid>
-        </Grid>
         
-           
+            <Grid container spacing={4}>
+                <Grid item xs={12} id="contactSubmitContainer">
+                <Button
+                    id="contactSubmit"
+                    variant="outlined"
+                    >
+                        Submit
+                </Button>
+                </Grid>
+            </Grid>
+
         </Grid>
         </ValidatorForm>
     );
