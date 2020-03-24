@@ -46,7 +46,6 @@ function Interactable(props) {
                 maxWidth={'md'}
                 fullWidth={true}
                 scroll={'body'}
-                onRequestClose={props.closeModal}
                 transitionDuration={{enter:500, exit:250}}
                 TransitionComponent={Transition}
             >
