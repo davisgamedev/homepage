@@ -4,7 +4,8 @@ import {Link, withRouter} from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
 import { Button, Menu, MenuItem, Paper } from '@material-ui/core';
-import DebugLog from 'Tech/DebugLog';
+import DebugLog, {Debug} from 'Tech/DebugLog';
+import { DebugDir } from 'Tech/DebugLog';
 
 export const Pages = [
     { route: "/"         , name: "Headlines", },
@@ -21,7 +22,7 @@ export const Pages = [
         - URL changes with scroll view, without updating ScrollHandler
 */
 
-function Nav({location}) { 
+function Nav(props) { 
 
     function getPageTitle(i) {
         return `Page ${i+1} — ${Pages[i].name}`;
@@ -30,16 +31,22 @@ function Nav({location}) {
     const [pageTitle, setPageTitle] = React.useState(getPageTitle(0));
     
     React.useEffect(() => {
-        const pageNum = Pages.findIndex(p => p.route === location.pathname);
+        const pageNum = Pages.findIndex(p => p.route === props.location.pathname);
         setPageTitle(
             getPageTitle((pageNum < 0)? 0 : pageNum));
     });
 
     const PageLinks = Pages.map((p, i) => {
         return (
-        <MenuItem onClick={close} key={`${i+1}: ${p.name}`}>
+        <MenuItem 
+        className={"dropdown-link"}
+        onClick={()=> {
+            close();
+            props.history.push(p.route)
+        }} 
+        key={`${i+1}: ${p.name}`}
+        >
             <Link 
-                className="dropdown-link"
                 to={p.route}
                 >{p.name}
             </Link>
@@ -49,39 +56,60 @@ function Nav({location}) {
         
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const bb = {minx: 0, miny: 0, maxx:0, maxy:0};
+    let bb;
+    let btnbb;
     let bbSet = false;
+
+    function checkMouseBB(e, bb) {
+        return(
+            e.clientX < bb.x ||
+            e.clientX > bb.w ||
+            e.clientY < bb.y ||
+            e.clientY > bb.h);
+    }
+
+    function setBB(bb) {
+        bb.w = bb.right + bb.x + 40;
+        bb.h = bb.bottom + bb.y + 20;
+        bb.y -= 10;
+    }
 
     const checkMouse = (e) => {
         if(!bbSet) {
-            try{
-                const ul = document.getElementById('dropdown-menu').getElementsByTagName('ul')[0];
-    
-                bb.minx = ul.offsetLeft;
-                bb.miny = ul.offsetTop;
-                bb.maxx = bb.minx + ul.offsetWidth;
-                bb.maxy = bb.miny + ul.offsetHeight;
+            const els = document.getElementById('dropdown-menu')
+                                .getElementsByTagName('div');
+            const el = els[2];
 
-                bbSet=true;
+            bb = el.getBoundingClientRect();
+            
+            btnbb = document.getElementById('dropdown-btn')
+                                     .getBoundingClientRect();
 
-                console.dir(bb);
-            }
-            catch(e) {
-                DebugLog("Can't find element");
-            }
+            DebugLog(el);
+            DebugLog(btnbb);
+
+            setBB(bb);
+            setBB(btnbb);
+
+            bbSet=true;
+
+            DebugDir(bb);
         }
 
-        if(
-            e.clientX < bb.minx ||
-            e.clientX > bb.maxx ||
-            e.clientY < bb.miny ||
-            e.clientY > bb.maxy
-        ){
+        if(checkMouseBB(e, btnbb) && checkMouseBB(e, bb)
+            ) {
 
-            console.log(`
-            mouseX: ${e.clientX}
-            mouseY: ${e.clientY}
-            `);
+            if(Debug) {
+                if(e.clientX < bb.x) DebugLog('x min');
+                if(e.clientX > bb.w) DebugLog('x max');
+                if(e.clientY < bb.y) DebugLog('y min');
+                if(e.clientY > bb.h) DebugLog('y max');
+    
+                DebugLog(`
+                mouseX: ${e.clientX}
+                mouseY: ${e.clientY}
+                `);
+            }
 
             close();
         }
@@ -105,11 +133,13 @@ function Nav({location}) {
     };
 
     return (
-        <div className="dropdown"
-            onMouseEnter={open}
-            onMouseLeave={close}
-        >
-            <Button className="dropbtn hoverable" >
+        <div className="dropdown">
+            <Button 
+            id="dropdown-btn"
+            className="dropbtn hoverable" 
+            onMouseEnter={open} 
+            onClick={open}
+            >
                 {pageTitle}
                 <Icon className="fa fa-caret-down"></Icon>
             </Button>
