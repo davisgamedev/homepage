@@ -31,12 +31,11 @@ function ContactForm(props) {
 
     return(
         <ValidatorForm
-            forwardRef="form"
             onSubmit={handleSubmit}
             onError={errors=>DebugLog(errors)}
             id="emailForm"
         >
-        <Grid item xs={12} id="emailGrid" spacing={5}>
+        <Grid item xs={12} id="emailGrid">
             <Grid container direction="row" className="nameInputs" spacing={8}>
                 <Grid item xs={4}>
                     <TextValidator
@@ -115,7 +114,7 @@ function ContactForm(props) {
                 </Grid>
             </Grid>
         <Grid container spacing={8}>
-            <Grid item xs={12} spacing={8}>
+            <Grid item xs={12}>
                 <TextField
                 onChange={handleChange}
                 name="message"

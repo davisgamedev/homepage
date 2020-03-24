@@ -49,35 +49,35 @@ class HeaderHooks extends React.Component{
 function BigHeader(props) {
     return(
         <div className="headerContainer" id="header">
-            <div className="headerWrapper">
-                <Link to="">
-                    <div  className="title">
-                    The Davis Report
-                    </div>
-                </Link>   
+        <div className="headerWrapper">
+            <Link to="">
+                <div  className="title">
+                The Davis Report
+                </div>
+            </Link>   
 
-                <Grid container className="subtitle">
+            <Grid container className="subtitle">
 
-                    <Grid item xs={4} className="navbar">
-                        <Nav></Nav>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <DateComp></DateComp>
-                    </Grid>
-
-                    <Grid item xs={4} style={{textAlign: "right"}}>
-                        <div className="price-block">
-                            <p>
-                                <b>5&#162; &nbsp;</b>
-                                | Rochester, NY
-                                <br/>
-                                ISSUED: 03-12-2020
-                            </p>
-                        </div>
-                    </Grid>
+                <Grid item xs={4} className="navbar">
+                    <Nav></Nav>
                 </Grid>
-            </div>
+
+                <Grid item xs={4}>
+                    <DateComp></DateComp>
+                </Grid>
+
+                <Grid item xs={4} style={{textAlign: "right"}}>
+                    <div className="price-block">
+                    <p>
+                        <b>5&#162; &nbsp;</b>
+                        | Rochester, NY
+                        <br/>
+                        ISSUED: 03-12-2020
+                    </p>
+                    </div>
+                </Grid>
+            </Grid>
+        </div>
         </div>
     );
 }

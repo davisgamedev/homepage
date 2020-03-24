@@ -3,7 +3,8 @@ import {Link, withRouter} from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
-import { Button, Menu, MenuItem } from '@material-ui/core';
+import { Button, Menu, MenuItem, Paper } from '@material-ui/core';
+import DebugLog from 'Tech/DebugLog';
 
 export const Pages = [
     { route: "/"         , name: "Headlines", },
@@ -36,70 +37,96 @@ function Nav({location}) {
 
     const PageLinks = Pages.map((p, i) => {
         return (
-            <MenuItem onClick={close}>
-        <Link 
-            className="dropdown-link"
-            to={p.route} key={`${i+1}: ${p.name}`}
-            >{p.name}
-        </Link>
+        <MenuItem onClick={close} key={`${i+1}: ${p.name}`}>
+            <Link 
+                className="dropdown-link"
+                to={p.route}
+                >{p.name}
+            </Link>
         </MenuItem>);
     });
 
         
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const bb = {minx: 0, miny: 0, maxx:0, maxy:0};
+    let bbSet = false;
+
+    const checkMouse = (e) => {
+        if(!bbSet) {
+            try{
+                const ul = document.getElementById('dropdown-menu').getElementsByTagName('ul')[0];
+    
+                bb.minx = ul.offsetLeft;
+                bb.miny = ul.offsetTop;
+                bb.maxx = bb.minx + ul.offsetWidth;
+                bb.maxy = bb.miny + ul.offsetHeight;
+
+                bbSet=true;
+
+                console.dir(bb);
+            }
+            catch(e) {
+                DebugLog("Can't find element");
+            }
+        }
+
+        if(
+            e.clientX < bb.minx ||
+            e.clientX > bb.maxx ||
+            e.clientY < bb.miny ||
+            e.clientY > bb.maxy
+        ){
+
+            console.log(`
+            mouseX: ${e.clientX}
+            mouseY: ${e.clientY}
+            `);
+
+            close();
+        }
+    }
+
+    function watchMouse(){
+        window.addEventListener('mousemove', checkMouse);
+    }
+
     const open = event => {
         setAnchorEl(event.currentTarget);
+        watchMouse();
+        DebugLog("%cMenu Opened", "color: green");
     };
 
     const close = () => {
         setAnchorEl(null);
+        window.removeEventListener('mousemove', checkMouse);
+        bbSet=false;
+        DebugLog("%cMenu Closed", "color: green");
     };
 
     return (
         <div className="dropdown"
-            onMouseExit={close}
             onMouseEnter={open}
+            onMouseLeave={close}
         >
-            <Button 
-                className="dropbtn hoverable" 
-            >
-                    {pageTitle}
-                    <Icon className="fa fa-caret-down"></Icon>
+            <Button className="dropbtn hoverable" >
+                {pageTitle}
+                <Icon className="fa fa-caret-down"></Icon>
             </Button>
 
             <Menu 
+            id="dropdown-menu"
             className="dropdown-content"
             anchorEl={anchorEl}
-            keepMounted
             open={Boolean(anchorEl)}
             onClose={close}
             style={{padding: 0}}
             >
-                <span 
-                style={{width: '101%', height:'101%'}}
-                onMouseLeave={close}
-                >
-                    {PageLinks}
-                </span>
+                {PageLinks}
             </Menu>
 
 
         </div>
 )};
-
-/*
-
-        <div className="dropdown">
-            <button className="dropbtn hoverable">
-                    {pageTitle}
-                    <Icon className="fa fa-caret-down"></Icon>
-            </button>
-
-            <div className="dropdown-content">
-                {PageLinks}
-            </div>
-        </div>
-*/
 
 export default withRouter(Nav);
