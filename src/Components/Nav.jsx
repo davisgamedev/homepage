@@ -69,8 +69,8 @@ function Nav(props) {
     }
 
     function setBB(bb) {
-        bb.w = bb.right + bb.x + 40;
-        bb.h = bb.bottom + bb.y + 20;
+        bb.w = bb.right + bb.x;
+        bb.h = bb.bottom + bb.y;
         bb.y -= 10;
     }
 

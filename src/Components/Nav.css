@@ -4,8 +4,9 @@ body {
 }
 
 a {
-    
     font-family: 'Playfair Display';
+    font-size: 14px;
+    font-weight: 100;
 }
 
 a:hover {
@@ -37,6 +38,7 @@ button .dropbtn {
 
 #dropdown-menu div {
     overflow: hidden !important;
+    background-color: #fafafa;
 }
 
 #dropdown-menu ul{
