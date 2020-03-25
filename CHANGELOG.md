@@ -9,7 +9,7 @@
 - Changed the `withStyles` function from Material-UI with the `makeStyles` function (integration with other frameworks should now be easy)
 - React Hooks is now supported
 ### Major style changes
-- `src/assets/scss/plugins/_plugin-nouislider.scss`
+- `src/common/assets/scss/plugins/_plugin-nouislider.scss`
 ### Deleted components
 ### Added components
 ### Deleted dependencies
@@ -81,11 +81,11 @@ eslint-plugin-prettier                     3.0.1   →    3.1.0
 - Updated available scripts
 - Changed the *.babelrc* file
 ### Major style changes
-- **src/assets/jss/material-kit-react/components/headerStyle.jsx**
-- **src/assets/jss/material-kit-react/components/customDropdownStyle.jsx**
+- **src/common/assets/jss/material-kit-react/components/headerStyle.jsx**
+- **src/common/assets/jss/material-kit-react/components/customDropdownStyle.jsx**
 ### Major components changes
 - - Changes caused by running [the prettier command](https://prettier.io/docs/en/install.html) for *.jsx*, *.js*, *.html* and *.css* files
-- **src/components/CustomDropdown/CustomDropdown.jsx**
+- **src/common/components/CustomDropdown/CustomDropdown.jsx**
 ### Deleted dependencies
 - `babel-eslint`
 - `eslint`
@@ -130,11 +130,11 @@ eslint-plugin-prettier                     3.0.1   →    3.1.0
 - Github othe repos
   - [https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/79](https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/79)
 ### Major styling changes
-- `src/assets/jss/material-kit-react/components/headerStyle.jsx`
-- `src/assets/jss/material-kit-react/components/snackbarContentStyle.jsx`
-- `src/assets/jss/material-kit-react/views/loginPage.jsx`
-- `src/assets/jss/material-kit-react/customCheckboxRadioSwitch.jsx`
-- `src/assets/scss/plugins/_plugin-nouislider.scss`
+- `src/common/assets/jss/material-kit-react/components/headerStyle.jsx`
+- `src/common/assets/jss/material-kit-react/components/snackbarContentStyle.jsx`
+- `src/common/assets/jss/material-kit-react/views/loginPage.jsx`
+- `src/common/assets/jss/material-kit-react/customCheckboxRadioSwitch.jsx`
+- `src/common/assets/scss/plugins/_plugin-nouislider.scss`
 ### Deleted dependencies
 - `react-nouislider`
 ### Added dependencies
@@ -163,12 +163,12 @@ eslint-plugin-prettier                     3.0.1   →    3.1.0
   - [https://github.com/creativetimofficial/material-kit-react/issues/28](https://github.com/creativetimofficial/material-kit-react/issues/28)
 ### Major styling changes
 - Added styles for `svg`'s, **font-awesome** classes and `.material-icons` class inside
-  - `src/assets/jss/material-kit-react/components/buttonStyle.jsx`
-  - `src/assets/jss/material-kit-react/components/customInputStyle.jsx`
-  - `src/assets/jss/material-kit-react/components/customDropdownStyle.jsx`
-  - `src/assets/jss/material-kit-react/components/headerLinksStyle.jsx`
-  - `src/assets/jss/material-kit-react/components/headerStyle.jsx`
-  - `src/assets/jss/material-kit-react/views/loginPage.jsx`
+  - `src/common/assets/jss/material-kit-react/components/buttonStyle.jsx`
+  - `src/common/assets/jss/material-kit-react/components/customInputStyle.jsx`
+  - `src/common/assets/jss/material-kit-react/components/customDropdownStyle.jsx`
+  - `src/common/assets/jss/material-kit-react/components/headerLinksStyle.jsx`
+  - `src/common/assets/jss/material-kit-react/components/headerStyle.jsx`
+  - `src/common/assets/jss/material-kit-react/views/loginPage.jsx`
 ### Dropped components
 - No more use of `react-popper`, no it's beeing used `@material-ui/core/Popper` instead (see `CustomDropdown`)
 ### Deleted dependencies
@@ -188,12 +188,12 @@ eslint-plugin-prettier                     3.0.1   →    3.1.0
 
 ## [1.1.0] 2018-06-13
 ### Major styling changes
-- `src/assets/jss/material-kit-react/components/buttonStyle.jsx`, due to the fact that we've droped `src/components/CustomButtons/IconButton.jsx`
-- `src/assets/jss/material-kit-react/components/customInputStyle.jsx`
-- `src/assets/jss/material-kit-react/components/customTabsStyle.jsx`
-- `src/assets/jss/material-kit-react/components/headerLinksStyle.jsx`
+- `src/common/assets/jss/material-kit-react/components/buttonStyle.jsx`, due to the fact that we've droped `src/common/components/CustomButtons/IconButton.jsx`
+- `src/common/assets/jss/material-kit-react/components/customInputStyle.jsx`
+- `src/common/assets/jss/material-kit-react/components/customTabsStyle.jsx`
+- `src/common/assets/jss/material-kit-react/components/headerLinksStyle.jsx`
 ### Dropped components
-- `src/components/CustomButtons/IconButton.jsx` instead use `src/components/CustomButtons/Button.jsx` (with the prop `justIcon` on them)
+- `src/common/components/CustomButtons/IconButton.jsx` instead use `src/common/components/CustomButtons/Button.jsx` (with the prop `justIcon` on them)
 ### Deleted dependencies
 - `material-ui@1.0.0-beta.45`
 ### Added dependencies
