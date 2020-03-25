@@ -30,6 +30,7 @@
     "@material-ui/lab": "^4.0.0-alpha.46",
     "async-once": "^1.0.1",
     "del": "^5.1.0",
+    "emailjs-com": "^2.4.1",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-react": "7.14.3",

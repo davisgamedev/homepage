@@ -1,7 +1,6 @@
 import React, {useRef} from 'react';
 import Section from '../Components/Section'
 
-import DebugLog from 'Tech/DebugLog';
 import {breakpointsValues} from 'Tech/Breakpoints';
 
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
@@ -11,9 +10,12 @@ import {
     Button, 
     Snackbar,
  } from '@material-ui/core';
+ 
  import {
-    Alert,
+    Alert, AlertTitle,
  } from '@material-ui/lab';
+
+import emailjs from 'emailjs-com';
 
 import "./Contact.css";
 
@@ -43,6 +45,8 @@ class ContactForm extends React.Component {
         snack: false,
     }
 
+    placeholder = "I'd like to get in touch!";
+
     handleChange = (event) => {
         const { formData } = this.state;
         formData[event.target.name] = event.target.value;
@@ -53,6 +57,26 @@ class ContactForm extends React.Component {
         this.setState({ submitted: true }, () => {
             setTimeout(() => this.setState({ submitted: false }), 5000);
         });
+
+        let template_params = this.state.formData;
+        if(template_params.message == '') template_params.message = this.placeholder;
+
+        console.log(template_params);
+
+
+        const service_id = "default_service";
+        const template_id = "contact_request";
+
+        emailjs.send(service_id, template_id, template_params, "user_QNXlqNxwDbbIQF0pexwx9" )
+            .then((response) => {
+                this.setState({success: true});
+                this.open();
+            },
+            (err) => {
+                console.error(err);
+                this.setState({success: false})
+                this.open();
+            });
     }
 
     open() {
@@ -68,6 +92,8 @@ class ContactForm extends React.Component {
  
         const small = window.innerWidth <= breakpointsValues.sm;
         const extraSmall = window.innerWidth <= breakpointsValues.xs;
+
+        const close = this.close.bind(this);
 
         return (
             <ValidatorForm
@@ -162,7 +188,7 @@ class ContactForm extends React.Component {
 
                     variant="outlined"
                     label="Message"
-                    placeholder="I'd like to get in touch!"
+                    placeholder={this.placeholder}
                     value={formData.message}
 
 
@@ -188,14 +214,26 @@ class ContactForm extends React.Component {
                 </Grid>
             </Grid>
 
-            <Snackbar open={snack} autoHideDuration={6000} onClose={this.close}>
+            <Snackbar 
+            open={snack} 
+            autoHideDuration={6000} 
+            onClose={close}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right'
+            }}
+            >
                 { success?
-                    (<Alert onClose={this.close} severity="success">
+                    (
+                    <Alert onClose={close} severity="success">
+                        <AlertTitle>Success</AlertTitle>
                         Email sent successfuly!
-                    </Alert>)
+                    </Alert>
+                    )
                     :
-                    (<Alert onClose={this.close} severity="alert">
-                        Email failed to send!
+                    (<Alert onClose={close} severity="error">
+                        <AlertTitle>Something went wrong!</AlertTitle>
+                       Email could not be sent!
                     </Alert>)
             
                 }
