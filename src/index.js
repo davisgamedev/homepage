@@ -9,9 +9,10 @@ import { Router, Route, Switch } from "react-router-dom";
 import "common/assets/scss/material-kit-react.scss?v=1.8.0";
 
 import Home from "Views/Home";
-import './index.css';
 
 import Breakpoints from 'Tech/Breakpoints';
+
+import './index.css';
 
 var hist = createBrowserHistory();
 

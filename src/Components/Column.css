@@ -1,0 +1,181 @@
+.column {
+    text-align: left;
+    line-height: 20px;
+
+    padding: 0 1% 0 1%;
+    
+    vertical-align: top;
+    margin: 20px auto 20px auto;
+
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    float: left;
+    clear: left;
+
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: #2f2f2f;
+    background-color: #fafafa;
+
+    transition: all 1s;
+}
+
+Button.container {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: #2f2f2f;
+    background-color: #fafafa;
+
+    text-align: left;
+    text-transform: none;
+    font-weight: normal;
+    transition: all 1s;
+}
+
+Button.container:hover {
+    background-color: #2f2f2f;
+    color: #fafafa;   
+}
+
+.column h1 {
+    text-align: center;
+    line-height: normal;
+    
+    font-family: 'Playfair Display', serif;
+    display: block;
+    margin: 0 auto;
+
+    font-weight: 900;
+    
+    font-size: 32px;
+    text-transform: uppercase;
+    padding: 10px 0 10px 0;
+}
+
+.column h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 100;
+    font-size: 24px;
+    font-style: italic;
+    box-sizing: border-box;
+    padding: 10px 0 0 0;
+    margin: 0;
+    transition: all 1s;
+}
+
+.column h2:before {
+    border-top: 1px solid #2f2f2f;
+    content: '';
+    width: 100px;
+    height: 7px;
+    display: block;
+    margin: 0 auto;
+    transition: all 1s;
+}
+.column h2:after {
+    border-bottom: 1px solid #2f2f2f;
+    content: '';
+    width: 100px;
+    height: 10px;
+    display: block;
+    margin: 0 auto;
+    transition: all 1s;
+}
+
+.column:hover h2:before {
+    border-color: #fafafa !important;
+}
+.column:hover h2:after {
+    border-color: #fafafa !important;
+}
+.column:hover h2{
+    color: #fafafa !important;
+}
+
+.collapsed img{
+    display: none;
+}
+
+.column .collapsed :nth-child(n+5){
+    display: none;
+}
+
+
+.expanded p {
+    display: block;
+}
+
+.expanded {
+    z-index: 10000;
+}
+
+.paperContainer div{
+    padding: 50px;
+}
+
+/* NOT WORKING */
+.expanded .paperContainer::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE and Edge */
+  .expanded .paperContainer {
+    -ms-overflow-style: none;
+  }
+
+
+.column .extraSmall h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    text-align: left;;
+}
+
+.column .extraSmall h2{
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    text-align: left;
+    width: 100%;
+    color: #232323;
+
+    border-bottom: 1px solid lightgray ;
+}
+
+.column .extraSmall h2:before {
+    text-align: left;
+    border: none;
+}
+
+.column .extraSmall h2:after {
+    border: none;
+    width: 100%;
+}
+
+
+/* to explore
+::-webkit-scrollbar {
+    width: 10px;
+    transition: all .25s;
+    margin-right: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    margin-right: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 25px;
+    margin-right: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #222;
+    margin-right: 5px;
+  } */
+
+

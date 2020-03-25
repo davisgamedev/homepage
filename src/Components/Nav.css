@@ -1,0 +1,151 @@
+body {
+    overflow: scroll !important;
+    padding-right: 0px !important;
+}
+
+a {
+    font-family: 'Playfair Display';
+    font-size: 14px;
+    font-weight: 100;
+}
+
+a:hover {
+    background-color: #2f2f2f !important;
+    color: #fafafa !important;
+}
+
+a:active {
+    background-color: #2f2f2f;
+    color: #fafafa;
+}
+
+a:visited {
+    color: #2f2f2f;
+    background-color: #fafafa;
+}
+
+.debug {
+    border: 1px solid red !important;
+}
+
+.fa {
+    transform: scale(0.8, 0.8);
+}
+
+button .dropbtn {
+    padding: 0;
+}
+
+#dropdown-menu div {
+    overflow: hidden !important;
+    background-color: #fafafa;
+}
+
+#dropdown-menu ul{
+    padding: 10px 0px 10px 0px;
+}
+
+.dropdown-link {
+    font-family: 'Playfair Display';
+    font-size: 14px;
+    font-weight: 100;
+
+    text-align: left;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    border-bottom: 1px solid #232323;
+
+    display: flex;
+    flex-grow: 1;
+}
+
+.dropdown-link a {
+    width: 100%;
+    z-index: 100000;
+}
+
+.dropdown-link:hover *{
+    background-color: #2f2f2f !important;
+    color: #fafafa !important;
+}
+
+li.dropdown-link:hover a {
+    background-color: #2f2f2f !important;
+    color: #fafafa !important;
+}
+
+.dropdown-link:last-child {
+    border-bottom: none;
+}
+
+/* The dropdown container */
+.dropdown {
+    float: left;
+    vertical-align: bottom;
+    position: relative;
+    top: 2px;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+    border: none;
+    outline: none;
+    align-items: center;
+
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+    padding: 0;
+
+    font-family: 'Playfair Display';
+    font-size: 14px;
+    font-weight: 100;
+    text-transform: uppercase;
+
+    position: relative;
+    top: 1px;
+    left: 20px;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+
+    display: none;
+    position: absolute;
+
+    left: 70px;
+    margin-top: 5px;
+
+
+    min-width: 250px;
+    min-height: 160px;
+    z-index: 100;
+    
+    font-size: 14px;
+    font-family: 'Playfair Display';
+}
+
+
+/* Show the dropdown menu on hover */
+/* div.dropdown:hover  */
+.dropdown-content {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.small .dropdown {
+    width: 100%;
+    text-align: center;
+}
+
+.extraSmall .dropdown {
+    width: 100%;
+    text-align: center;
+}
+  
