@@ -1,4 +1,4 @@
-# Project 1
+# DoubleWide example
 ## Subtitle
 
 ![test image](https://res.cloudinary.com/dyzmnhqpr/image/upload/v1585177799/sample.jpg)
@@ -16,3 +16,4 @@ Morbi eu neque sed nunc malesuada porttitor quis sit amet ex. Nullam vitae ligul
 Integer tincidunt nunc id mauris facilisis, eu vehicula enim sollicitudin. Aenean risus nulla, commodo id interdum eget, dapibus vel augue. Nullam ullamcorper luctus mauris a pellentesque. Fusce mollis augue vel mauris ultricies, sed scelerisque libero gravida. Donec neque arcu, laoreet quis accumsan ornare, pretium a massa. Vestibulum sapien elit, mattis eu lectus in, consequat pulvinar nulla. Nulla vitae cursus ipsum, in fermentum massa. Duis condimentum leo tempus, pharetra est eu, commodo sapien. Praesent elementum vulputate lacus, vitae dapibus tortor fermentum vel. Nam at lobortis massa. Sed quis nibh non enim scelerisque euismod. Quisque rutrum aliquet ante. Duis eget orci ante. Donec fringilla lorem justo, id semper dolor lobortis eu.
  
 Fusce molestie leo diam, ac aliquam neque dictum rhoncus. Mauris a scelerisque magna, ac gravida nisl. Proin ultricies, purus sit amet faucibus placerat, urna metus vestibulum orci, et sagittis dui neque eget massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nec dui nec velit luctus iaculis eget in mauris. Donec ultricies nisl eget est cursus, mattis vulputate leo sollicitudin. Pellentesque nisi turpis, condimentum consectetur quam et, scelerisque semper neque. Nam sit amet ex fringilla, tincidunt urna pellentesque, egestas quam. Sed finibus orci eros, id bibendum nisi fermentum interdum. Quisque a erat sit amet urna condimentum luctus vitae vel sem. In efficitur nibh non suscipit malesuada. Nunc at tempus erat. Fusce condimentum nunc ac eleifend mattis.
+<span class="meta double">

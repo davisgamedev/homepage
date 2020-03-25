@@ -89,8 +89,8 @@ gulp.task("md-convert", function(done){
 });
 
 gulp.task("md-media", function(done){
-  gulp.src("./md-content/**/media/*")
-    .pipe(gulp.dest("./src/Content-Out"));
+//   gulp.src("./md-content/**/media/*")
+//     .pipe(gulp.dest("./src/Content-Out"));
   done();
 });
 
