@@ -30,6 +30,7 @@ const useStyles = makeStyles({
         fontSize: '36px',
 
         marginBottom: 20,
+        borderBottom: '1px solid black',
     },
     grid: {
         flexGrow: 1,

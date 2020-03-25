@@ -115,13 +115,9 @@ function Nav(props) {
         }
     }
 
-    function watchMouse(){
-        window.addEventListener('mousemove', checkMouse);
-    }
-
     const open = event => {
         setAnchorEl(event.currentTarget);
-        watchMouse();
+        window.addEventListener('mousemove', checkMouse);
         DebugLog("%cMenu Opened", "color: green");
     };
 

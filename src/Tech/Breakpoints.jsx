@@ -5,7 +5,7 @@ import WindowDimensions from './WindowDimensions';
 
 export const breakpointsValues= {
     xs: 500,
-    sm: 750,
+    sm: 825,
     md: 975,
     lg: 1400,
     xl: 1520,
