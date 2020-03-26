@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 import DebugLog from '../Tech/DebugLog';
 import { SmallView } from '../Tech/Breakpoints';
 
-export default function Header(props) {
-    const { small, extraSmall } = SmallView();
+export default function Header() {
+    const { small } = SmallView();
 
     return <HeaderHooks>
         {
@@ -46,12 +46,12 @@ class HeaderHooks extends React.Component{
         );};
 }
 
-function BigHeader(props) {
+function BigHeader() {
     return(
         <div className="headerContainer" id="header">
         <div className="headerWrapper">
             <Link to="">
-                <div  className="title">
+                <div  id="mainTitle" className="title">
                 The Davis Report
                 </div>
             </Link>   
@@ -84,13 +84,13 @@ function BigHeader(props) {
 
 function SmallHeader(props) {
 
-    const {extraSmall, small} = SmallView();
+    const {extraSmall} = SmallView();
 
     return (
         <div className="headerContainer" id="header">
             <div className={"headerWrapper " + (extraSmall? 'extraSmall' : 'small')}>
                 <Link to="">
-                    <div className="title">
+                    <div className="title" id="mainTitle" >
                     The Davis Report
                     </div>
                 </Link>   

@@ -2,8 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from "@material-ui/core/styles";
 
-import WindowDimensions from '../Tech/WindowDimensions';
-import HeaderHeight from '../Tech/HeaderHeight';
 import { SmallView } from 'Tech/Breakpoints';
 
 
@@ -39,11 +37,6 @@ const useStyles = makeStyles({
 });
 
 export default function Section(props) {
-
-    const {height, width} = WindowDimensions();
-    const headerHeight = HeaderHeight();
-    const calcMinHeight = height - headerHeight;
-
     const title = props.title;
     const id = props.id;
 

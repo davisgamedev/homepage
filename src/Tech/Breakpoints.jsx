@@ -1,7 +1,5 @@
 import React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import WindowDimensions from './WindowDimensions';
-
 
 export const breakpointsValues= {
     xs: 500,

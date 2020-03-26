@@ -9,15 +9,6 @@ import Web from './Projects/Web';
 import Graphics from './Projects/Graphics';
 import Contact from './Contact';
 
-function Block(props) {
-
-    return (
-        <div style={{border: '1px solid red', minHeight: '800px', minWidth:'400px'}}>
-            <p style={{color: 'black'}}>Top</p>
-        </div>
-    );
-}
-
 const useStyles = makeStyles({
     content: {  
         display: 'inline-block',

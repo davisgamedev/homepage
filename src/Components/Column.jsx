@@ -29,7 +29,7 @@ function Interactable(props) {
     // toggleable classes
     const [expanded, setExpanded] = React.useState(false);
 
-    const {small, extraSmall} = SmallView();
+    const {extraSmall} = SmallView();
 
 
     return (
@@ -63,19 +63,40 @@ function Interactable(props) {
     );
 }
 
+const singleProps = {
+    sm: 4,
+    md: 3,
+    lg: 2,
+    className: 'column'
+}
+
+const doubleProps = {
+    sm: 8,
+    md: 5,
+    lg: 4,
+    className: 'column double'
+}
+
+const tripleProps = {
+    sm: 12,
+    md: 7,
+    lg: 8,
+    className: 'column triple'
+}
+
 export default function Column(props) {
 
     const {extraSmall} = SmallView();
+    let gridProps = singleProps;
+    if(props.double) gridProps = doubleProps;
+    if(props.triple) gridProps = tripleProps;
 
     return (
         <Grid 
         item 
         className="column"
         xs={extraSmall? 12: 6} 
-        sm={4}
-        md={3}
-        lg={2}
-        xl={2}
+        {...gridProps}
         >
             {
             React.Children.map(props.children, c => {

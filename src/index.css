@@ -4,3 +4,48 @@ body {
 
     font-family: 'Lora', serif;
 }
+
+.expanded p {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+.expanded h1 {
+    font-family: 'Lora';
+}
+
+.expanded h1:after{
+    content: '';
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid grey;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.expanded h2{
+    margin-top: 0;
+    font-size: 32px;
+    font-weight: 100;
+}
+
+.expanded h3 {
+    font-size: 32px;
+    font-weight: 100;
+}
+
+.expanded h3:after {
+    display: block;
+    content: '';
+    border-bottom: 1px solid lightgrey;
+}
+
+.expanded h4 {
+    font-size: 28px;
+    text-align: center;
+    font-family: 'Playfair-Display', serif;
+    font-style: italic;
+    font-weight: 100;
+}

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import Section from '../Components/Section'
 
 import {breakpointsValues} from 'Tech/Breakpoints';
@@ -59,7 +59,7 @@ class ContactForm extends React.Component {
         });
 
         let template_params = this.state.formData;
-        if(template_params.message == '') template_params.message = this.placeholder;
+        if(template_params.message === '') template_params.message = this.placeholder;
 
         console.log(template_params);
 

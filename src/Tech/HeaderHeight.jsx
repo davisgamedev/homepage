@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import DebugLog from '../Tech/DebugLog';
 
 /******** UPDATE NEW HEIGHT HERE **********/
-const knownHeight = 142;
+const knownHeight = 145;
 /*****************************************/
 
 let logResize = true;
@@ -14,7 +14,7 @@ function getHeight() {
 
         let height = header.offsetHeight;
 
-        if(height != knownHeight) { 
+        if(height !== knownHeight) { 
 
             if(logResize) {
                 logResize = false;

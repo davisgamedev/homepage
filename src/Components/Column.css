@@ -1,3 +1,7 @@
+/*
+    Font rules for .expanded in index.css
+*/
+
 .column {
     text-align: left;
     line-height: 20px;
@@ -17,8 +21,6 @@
     font-size: 14px;
     color: #2f2f2f;
     background-color: #fafafa;
-
-    transition: all 1s;
 }
 
 Button.container {
@@ -30,7 +32,16 @@ Button.container {
     text-align: left;
     text-transform: none;
     font-weight: normal;
-    transition: all 1s;
+    
+    transition: all 0.7s;
+}
+
+.container :after {
+    transition: all 0.7s;
+}
+
+.container :before {
+    transition: all 0.7s;
 }
 
 Button.container:hover {
@@ -62,7 +73,6 @@ Button.container:hover {
     box-sizing: border-box;
     padding: 10px 0 0 0;
     margin: 0;
-    transition: all 1s;
 }
 
 .column h2:before {
@@ -72,7 +82,6 @@ Button.container:hover {
     height: 7px;
     display: block;
     margin: 0 auto;
-    transition: all 1s;
 }
 .column h2:after {
     border-bottom: 1px solid #2f2f2f;
@@ -81,17 +90,13 @@ Button.container:hover {
     height: 10px;
     display: block;
     margin: 0 auto;
-    transition: all 1s;
 }
 
 .column:hover h2:before {
-    border-color: #fafafa !important;
+    border-color: #fafafa;
 }
 .column:hover h2:after {
-    border-color: #fafafa !important;
-}
-.column:hover h2{
-    color: #fafafa !important;
+    border-color: #fafafa;
 }
 
 .collapsed img{

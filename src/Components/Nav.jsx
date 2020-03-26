@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
-import { Button, Menu, MenuItem, Paper } from '@material-ui/core';
+import { Button, Menu, MenuItem } from '@material-ui/core';
 import DebugLog, {Debug} from 'Tech/DebugLog';
 import { DebugDir } from 'Tech/DebugLog';
 
@@ -34,7 +34,7 @@ function Nav(props) {
         const pageNum = Pages.findIndex(p => p.route === props.location.pathname);
         setPageTitle(
             getPageTitle((pageNum < 0)? 0 : pageNum));
-    });
+    }, []);
 
     const PageLinks = Pages.map((p, i) => {
         return (

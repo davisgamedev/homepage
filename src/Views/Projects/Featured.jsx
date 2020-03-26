@@ -9,7 +9,7 @@ export default function Featured() {
 
 
     return(<Section id="featured" title="featured projects">
-        <Column>
+        <Column id="post1">
             <Example></Example>
         </Column>
         <Column>
