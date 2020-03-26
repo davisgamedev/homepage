@@ -32,7 +32,6 @@ const ScrollHandler = ({ location, history }) => {
 
     function getElementFromPath() {
         const results = location.pathname.match(pathRegex);
-        console.log(results);
         if(results && results.length > 1) currentDoc = results[results.length-1];
         return (results) ? results[0] : null;
     }
@@ -42,10 +41,9 @@ const ScrollHandler = ({ location, history }) => {
     }
 
     function scrollDone() {
-        console.log("scroll done called");
-        if(autoScrolling
-            && window.scrollY === scrollTarget
-            ) {
+        DebugLog("scroll done called");
+        if(autoScrolling ) {
+
             if(currentDoc) {
 
             }
@@ -59,11 +57,6 @@ const ScrollHandler = ({ location, history }) => {
             Knownheight: ${elementHeight}
             Recalculatedheight: ${recalcHeight}
             `, "color: green");
-
-            if(Math.abs(elementHeight - recalcHeight) > 5) {
-                console.warn("Rescrolling to new height");
-                autoScroll(true);
-            }
         }
         else {
         
@@ -71,8 +64,15 @@ const ScrollHandler = ({ location, history }) => {
     }
 
 
+    /*
+        we can fix the weird initial page load but checking a scroll update here
+    */
     function checkScroll() {
         DebugLog("Scrolling..");
+        if(autoScrolling && Math.abs(elementHeight - getElementHeight()) > 5){
+            autoScroll(true);
+            DebugLog("%cElement height updated mid scroll", "background-color: orange; color: white");
+        }
         if(scrollTimeoutHandler) clearTimeout(scrollTimeoutHandler);
         scrollTimeoutHandler = setTimeout(scrollDone, 200);
     }
@@ -83,25 +83,18 @@ const ScrollHandler = ({ location, history }) => {
 
         let previousId = sectionId;
         sectionId = getElementFromPath();
-        console.log(sectionId);
-
         autoScrolling = (force || previousId !== sectionId);
         if(!autoScrolling) return;
 
         element = document.getElementById(sectionId);
         elementHeight = getElementHeight();
-
-        DebugLog("%cAutoscrolling!", "color: orange");
-
         scrollTarget = elementHeight - height;
-
 
         setTimeout(() => {
 
-          DebugLog(`Scrolling to ${scrollTarget}, which is ${scrollTarget - window.scrollY} lower.`);
+          DebugLog(`%cScrolling to ${scrollTarget}, which is ${scrollTarget - window.scrollY} lower.`, "color: orange");
 
           window.scrollTo({
-            //behavior: element ? "smooth" : "auto",
             behavior: "smooth",
             top: scrollTarget
           });

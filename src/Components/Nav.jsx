@@ -5,7 +5,6 @@ import Icon from '@material-ui/core/Icon';
 import './Nav.css';
 import { Button, Menu, MenuItem } from '@material-ui/core';
 import DebugLog, {Debug} from 'Tech/DebugLog';
-import { DebugDir } from 'Tech/DebugLog';
 
 export const Pages = [
     { route: "/"         , name: "Headlines", },
@@ -34,7 +33,7 @@ function Nav(props) {
         const pageNum = Pages.findIndex(p => p.route === props.location.pathname);
         setPageTitle(
             getPageTitle((pageNum < 0)? 0 : pageNum));
-    }, []);
+    });
 
     const PageLinks = Pages.map((p, i) => {
         return (
@@ -85,20 +84,21 @@ function Nav(props) {
             btnbb = document.getElementById('dropdown-btn')
                                      .getBoundingClientRect();
 
-            DebugLog(el);
-            DebugLog(btnbb);
+            // DebugLog(el);
+            // DebugLog(btnbb);
 
             setBB(bb);
             setBB(btnbb);
 
             bbSet=true;
 
-            DebugDir(bb);
+            // DebugDir(bb);
         }
 
-        if(checkMouseBB(e, btnbb) && checkMouseBB(e, bb)
-            ) {
+        if(checkMouseBB(e, btnbb) && checkMouseBB(e, bb)) {
+            close();
 
+            return; //comment out to debug nav closing
             if(Debug) {
                 if(e.clientX < bb.x) DebugLog('x min');
                 if(e.clientX > bb.w) DebugLog('x max');
@@ -110,8 +110,6 @@ function Nav(props) {
                 mouseY: ${e.clientY}
                 `);
             }
-
-            close();
         }
     }
 
