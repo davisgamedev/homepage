@@ -41,7 +41,7 @@ export default class Section extends React.Component {
     state = {id: this.props.id}
 
     render(){ return (
-        <div id={this.props.id}>
+        <div id={this.props.id} className="section">
             <SectionContents
             {...this.props}
             />

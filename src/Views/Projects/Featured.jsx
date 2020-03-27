@@ -12,7 +12,7 @@ export default class Featured extends React.Component {
 
     render() { 
         return(
-        <Section id="featured" ref={this.domRef} title="featured projects">
+        <Section id="projects" ref={this.domRef} title="featured projects">
             <Column id="post1" getParentComp={this.getParentComp}>
                 <Example></Example>
             </Column>

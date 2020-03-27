@@ -8,6 +8,27 @@ import {Pages} from '../Components/Nav';
 
 // modified from https://stackoverflow.com/a/56250408
 
+const timeout = 500;
+window.SuppressScroll = window.SuppressScroll || false;
+
+function Suppressed() {
+    return window.SuppressScroll;
+}
+
+function setSuppress(val) {
+    window.SuppressScroll = val;
+}
+
+function setSuppressTimeout() {
+    if(window.SuppressScrollTimeout) clearTimeout(window.SuppressScrollTimeout);
+    window.SuppressScrollTimeout = setTimeout(() => setSuppress(false), timeout);
+}
+
+export function SuppressScroll() {
+    setSuppress(true);
+    setSuppressTimeout();
+}
+
 const ScrollHandler = ({ location, history }) => {
 
     const height = HeaderHeight();
@@ -22,7 +43,6 @@ const ScrollHandler = ({ location, history }) => {
 
     let scrollTimeoutHandler;
     
-    let suppressScroll = false;
     let currentDocId = undefined;
 
     
@@ -43,12 +63,23 @@ const ScrollHandler = ({ location, history }) => {
     // eslint-disable-next-line
     //const pathRegex = /(?<=\/)[^\/]*(?=\/|$)/;
 
-    function getElementFromPath() {
+    function getSectionIdFromPath() {
         const results = location.pathname.split('/').filter(x => x);
-        console.log(results);
-        if(results && results.length > 1) currentDocId = results[results.length-1];
 
-        return (results) ? results[0] : null;
+        if(results) {
+            if(results.length > 1) currentDocId = results[results.length-1];
+
+            const element = document.getElementById(results[0]);
+            console.log(element);
+
+            if(element && element.className !== "section") {
+                currentDocId = results[0];
+                return null;
+            }
+            else return results[0];
+        }
+
+        return null;
     }
 
     function getElementHeight() {
@@ -57,18 +88,7 @@ const ScrollHandler = ({ location, history }) => {
 
     function scrollDone() {
         DebugLog("scroll done called");
-        if(autoScrolling ) {
-
-            console.log(currentDocId);
-            if(currentDocId) {
-                const el = document.getElementById(currentDocId);
-                if(el) {
-                    const button = el.getElementsByTagName('button')[0];
-                    button.focus();
-                    button.click();
-                }
-            }
-
+        if(autoScrolling) {
             autoScrolling = false;
             let recalcHeight = getElementHeight();
 
@@ -78,6 +98,19 @@ const ScrollHandler = ({ location, history }) => {
             Knownheight: ${elementHeight}
             Recalculatedheight: ${recalcHeight}
             `, "color: green");
+        }
+        else {
+            
+        }
+        if(currentDocId) {
+            console.log("called");
+            const el = document.getElementById(currentDocId);
+            if(el) {
+                const button = el.getElementsByTagName('button')[0];
+                button.focus();
+                button.click();
+            }
+            currentDocId = null;
         }
     }
 
@@ -98,12 +131,24 @@ const ScrollHandler = ({ location, history }) => {
     window.addEventListener('scroll', checkScroll);
 
     function autoScroll(force=false) {
-        if(suppressScroll) return;
-
+        if(Suppressed()) return;
+        
         let previousId = sectionId;
-        sectionId = getElementFromPath();
+        sectionId = getSectionIdFromPath();
+        
+        /*
+            We call this once, because the route has changed and not suppressed
+            in page initalization a scroll event can be called without an actual
+            scroll occuring if at the top of the page
+        */
+        scrollDone();
+
         autoScrolling = (force || previousId !== sectionId);
-        if(!autoScrolling) return;
+
+
+        if(!autoScrolling) {
+            return;
+        }
 
         element = document.getElementById(sectionId);
         elementHeight = getElementHeight();

@@ -2,6 +2,8 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
+import {SuppressScroll} from '../Tech/ScrollHandler';
+
 import {
     Button, 
     Dialog,
@@ -32,15 +34,36 @@ const Interactable = withRouter(props => {
 
     const {extraSmall} = SmallView();
 
-    function open() {
-        setExpanded(true);
-        if(props.parentId && props.sectionId) {
-            const path = props.sectionId + '/' + props.parentId;
+    const section = props.sectionId ? '/' + props.sectionId : null;
+    const post = props.parentId ? '/' + props.parentId : null;
+
+    function putProjectPath() {
+        if(section && post) {
+            SuppressScroll();
+            const path = section + post;
             console.log(path);
             props.history.push(path);
         }
     }
 
+    function putSectionPath() {
+        if(section){
+            SuppressScroll();
+            props.history.push(section);
+        }
+    }
+
+    function open() {
+        if(expanded) return;
+        setExpanded(true);
+        console.log("SET OPEN");
+        putProjectPath();
+    }
+
+    function close() {
+        setExpanded(false);
+        putSectionPath();
+    }
 
     return (
         <Button 
@@ -51,7 +74,7 @@ const Interactable = withRouter(props => {
 
             <Dialog 
                 className="container expanded"
-                onClose={()=>setExpanded(false)} 
+                onClose={close} 
                 open={expanded}
                 maxWidth={'md'}
                 fullWidth={true}
@@ -59,7 +82,7 @@ const Interactable = withRouter(props => {
                 transitionDuration={{enter:500, exit:250}}
                 TransitionComponent={Transition}
             >
-                <ClickAwayListener onClickAway={()=>setExpanded(false)}>
+                <ClickAwayListener onClickAway={close}>
                     <Paper 
                     className='paperContainer' 
                     elevation={3}
