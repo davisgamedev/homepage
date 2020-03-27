@@ -13,6 +13,7 @@ import {
 
 import './Column.css';
 import { SmallView } from 'Tech/Breakpoints';
+import { withRouter } from 'react-router-dom';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -24,18 +25,27 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-function Interactable(props) {
+const Interactable = withRouter(props => {
 
     // toggleable classes
     const [expanded, setExpanded] = React.useState(false);
 
     const {extraSmall} = SmallView();
 
+    function open() {
+        setExpanded(true);
+        if(props.parentId && props.sectionId) {
+            const path = props.sectionId + '/' + props.parentId;
+            console.log(path);
+            props.history.push(path);
+        }
+    }
+
 
     return (
         <Button 
         className={"container collapsed " + (extraSmall? 'extraSmall' : '')}
-        onClick={()=>setExpanded(true)}
+        onClick={open}
         >
             {props.children}
 
@@ -61,7 +71,7 @@ function Interactable(props) {
             </Dialog>
         </Button>
     );
-}
+});
 
 const singleProps = {
     sm: 4,
@@ -90,6 +100,12 @@ export default function Column(props) {
     let gridProps = singleProps;
     if(props.double) gridProps = doubleProps;
     if(props.triple) gridProps = tripleProps;
+    
+    let sectionId;
+
+    if(props.id && props.getParentComp().current) {
+        sectionId = props.getParentComp().current.props.id;
+    }
 
     return (
         <Grid 
@@ -97,10 +113,17 @@ export default function Column(props) {
         className="column"
         xs={extraSmall? 12: 6} 
         {...gridProps}
+        id={props.id}
         >
             {
             React.Children.map(props.children, c => {
-                return (<Interactable>{c}</Interactable>)
+                return (
+                <Interactable
+                parentId={props.id}
+                sectionId={sectionId}
+                >
+                    {c}
+                </Interactable>)
             })
             }
             <Divider></Divider>

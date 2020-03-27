@@ -36,16 +36,25 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Section(props) {
+export default class Section extends React.Component {
+
+    state = {id: this.props.id}
+
+    render(){ return (
+        <div id={this.props.id}>
+            <SectionContents
+            {...this.props}
+            />
+        </div>
+    );}
+}
+
+function SectionContents(props) {
     const title = props.title;
-    const id = props.id;
-
     const classes = useStyles();
-
     const {small} = SmallView();
-
     return (
-        <div id={id}>
+        <div>
             <h2 
                 className={
                     small? classes.smallTitle : 
@@ -67,5 +76,5 @@ export default function Section(props) {
                 }
             </Grid>
         </div>
-    )
+    );
 }

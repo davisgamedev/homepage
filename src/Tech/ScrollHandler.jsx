@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import HeaderHeight from './HeaderHeight';
 import DebugLog from './DebugLog';
 
+import {Pages} from '../Components/Nav';
+
 // modified from https://stackoverflow.com/a/56250408
 
 const ScrollHandler = ({ location, history }) => {
@@ -16,23 +18,36 @@ const ScrollHandler = ({ location, history }) => {
     let elementHeight;
     let scrollTarget;
     let sectionId;
+    let pageElements;
 
     let scrollTimeoutHandler;
     
     let suppressScroll = false;
-    let currentDoc = undefined;
+    let currentDocId = undefined;
+
     
+    // function getPageElements() {
+    //     pageElements = Pages.map(p => {
+    //         const id = p.route.replace('/', '');
+    //         console.log(id);
+    //         return document.getElementById(id);
+    //     });
+        
+    //     return pageElements;
+    // }
     /*
         returns the section id from the path
         sets the current document var
     */
 
     // eslint-disable-next-line
-    const pathRegex = /(?<=\/)[^\/]*(?=\/|$)/;
+    //const pathRegex = /(?<=\/)[^\/]*(?=\/|$)/;
 
     function getElementFromPath() {
-        const results = location.pathname.match(pathRegex);
-        if(results && results.length > 1) currentDoc = results[results.length-1];
+        const results = location.pathname.split('/').filter(x => x);
+        console.log(results);
+        if(results && results.length > 1) currentDocId = results[results.length-1];
+
         return (results) ? results[0] : null;
     }
 
@@ -44,8 +59,14 @@ const ScrollHandler = ({ location, history }) => {
         DebugLog("scroll done called");
         if(autoScrolling ) {
 
-            if(currentDoc) {
-
+            console.log(currentDocId);
+            if(currentDocId) {
+                const el = document.getElementById(currentDocId);
+                if(el) {
+                    const button = el.getElementsByTagName('button')[0];
+                    button.focus();
+                    button.click();
+                }
             }
 
             autoScrolling = false;
@@ -57,9 +78,6 @@ const ScrollHandler = ({ location, history }) => {
             Knownheight: ${elementHeight}
             Recalculatedheight: ${recalcHeight}
             `, "color: green");
-        }
-        else {
-        
         }
     }
 
@@ -80,6 +98,7 @@ const ScrollHandler = ({ location, history }) => {
     window.addEventListener('scroll', checkScroll);
 
     function autoScroll(force=false) {
+        if(suppressScroll) return;
 
         let previousId = sectionId;
         sectionId = getElementFromPath();

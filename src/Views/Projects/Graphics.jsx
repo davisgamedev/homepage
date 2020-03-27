@@ -10,7 +10,7 @@ export default function Graphics() {
     return(
         <Section id="graphics" title="graphics projects">
             <Column>
-                <Example id="post2"></Example>
+                <Example></Example>
             </Column>
             <Column>
                 <Example></Example>
