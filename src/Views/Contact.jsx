@@ -61,9 +61,6 @@ class ContactForm extends React.Component {
         let template_params = this.state.formData;
         if(template_params.message === '') template_params.message = this.placeholder;
 
-        console.log(template_params);
-
-
         const service_id = "default_service";
         const template_id = "contact_request";
 

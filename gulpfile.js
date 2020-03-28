@@ -34,6 +34,21 @@ LICENSES AND ATTRIBUTION:
 
 `;
 
+gulp.task("wipe-docs", once(function(done){
+    del.sync(['docs']);
+    done();
+}));
+
+gulp.task('rename-build', function(done) {
+    fs.rename('build', 'docs', function(err) {
+        if(err) {
+            throw err;
+        }
+        done();
+    });
+});
+
+gulp.task('build-move', gulp.series('wipe-docs', 'rename-build'));
 
 
 gulp.task("licenses", async function() {

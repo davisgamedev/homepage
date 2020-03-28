@@ -22,7 +22,7 @@ a:active {
 }
 
 a:visited {
-    color: #2f2f2f;
+    color: #2f2f2f !important;
     background-color: #fafafa;
 }
 

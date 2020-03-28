@@ -29,7 +29,6 @@ function Suppressed() {
 
 // set global
 function setSuppress(val) {
-    console.log("Supress set! " + val);
     window.SuppressRouteChangeHandler = val;
 }
 
@@ -134,9 +133,6 @@ const RouteUpdateHandler = ({ location, history }) => {
             const windowLine = (window.scrollY - height) + (window.innerHeight * 3/4);
             
             if(!windowLineIntersects(windowLine, section)) {
-
-                console.log(section);
-                console.log("line does not intersect");
 
                 SectionsIdArray.forEach(s => {
                     if(windowLineIntersects(windowLine, Sections[s])){

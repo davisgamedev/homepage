@@ -41,7 +41,6 @@ const Interactable = withRouter(props => {
         if(section && post) {
             SuppressRouteChangeHandler();
             const path = section + post;
-            console.log(path);
             props.history.push(path);
         }
     }
@@ -56,7 +55,6 @@ const Interactable = withRouter(props => {
     function open() {
         if(expanded) return;
         setExpanded(true);
-        console.log("SET OPEN");
         putProjectPath();
     }
 
