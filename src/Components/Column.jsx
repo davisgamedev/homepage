@@ -16,6 +16,8 @@ import {
 import './Column.css';
 import { SmallView } from 'Tech/Breakpoints';
 import { withRouter } from 'react-router-dom';
+import { Skeleton } from '@material-ui/lab';
+import DebugLog from 'Tech/DebugLog';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -26,6 +28,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     />
 });
 
+const ParagraphSkeleton = () => {
+    return (<div className={"skelContainer"}>
+        {
+            (new Array(9).fill(null).map(
+            (x, i) => 
+            <Skeleton key={i} className="skel" variant="text"></Skeleton>))
+        }
+    </div>)
+}
 
 const Interactable = withRouter(props => {
 
@@ -36,6 +47,7 @@ const Interactable = withRouter(props => {
 
     const section = props.sectionId ? '/' + props.sectionId : null;
     const post = props.parentId ? '/' + props.parentId : null;
+
 
     function putProjectPath() {
         if(section && post) {
@@ -68,8 +80,14 @@ const Interactable = withRouter(props => {
         className={"container collapsed " + (extraSmall? 'extraSmall' : '')}
         onClick={open}
         >
-            {props.children}
-
+            <div className="innerContainer">
+            {
+                props.children
+            }
+            {
+                props.empty? <ParagraphSkeleton></ParagraphSkeleton> : null
+            }
+            </div>
             <Dialog 
                 className="container expanded"
                 onClose={close} 
@@ -142,6 +160,7 @@ export default function Column(props) {
                 <Interactable
                 parentId={props.id}
                 sectionId={sectionId}
+                empty={props.todo}
                 >
                     {c}
                 </Interactable>)

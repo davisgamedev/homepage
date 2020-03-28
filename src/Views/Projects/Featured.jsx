@@ -10,6 +10,10 @@ export default class Featured extends React.Component {
 
     getParentComp = () => { return this.domRef; }
 
+    Posts = [
+    
+    ];
+
     render() { 
         return(
         <Section id="projects" ref={this.domRef} title="featured projects">

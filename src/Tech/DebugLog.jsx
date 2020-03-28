@@ -1,5 +1,8 @@
+import React from 'react';
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
-export const Debug = false;//"production" !== process.env.NODE_ENV;
+export const Debug = true;//"production" !== process.env.NODE_ENV;
 
 /*
     The webpack package we have forces lint warnings despite eslintignore
@@ -23,4 +26,19 @@ export default function DebugLog(...args){
 
 if(Debug) {
     window.addEventListener('keydown', function(e){ if(e.key === 'F8') {debugger;} }, false);
+}
+
+export function WarnDebug() {
+    return (
+        <Snackbar 
+        open={Debug} 
+        autoHideDuration={1000000} 
+        anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+        }}
+        >
+            <Alert severity="warning">Debug logging is enabled!!</Alert>
+        </Snackbar>
+    );
 }

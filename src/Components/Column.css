@@ -159,6 +159,21 @@ Button.container:hover {
     width: 100%;
 }
 
+div.skelContainer{
+    margin-top: 20px;
+    display: block !important;
+}
+
+.column .collapsed .skelContainer :nth-child(n+5){
+
+    display: flex;
+    flex-grow: 1;
+}
+
+span.skel {
+    display: flex;
+    flex-grow: 1;
+}
 
 /* to explore
 ::-webkit-scrollbar {
