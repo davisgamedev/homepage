@@ -2,7 +2,7 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
-import {SuppressScroll} from '../Tech/ScrollHandler';
+import {SuppressRouteChangeHandler} from '../Tech/RouteUpdateHandler';
 
 import {
     Button, 
@@ -39,7 +39,7 @@ const Interactable = withRouter(props => {
 
     function putProjectPath() {
         if(section && post) {
-            SuppressScroll();
+            SuppressRouteChangeHandler();
             const path = section + post;
             console.log(path);
             props.history.push(path);
@@ -48,7 +48,7 @@ const Interactable = withRouter(props => {
 
     function putSectionPath() {
         if(section){
-            SuppressScroll();
+            SuppressRouteChangeHandler();
             props.history.push(section);
         }
     }

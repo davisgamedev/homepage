@@ -8,8 +8,8 @@ import DebugLog, {Debug} from 'Tech/DebugLog';
 
 export const Pages = [
     { route: "/"         , name: "Headlines", },
-    { route: "/games"    , name: "Game Projects", },
     { route: "/audio"    , name: "Audio Projects", },
+    { route: "/games"    , name: "Game Projects", },
     { route: "/web"      , name: "Web Projects", },
     { route: "/graphics" , name: "Graphics & Misc Projects", },
     { route: "/contact"  , name: "Write to the Editor", },

@@ -65,6 +65,10 @@ button .dropbtn {
     z-index: 100000;
 }
 
+a.currentPage{
+    text-decoration: underline;
+}
+
 .dropdown-link:hover *{
     background-color: #2f2f2f !important;
     color: #fafafa !important;
