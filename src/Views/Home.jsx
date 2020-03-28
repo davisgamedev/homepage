@@ -1,5 +1,5 @@
 import React from 'react';
-import ScrollHandler from '../Tech/ScrollHandler';
+import RouteUpdateHandler from '../Tech/RouteUpdateHandler';
 
 import Header from '../Components/Header';
 import ContentBody from './ContentBody';
@@ -11,7 +11,7 @@ export default function Home(props) {
     return(
         <div>
             <Header></Header>
-            <ScrollHandler></ScrollHandler>
+            <RouteUpdateHandler></RouteUpdateHandler>
             <Spacer></Spacer>
             <ContentBody></ContentBody>
 
