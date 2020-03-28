@@ -29,6 +29,7 @@ function Suppressed() {
 
 // set global
 function setSuppress(val) {
+    console.log("Supress set! " + val);
     window.SuppressRouteChangeHandler = val;
 }
 
@@ -38,18 +39,25 @@ function setSuppressTimeout() {
     window.SuppressScrollTimeout = setTimeout(() => setSuppress(false), timeout);
 }
 
-
 /////////// global scroll listeners
-window.addEventListener('onload', ()=>console.log("loaded"));
 
 let scrollListener = ()=>{};
 window.addEventListener('scroll', ()=>scrollListener());
+
+function windowLineIntersects(windowLine, section){
+    return windowLine < section.bottom && windowLine > section.top;
+}
 
 
 /////////// section element retrievals
 let Sections = {};
 let SectionsIdArray = [];
 let sectionsSet = false;
+
+// used within element, but should be updated by setSections
+let section = {id: null};
+let previousId;
+
 function setSections() {
     Array.from(document.getElementsByClassName("section")).forEach(
         (el, i) => {
@@ -61,16 +69,15 @@ function setSections() {
             };
             SectionsIdArray.push(el.id);
         });
+    
+    section = Sections[section.id || SectionsIdArray[0]];
     sectionsSet = true;
 
-    console.log(Sections);
+    window.addEventListener('resize', setSections);
 }
 // yes this is awful for initalizations, but best I can come up with for now
 //  front end web is ductape and my soul is glue
 setTimeout(setSections, 500);
-
-
-let previousId;
 
 
 /////////////////// SCROLL HANDLER FUNCTIONAL COMPONENT //////////////////
@@ -82,7 +89,6 @@ const RouteUpdateHandler = ({ location, history }) => {
     let prevScroll = 0;
     let scrollTimeoutHandler;
 
-    let section = {id: null};
     let currentDocId = undefined;
     let element;
     let elementHeight;
@@ -92,11 +98,10 @@ const RouteUpdateHandler = ({ location, history }) => {
 
     function getElementHeight() { return element ? element.offsetTop : 0; }
     
-
     // gets the section id from the url path, also gets the currentDocId
     function getSectionIdFromPath() {
         const results = location.pathname.split('/').filter(x => x);
-        section = {id: ""}
+        section = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
 
         if(results) {
             if(results.length > 1) currentDocId = results[results.length-1];
@@ -110,9 +115,8 @@ const RouteUpdateHandler = ({ location, history }) => {
         }
     }
 
-    function scrollDone() {
-        console.log(window.scrollY);
-        DebugLog("scroll done called");
+    function scrollDone(checkIntersect=true) {
+
         if(autoScrolling) {
             autoScrolling = false;
             let recalcHeight = getElementHeight();
@@ -124,24 +128,23 @@ const RouteUpdateHandler = ({ location, history }) => {
             Recalculatedheight: ${recalcHeight}
             `, "color: green");
         }
-        else if(sectionsSet) {
+
+        else if(checkIntersect && sectionsSet) {
+
+            const windowLine = (window.scrollY - height) + (window.innerHeight * 3/4);
             
-            if(scrollUp) {
-                
-            }
-            else {
-                const currentSection = Sections[section.id || Object.keys(Sections)[0]];
-                const windowLine = (window.scrollY - height) + (window.innerHeight * 2/3);
+            if(!windowLineIntersects(windowLine, section)) {
 
+                console.log(section);
+                console.log("line does not intersect");
 
-                //console.log(windowLine);
-                console.log(currentSection.top);
-
-
-                if(windowLine < currentSection.top) {
-                    const nextElement = Object.keys(Sections)[currentSection.index + 1];
-                    console.log(nextElement);
-                }
+                SectionsIdArray.forEach(s => {
+                    if(windowLineIntersects(windowLine, Sections[s])){
+                        SuppressRouteChangeHandler();
+                        section = Sections[s];
+                        history.push('/' + section.id);
+                    }
+                });
             }
         }
 
@@ -201,10 +204,6 @@ const RouteUpdateHandler = ({ location, history }) => {
 
         previousId = section.id;
         getSectionIdFromPath();
-
-        console.log(previousId);
-        console.log(section.id);
-
         if(Suppressed()) return;
         
         /*
@@ -212,7 +211,7 @@ const RouteUpdateHandler = ({ location, history }) => {
             in page initalization a scroll event can be called without an actual
             scroll occuring if at the top of the page
         */
-        scrollDone();
+        scrollDone(false);
 
         autoScrolling = (forceAutoScroll || previousId !== section.id);
         if(autoScrolling) autoScroll();

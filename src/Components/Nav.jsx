@@ -18,7 +18,7 @@ export const Pages = [
 /*
     - TODO:
         - Active nav link changes with scroll view
-        - URL changes with scroll view, without updating RouteUpdateHandler
+        - URL changes with scroll view, without updating ScrollHandler
 */
 
 function Nav(props) { 
