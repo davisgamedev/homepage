@@ -82,8 +82,7 @@ const RouteUpdateHandler = ({ location, history }) => {
     let prevScroll = 0;
     let scrollTimeoutHandler;
 
-    const nullSection = {id: null};
-    let section = nullSection;
+    let section = {id: null};
     let currentDocId = undefined;
     let element;
     let elementHeight;
@@ -97,7 +96,7 @@ const RouteUpdateHandler = ({ location, history }) => {
     // gets the section id from the url path, also gets the currentDocId
     function getSectionIdFromPath() {
         const results = location.pathname.split('/').filter(x => x);
-        section = nullSection;
+        section = {id: ""}
 
         if(results) {
             if(results.length > 1) currentDocId = results[results.length-1];
@@ -105,7 +104,7 @@ const RouteUpdateHandler = ({ location, history }) => {
             const element = document.getElementById(results[0]);
 
             if(element && element.className === "section") {
-                section = sectionsSet ? Sections[results[0]] : {id: results[0]};
+                section = sectionsSet ? Sections[results[0]] : {id: results[0]}
             }
             else currentDocId = results[0];
         }
@@ -127,7 +126,7 @@ const RouteUpdateHandler = ({ location, history }) => {
         }
         else if(sectionsSet) {
             
-            if(true) {
+            if(scrollUp) {
                 
             }
             else {
