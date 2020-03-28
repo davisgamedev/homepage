@@ -5,6 +5,27 @@ body {
     font-family: 'Lora', serif;
 }
 
+a {
+    font-family: 'Playfair Display';
+    font-size: 14px;
+    font-weight: 100;
+}
+
+a:hover {
+    background-color: #2f2f2f !important;
+    color: #fafafa !important;
+}
+
+a:active {
+    background-color: #2f2f2f;
+    color: #fafafa;
+}
+
+a:visited {
+    color: #2f2f2f;
+    background-color: #fafafa;
+}
+
 .expanded p {
     font-family: 'Roboto', sans-serif;
     color: black;
