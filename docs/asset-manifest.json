@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.3e98cb0a.chunk.css",
-    "main.js": "/static/js/main.2875396e.chunk.js",
-    "main.js.map": "/static/js/main.2875396e.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.ad331ff5.js",
-    "runtime-main.js.map": "/static/js/runtime-main.ad331ff5.js.map",
-    "static/js/2.8d68dab5.chunk.js": "/static/js/2.8d68dab5.chunk.js",
-    "static/js/2.8d68dab5.chunk.js.map": "/static/js/2.8d68dab5.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.2e61940ea9ab71b4f18242d788f1b4d7.js": "/precache-manifest.2e61940ea9ab71b4f18242d788f1b4d7.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.3e98cb0a.chunk.css.map": "/static/css/main.3e98cb0a.chunk.css.map",
-    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
-    "static/media/fonts.css": "/static/media/OldeEnglish.713ad647.ttf"
+    "main.css": "https://dgs4349.github.io/homepage/static/css/main.e366a0a1.chunk.css",
+    "main.js": "https://dgs4349.github.io/homepage/static/js/main.82d98b05.chunk.js",
+    "main.js.map": "https://dgs4349.github.io/homepage/static/js/main.82d98b05.chunk.js.map",
+    "runtime-main.js": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js",
+    "runtime-main.js.map": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js.map",
+    "static/js/2.8d68dab5.chunk.js": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js",
+    "static/js/2.8d68dab5.chunk.js.map": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.map",
+    "index.html": "https://dgs4349.github.io/homepage/index.html",
+    "precache-manifest.700e0360b4513920e1016be40f9a173e.js": "https://dgs4349.github.io/homepage/precache-manifest.700e0360b4513920e1016be40f9a173e.js",
+    "service-worker.js": "https://dgs4349.github.io/homepage/service-worker.js",
+    "static/css/main.e366a0a1.chunk.css.map": "https://dgs4349.github.io/homepage/static/css/main.e366a0a1.chunk.css.map",
+    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
+    "static/media/fonts.css": "https://dgs4349.github.io/homepage/static/media/OldeEnglish.713ad647.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.ad331ff5.js",
+    "static/js/runtime-main.a943f763.js",
     "static/js/2.8d68dab5.chunk.js",
-    "static/css/main.3e98cb0a.chunk.css",
-    "static/js/main.2875396e.chunk.js"
+    "static/css/main.e366a0a1.chunk.css",
+    "static/js/main.82d98b05.chunk.js"
   ]
 }
