@@ -65,7 +65,7 @@ export default function ExampleBody() {
                         only link to finding their secret base.
                         </p>
 
-                    <img className="media" src="http://i.giphy.com/4fDWVPMoSyhgc.gif" alt=""/>
+                    <img className="media" src="https://i.giphy.com/4fDWVPMoSyhgc.gif" alt=""/>
                                     
                     <p>Leave that to me. Send a distress signal, and inform the Senate that all on board were killed. 
                         <span className="citation">"Don't under&shy;estimate the Force. I suggest you try it again, Luke."</span> 
