@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "https://dgs4349.github.io/static/css/main.965f5ed1.chunk.css",
-    "main.js": "https://dgs4349.github.io/static/js/main.2875396e.chunk.js",
-    "main.js.map": "https://dgs4349.github.io/static/js/main.2875396e.chunk.js.map",
-    "runtime-main.js": "https://dgs4349.github.io/static/js/runtime-main.ecd5a733.js",
-    "runtime-main.js.map": "https://dgs4349.github.io/static/js/runtime-main.ecd5a733.js.map",
-    "static/js/2.8d68dab5.chunk.js": "https://dgs4349.github.io/static/js/2.8d68dab5.chunk.js",
-    "static/js/2.8d68dab5.chunk.js.map": "https://dgs4349.github.io/static/js/2.8d68dab5.chunk.js.map",
-    "index.html": "https://dgs4349.github.io/index.html",
-    "precache-manifest.c1bf2741bd093abbad28cbdbb9da648c.js": "https://dgs4349.github.io/precache-manifest.c1bf2741bd093abbad28cbdbb9da648c.js",
-    "service-worker.js": "https://dgs4349.github.io/service-worker.js",
-    "static/css/main.965f5ed1.chunk.css.map": "https://dgs4349.github.io/static/css/main.965f5ed1.chunk.css.map",
-    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://dgs4349.github.io/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
-    "static/media/fonts.css": "https://dgs4349.github.io/static/media/OldeEnglish.713ad647.ttf"
+    "main.css": "https://dgs4349.github.io/homepage/static/css/main.e366a0a1.chunk.css",
+    "main.js": "https://dgs4349.github.io/homepage/static/js/main.82d98b05.chunk.js",
+    "main.js.map": "https://dgs4349.github.io/homepage/static/js/main.82d98b05.chunk.js.map",
+    "runtime-main.js": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js",
+    "runtime-main.js.map": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js.map",
+    "static/js/2.8d68dab5.chunk.js": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js",
+    "static/js/2.8d68dab5.chunk.js.map": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.map",
+    "index.html": "https://dgs4349.github.io/homepage/index.html",
+    "precache-manifest.700e0360b4513920e1016be40f9a173e.js": "https://dgs4349.github.io/homepage/precache-manifest.700e0360b4513920e1016be40f9a173e.js",
+    "service-worker.js": "https://dgs4349.github.io/homepage/service-worker.js",
+    "static/css/main.e366a0a1.chunk.css.map": "https://dgs4349.github.io/homepage/static/css/main.e366a0a1.chunk.css.map",
+    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
+    "static/media/fonts.css": "https://dgs4349.github.io/homepage/static/media/OldeEnglish.713ad647.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.ecd5a733.js",
+    "static/js/runtime-main.a943f763.js",
     "static/js/2.8d68dab5.chunk.js",
-    "static/css/main.965f5ed1.chunk.css",
-    "static/js/main.2875396e.chunk.js"
+    "static/css/main.e366a0a1.chunk.css",
+    "static/js/main.82d98b05.chunk.js"
   ]
 }
