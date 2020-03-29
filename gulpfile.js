@@ -35,7 +35,7 @@ LICENSES AND ATTRIBUTION:
 `;
 
 gulp.task("wipe-docs", once(function(done){
-    del.sync(['docs']);
+    del.sync(['docs/**.*', '!docs/CNAME']);
     done();
 }));
 
