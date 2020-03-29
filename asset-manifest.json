@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "https://dgs4349.github.io/homepage/static/css/main.e366a0a1.chunk.css",
-    "main.js": "https://dgs4349.github.io/homepage/static/js/main.82d98b05.chunk.js",
-    "main.js.map": "https://dgs4349.github.io/homepage/static/js/main.82d98b05.chunk.js.map",
-    "runtime-main.js": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js",
-    "runtime-main.js.map": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js.map",
-    "static/js/2.8d68dab5.chunk.js": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js",
-    "static/js/2.8d68dab5.chunk.js.map": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.map",
-    "index.html": "https://dgs4349.github.io/homepage/index.html",
-    "precache-manifest.700e0360b4513920e1016be40f9a173e.js": "https://dgs4349.github.io/homepage/precache-manifest.700e0360b4513920e1016be40f9a173e.js",
-    "service-worker.js": "https://dgs4349.github.io/homepage/service-worker.js",
-    "static/css/main.e366a0a1.chunk.css.map": "https://dgs4349.github.io/homepage/static/css/main.e366a0a1.chunk.css.map",
-    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
-    "static/media/fonts.css": "https://dgs4349.github.io/homepage/static/media/OldeEnglish.713ad647.ttf"
+    "main.css": "https://davisgame.dev/static/css/main.0531ddd6.chunk.css",
+    "main.js": "https://davisgame.dev/static/js/main.82d98b05.chunk.js",
+    "main.js.map": "https://davisgame.dev/static/js/main.82d98b05.chunk.js.map",
+    "runtime-main.js": "https://davisgame.dev/static/js/runtime-main.d93ed901.js",
+    "runtime-main.js.map": "https://davisgame.dev/static/js/runtime-main.d93ed901.js.map",
+    "static/js/2.8d68dab5.chunk.js": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js",
+    "static/js/2.8d68dab5.chunk.js.map": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js.map",
+    "index.html": "https://davisgame.dev/index.html",
+    "precache-manifest.bccb3fd4edb6cab1d14cbff5c4e9b690.js": "https://davisgame.dev/precache-manifest.bccb3fd4edb6cab1d14cbff5c4e9b690.js",
+    "service-worker.js": "https://davisgame.dev/service-worker.js",
+    "static/css/main.0531ddd6.chunk.css.map": "https://davisgame.dev/static/css/main.0531ddd6.chunk.css.map",
+    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
+    "static/media/fonts.css": "https://davisgame.dev/static/media/OldeEnglish.713ad647.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.a943f763.js",
+    "static/js/runtime-main.d93ed901.js",
     "static/js/2.8d68dab5.chunk.js",
-    "static/css/main.e366a0a1.chunk.css",
+    "static/css/main.0531ddd6.chunk.css",
     "static/js/main.82d98b05.chunk.js"
   ]
 }
