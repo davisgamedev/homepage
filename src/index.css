@@ -9,6 +9,7 @@ a {
     font-family: 'Playfair Display';
     font-size: 14px;
     font-weight: 100;
+    color: #2f2f2f !important;
 }
 
 a:hover {
