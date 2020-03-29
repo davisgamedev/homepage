@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Belleoftheball-arg extends React.Component {
+export default class Bellearg extends React.Component {
 
     constructor(props){
         super(props);

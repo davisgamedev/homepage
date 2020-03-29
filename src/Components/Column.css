@@ -108,6 +108,21 @@ Button.container:hover {
     display: none;
 }
 
+.footer {
+    margin: 20px;
+}
+
+a.generalLink {
+    color: #2f2f2f !important;
+    text-decoration: underline !important;
+}
+
+a.generalLink:hover{
+    color: #6b6b6b !important;
+    background-color: #ffffff !important;
+    font-style: italic !important;
+}
+
 .expanded p {
     display: block;
 }

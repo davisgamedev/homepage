@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Planets-threejs extends React.Component {
+export default class Planetsthreejs extends React.Component {
 
     constructor(props){
         super(props);

@@ -11,6 +11,7 @@ import {
     ClickAwayListener,
     Grow,
     Divider,
+    Link,
 } from '@material-ui/core';
 
 import './Column.css';
@@ -42,6 +43,23 @@ const ParagraphSkeleton = () => {
             </Skeleton>))
         }
     </div>)
+}
+
+const TodoBody = () => {
+    return(
+        <p>
+            Full documentation has not been migrated yet but should shortly.
+        </p>
+    );
+}
+
+const Footer = () => {
+    return (
+        <p className="footer">
+            If you would like to request more information on this project, please
+            feel free to <Link className="generalLink" to="/contact">contact me!</Link>
+        </p>
+    );
 }
 
 const Interactable = withRouter(props => {
@@ -111,6 +129,8 @@ const Interactable = withRouter(props => {
                     variant={extraSmall ? "outlined" : "elevation"}
                     >
                         {props.children}
+                        {props.todo ? <TodoBody /> : null}
+                        <Footer />
                     </Paper>
                 </ClickAwayListener>
 

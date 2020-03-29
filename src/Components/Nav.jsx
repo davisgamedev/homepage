@@ -11,7 +11,7 @@ export const Pages = [
     { route: "/audio"    , name: "Audio Projects", },
     { route: "/games"    , name: "Game Projects", },
     { route: "/web"      , name: "Web Projects", },
-    { route: "/graphics" , name: "Graphics & Misc Projects", },
+    { route: "/graphics" , name: "Graphics Projects", },
     { route: "/contact"  , name: "Write to the Editor", },
 ];
 

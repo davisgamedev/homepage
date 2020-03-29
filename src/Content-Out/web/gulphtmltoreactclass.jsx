@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Gulp-htmltoreactclass extends React.Component {
+export default class Gulphtmltoreactclass extends React.Component {
 
     constructor(props){
         super(props);

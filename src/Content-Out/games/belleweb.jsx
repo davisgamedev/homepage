@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Belleoftheball-web extends React.Component {
+export default class Belleweb extends React.Component {
 
     constructor(props){
         super(props);

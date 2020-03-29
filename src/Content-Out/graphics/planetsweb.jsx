@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Planets-web extends React.Component {
+export default class Planetsweb extends React.Component {
 
     constructor(props){
         super(props);
