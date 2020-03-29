@@ -9,7 +9,6 @@ const htmltoreact = require("gulp-htmltoreactclass");
 const once = require('async-once');
 const del = require('del');
 
-
 const credits = `
 LICENSES AND ATTRIBUTION:
 
@@ -40,13 +39,21 @@ gulp.task("wipe-docs", once(function(done){
 }));
 
 gulp.task('rename-build', function(done) {
-    fs.rename('build', 'docs', function(err) {
-        if(err) {
-            throw err;
-        }
-        done();
-    });
+    // fs.rename('build', 'docs', function(err) {
+    //     if(err) {
+    //         throw err;
+    //     }
+    //     done();
+    // });
+    gulp.src('build/**.*')
+        .pipe(gulp.dest('docs'));
+    done();
 });
+
+gulp.task('wipe-build', once(function(done) {
+    del.sync(['build']);
+    done();
+}));
 
 gulp.task('build-move', gulp.series('wipe-docs', 'rename-build'));
 
