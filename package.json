@@ -49,7 +49,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d docs -b master",
+    "deploy": "gh-pages -d docs",
     "start": "react-scripts start",
     "build": "react-scripts build && gulp licenses && gulp build-move",
     "test": "react-scripts test --env=jsdom",
