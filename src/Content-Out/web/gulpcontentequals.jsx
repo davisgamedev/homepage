@@ -10,7 +10,7 @@ export default class Gulpcontentequals extends React.Component {
         return (
 <div>
 <h1 id="gulp-content--equals">Gulp Content- Equals</h1>
-<h2 id="a-tool-for-file-comparison-and-branching-in-gulp-tasks">A tool for file comparison and branching in gulp tasks</h2>
+<h2 id="file-comparison-and-branching-in-gulp-tasks">file comparison and branching in gulp tasks</h2>
 
 </div>
         );

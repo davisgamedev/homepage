@@ -10,7 +10,7 @@ export default class Jumptherope extends React.Component {
         return (
 <div>
 <h1 id="jump-the-rope-minigame">Jump The Rope Minigame</h1>
-<h2 id="directx-audio-and-graphics-showcase">DirectX Audio and Graphics Showcase</h2>
+<h2 id="directx-graphics-and-audio-showcase">DirectX Graphics and Audio Showcase</h2>
 
 </div>
         );

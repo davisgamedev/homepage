@@ -1,2 +1,2 @@
 # Jump The Rope Minigame
-## DirectX Audio and Graphics Showcase
+## DirectX Graphics and Audio Showcase

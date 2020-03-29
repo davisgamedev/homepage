@@ -1,2 +1,2 @@
 # Procedural Planets - Web
-## Applying Procedural Concepts and 3D Graphics to 2D HTML Canvas
+## 3D math on 2D HTML canvas

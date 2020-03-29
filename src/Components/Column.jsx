@@ -11,12 +11,11 @@ import {
     ClickAwayListener,
     Grow,
     Divider,
-    Link,
 } from '@material-ui/core';
 
 import './Column.css';
 import { SmallView } from 'Tech/Breakpoints';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Skeleton } from '@material-ui/lab';
 import DebugLog from 'Tech/DebugLog';
 
@@ -48,16 +47,7 @@ const ParagraphSkeleton = () => {
 const TodoBody = () => {
     return(
         <p>
-            Full documentation has not been migrated yet but should shortly.
-        </p>
-    );
-}
-
-const Footer = () => {
-    return (
-        <p className="footer">
-            If you would like to request more information on this project, please
-            feel free to <Link className="generalLink" to="/contact">contact me!</Link>
+            It seems the full documentation has not been migrated yet. Please check again soon!
         </p>
     );
 }
@@ -71,21 +61,16 @@ const Interactable = withRouter(props => {
 
     const section = props.sectionId ? '/' + props.sectionId : null;
     const post = props.parentId ? '/' + props.parentId : null;
-
+    const path = section + post;
 
     function putProjectPath() {
-        if(section && post) {
-            SuppressRouteChangeHandler();
-            const path = section + post;
-            props.history.push(path);
-        }
+        SuppressRouteChangeHandler();
+        props.history.push(path);
     }
 
     function putSectionPath() {
-        if(section){
-            SuppressRouteChangeHandler();
-            props.history.push(section);
-        }
+        SuppressRouteChangeHandler();
+        props.history.push(section);
     }
 
     function open() {
@@ -97,6 +82,11 @@ const Interactable = withRouter(props => {
     function close() {
         setExpanded(false);
         putSectionPath();
+    }
+
+    function contact() {
+        setExpanded(false);
+        setTimeout(() => {props.history.push("/contact")}, 100);
     }
 
     return (
@@ -130,7 +120,15 @@ const Interactable = withRouter(props => {
                     >
                         {props.children}
                         {props.todo ? <TodoBody /> : null}
-                        <Footer />
+                        <p className="footer">
+                            If you would like to request more information on this project, please
+                            feel free to <Link 
+                                            className="generalLink" 
+                                            onClick={contact} 
+                                            to={"/contact"}>
+                                            contact me!
+                                            </Link>
+                        </p>
                     </Paper>
                 </ClickAwayListener>
 

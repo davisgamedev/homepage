@@ -23,7 +23,24 @@
     background-color: #fafafa;
 }
 
-Button.container {
+.column .MuiButton-label{
+    height: 100%;
+    justify-content: space-between;
+    padding-top: 0;
+    margin-top: 0;
+    vertical-align: text-top;
+}
+
+.sectionRow *{
+    
+    height: 100%;
+    justify-content: space-between;
+    padding-top: 0;
+    margin-top: 0;
+    vertical-align: text-top;
+}
+
+button.container {
     font-family: 'Lora', serif;
     font-size: 14px;
     color: #2f2f2f;
@@ -50,6 +67,7 @@ Button.container:hover {
 }
 
 .column h1 {
+
     text-align: center;
     line-height: normal;
     
@@ -108,8 +126,19 @@ Button.container:hover {
     display: none;
 }
 
-.footer {
-    margin: 20px;
+.expanded h2 {
+    text-transform: lowercase;
+}
+
+.expanded p.footer {
+    font-size: 12px;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+}
+
+.expanded .footer a{
+    font-size: 12px;
 }
 
 a.generalLink {
@@ -120,7 +149,6 @@ a.generalLink {
 a.generalLink:hover{
     color: #6b6b6b !important;
     background-color: #ffffff !important;
-    font-style: italic !important;
 }
 
 .expanded p {
@@ -175,6 +203,18 @@ button.extraSmall{
     border-bottom: 1px solid lightgray ;
 }
 
+.extraSmall.expanded h1 {
+    font-size: 32px;
+}
+
+.extraSmall.expanded h2 {
+    font-size: 28px;
+}
+
+.extraSmall.expanded h1:after {
+    border: none;
+}
+
 .column .extraSmall h2:before {
     text-align: left;
     border: none;
@@ -188,7 +228,6 @@ button.extraSmall{
 .expanded.extraSmall .MuiDialog-paper {
     margin: 40px 0px 40px 0px;
 }
-
 
 .expanded.extraSmall .paperContainer div{
     margin: 10px;
@@ -242,5 +281,3 @@ span.skel {
     background: #222;
     margin-right: 5px;
   } */
-
-

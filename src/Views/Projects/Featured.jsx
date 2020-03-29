@@ -25,7 +25,6 @@ export default class Featured extends React.Component {
         {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: true},
         {id: "gulp-contentequals", el: (<Gulpcontentequals />),   todo: true},
         {id: "gulp-htmltoreactclass", el: (<Gulphtmltoreactclass />),   todo: true},
-        {id: "example", el: (<Example />)}
     ];
 
     render() { 

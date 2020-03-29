@@ -1,2 +1,2 @@
 # Untitled Submarine Game
-## Underwater Interactive Ambience Composition
+## Ambience for an underwater game

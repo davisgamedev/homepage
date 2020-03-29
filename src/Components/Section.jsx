@@ -65,7 +65,7 @@ function SectionContents(props) {
             <Grid 
                 container 
                 spacing={3}
-                className={classes.grid}
+                className={classes.grid + " sectionRow"}
                 direction='row'
                 justify='flex-start'
                 alignItems='stretch'

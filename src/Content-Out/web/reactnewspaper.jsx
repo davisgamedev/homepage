@@ -10,7 +10,7 @@ export default class Reactnewspaper extends React.Component {
         return (
 <div>
 <h1 id="react-newspaper-website">React Newspaper Website</h1>
-<h2 id="the-meta-project-documentation">The meta project documentation</h2>
+<h2 id="meta-project-documentation">meta project documentation</h2>
 
 </div>
         );

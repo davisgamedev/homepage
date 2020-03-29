@@ -10,7 +10,7 @@ export default class Planetsweb extends React.Component {
         return (
 <div>
 <h1 id="procedural-planets---web">Procedural Planets - Web</h1>
-<h2 id="applying-procedural-concepts-and-3d-graphics-to-2d-html-canvas">Applying Procedural Concepts and 3D Graphics to 2D HTML Canvas</h2>
+<h2 id="3d-math-on-2d-html-canvas">3D math on 2D HTML canvas</h2>
 
 </div>
         );

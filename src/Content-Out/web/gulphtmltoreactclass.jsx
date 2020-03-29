@@ -10,7 +10,7 @@ export default class Gulphtmltoreactclass extends React.Component {
         return (
 <div>
 <h1 id="gulp-html-to-react-class">Gulp HTML to React Class</h1>
-<h2 id="a-quick-but-useful-file-conversion-tool">A quick but useful file conversion tool</h2>
+<h2 id="file-conversion-tool">file conversion tool</h2>
 
 </div>
         );

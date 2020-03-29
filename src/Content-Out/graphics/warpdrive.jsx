@@ -10,7 +10,7 @@ export default class Warpdrive extends React.Component {
         return (
 <div>
 <h1 id="warpdrive-webgl-animation">WarpDrive WebGL Animation</h1>
-<h2 id="an-overcomplicated-webgl-simulation-from-a-simple-canvas-animation">An overcomplicated webGL simulation from a simple canvas animation</h2>
+<h2 id="an-exploration-in-vanilla-webgl">an exploration in vanilla webgl</h2>
 
 </div>
         );

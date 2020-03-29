@@ -10,7 +10,7 @@ export default class Planetsthreejs extends React.Component {
         return (
 <div>
 <h1 id="procedural-planets---threejs">Procedural Planets - ThreeJS</h1>
-<h2 id="migration-of-procedural-planets-to-webgl-via-threejs">Migration of Procedural Planets to WebGL via ThreeJS</h2>
+<h2 id="procedural-textures-with-threejs">procedural textures with ThreeJS</h2>
 
 </div>
         );

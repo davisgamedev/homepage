@@ -1,2 +1,2 @@
 # KoC Demos
-## Class materials from instructing Java game design
+## Class materials for instructing Java game design
