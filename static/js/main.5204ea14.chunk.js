@@ -14,7 +14,7 @@ LICENSES AND ATTRIBUTION:
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/now-ui-kit-pro-react
-* Copyright 2019 Creative Tim (http://www.creative-tim.com)
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
 
