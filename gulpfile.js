@@ -45,7 +45,7 @@ gulp.task('rename-build', function(done) {
     //     }
     //     done();
     // });
-    gulp.src('build/**.*')
+    gulp.src('build/*')
         .pipe(gulp.dest('docs'));
     done();
 });
