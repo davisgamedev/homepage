@@ -9,9 +9,8 @@ export default class Belleoftheball-web extends React.Component {
     render() {
         return (
 <div>
-<h1 id="three-part">Three Part</h1>
-<h2 id="subtitle">Subtitle</h2>
-<p><img src="https://res.cloudinary.com/dyzmnhqpr/image/upload/v1585177799/sample.jpg" alt="test image"/></p>
+<h1 id="victorian-web-game">Victorian Web Game</h1>
+<h2 id="belle-of-the-ball-part-2">Belle of the Ball Part 2</h2>
 
 </div>
         );

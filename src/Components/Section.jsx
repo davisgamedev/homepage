@@ -19,16 +19,16 @@ const useStyles = makeStyles({
         borderBottom: '1px solid black',
     },
     smallTitle: {
-        textAlign: 'center',
+        textAlign: 'right',
         flexGrow: 1,
 
-        fontFamily: 'Playfair Display, serif',
-        fontWeight: '400',
-        textTransform: 'uppercase',
-        fontSize: '36px',
+        fontFamily: 'Roboto, serif',
+        fontWeight: '100',
+        textTransform: 'capitalize',
+        fontSize: '20px',
 
-        marginBottom: 20,
-        borderBottom: '1px solid black',
+        margin: 20,
+        borderBottom: '1px solid grey',
     },
     grid: {
         flexGrow: 1,

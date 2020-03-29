@@ -33,7 +33,13 @@ const ParagraphSkeleton = () => {
         {
             (new Array(9).fill(null).map(
             (x, i) => 
-            <Skeleton key={i} className="skel" variant="text"></Skeleton>))
+            <Skeleton 
+            key={i} 
+            className="skel" 
+            variant="text"
+            animation="wave"
+            >
+            </Skeleton>))
         }
     </div>)
 }
@@ -89,7 +95,7 @@ const Interactable = withRouter(props => {
             }
             </div>
             <Dialog 
-                className="container expanded"
+                className={"container expanded " + (extraSmall? 'extraSmall' : '') }
                 onClose={close} 
                 open={expanded}
                 maxWidth={'md'}
@@ -102,6 +108,7 @@ const Interactable = withRouter(props => {
                     <Paper 
                     className='paperContainer' 
                     elevation={3}
+                    variant={extraSmall ? "outlined" : "elevation"}
                     >
                         {props.children}
                     </Paper>

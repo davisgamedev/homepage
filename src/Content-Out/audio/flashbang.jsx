@@ -10,7 +10,7 @@ export default class Flashbang extends React.Component {
         return (
 <div>
 <h1 id="directx-middleware-engine">DirectX Middleware Engine</h1>
-<h2 id="flashbang">FlashBang</h2>
+<h2 id="flashbang-api">FlashBang API</h2>
 
 </div>
         );
