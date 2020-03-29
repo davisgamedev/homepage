@@ -73,6 +73,7 @@ Button.container:hover {
     box-sizing: border-box;
     padding: 10px 0 0 0;
     margin: 0;
+    text-transform: uppercase;
 }
 
 .column h2:before {
@@ -135,7 +136,7 @@ Button.container:hover {
     padding: 0;
     margin: 0;
     font-size: 24px;
-    text-align: left;;
+    text-align: left;
 }
 
 .column .extraSmall h2{

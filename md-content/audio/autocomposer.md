@@ -1,2 +1,2 @@
-# Processing Autocomposer
-## an experminent in procedural composition
+# Java Processing Autocomposer
+## An Experminent in Procedural Composition

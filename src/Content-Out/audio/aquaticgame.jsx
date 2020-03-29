@@ -9,8 +9,8 @@ export default class Aquaticgame extends React.Component {
     render() {
         return (
 <div>
-<h1 id="aquatic-game">Aquatic Game</h1>
-<h2 id="composition">Composition</h2>
+<h1 id="untitled-submarine-game">Untitled Submarine Game</h1>
+<h2 id="underwater-interactive-ambience">Underwater Interactive Ambience</h2>
 
 </div>
         );

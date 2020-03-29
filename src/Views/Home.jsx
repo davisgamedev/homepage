@@ -37,7 +37,7 @@ export default function Home(props) {
             }}
             >
                 <Alert severity="info" onClick={close}>
-                    Project docs are still being imported. Check back again soon!
+                    New project docs are being migrated daily. Check back again soon!
                 </Alert>
             </Snackbar>
         </div>

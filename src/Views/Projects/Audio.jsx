@@ -22,7 +22,7 @@ export default class Audio extends React.Component {
         {id: "FlashBang",       el: (<Flashbang />),   todo: true},
         {id: "Jump-The-Rope",   el: (<Jumptherope />),   todo: true},
         {id: "Return-To-Otter-Space",    el: (<Otterspace />),   todo: true},
-        {id: "Pain-Train",    el: (<Paintrain />)},
+        {id: "Pain-Train",    el: (<Paintrain />), todo: true},
     ];
 
     render() { 

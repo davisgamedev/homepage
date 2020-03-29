@@ -89,10 +89,8 @@ gulp.task("wipe-md", once(function(done){
   done();
 }));
 
-gulp.task("md", function() {
-  gulp.watch([
-    "./md-content/**/.md"
-  ]).on("change", gulp.task("md"));
+gulp.task("watch-md", function() {
+  gulp.watch("./md-content/*", gulp.task("md"));
 });
 
 gulp.task("md-convert", function(done){
@@ -109,10 +107,7 @@ gulp.task("md-media", function(done){
   done();
 });
 
-gulp.task("md", gulp.series("wipe-md", "md-convert", "md-media"));
-
-
-
+gulp.task("md", gulp.series("wipe-md", "md-convert"));
 
 
 let classdir = './src/Components';
