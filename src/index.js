@@ -21,7 +21,7 @@ ReactDOM.render(
         <Breakpoints>
             <Switch>
                 {/* <Route path="/examples/components" component={Components} /> */}
-                <Route component={Home}/>
+                <Route path="/" component={Home}/>
             </Switch>
         </Breakpoints>
     </Router>,
