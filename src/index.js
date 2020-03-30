@@ -9,8 +9,8 @@ import { Router, Route, Switch, withRouter } from "react-router-dom";
 import "common/assets/scss/material-kit-react.scss?v=1.8.0";
 
 import Home from "Views/Home";
-
 import Breakpoints from 'Tech/Breakpoints';
+import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
 
 import './index.css';
 
@@ -25,6 +25,7 @@ const ResetHomePath = withRouter(({location, history}) => {
     if(location.hash !== "") {
         history.push(location.hash.replace('#', ''));
     }
+    // add a check here for redirected to projects
 
     window.resetPath = true;
     return null;
@@ -33,6 +34,7 @@ const ResetHomePath = withRouter(({location, history}) => {
 ReactDOM.render(
     <Router history={hist} basename={process.env.PUBLIC_URL}>
         <Breakpoints>
+            <RouteUpdateHandler />
             <ResetHomePath />
             <Switch>
                 {/* <Route path="/examples/components" component={Components} /> */}

@@ -33,6 +33,7 @@ const ParagraphSkeleton = () => {
         {
             (new Array(9).fill(null).map(
             (x, i) => 
+            (i === 2) ? <p key={i} className={'placeholder'}>Document not imported yet</p> :
             <Skeleton 
             key={i} 
             className="skel" 
@@ -59,29 +60,31 @@ const Interactable = withRouter(props => {
 
     const {extraSmall} = SmallView();
 
-    const section = props.sectionId ? '/' + props.sectionId : "";
-    const post = props.parentId ? '/' + props.parentId : "";
-    const path = section + post;
+    const section = props.sectionId ? '/' + props.sectionId : null;
+    const post = props.parentId ? '/' + props.parentId : null;
+    const path = (post && section) ? section + post : null;
 
     function putProjectPath() {
         SuppressRouteChangeHandler();
-        props.history.push(path);
+        if(path) props.history.push(path);
     }
 
     function putSectionPath() {
         SuppressRouteChangeHandler();
-        props.history.push(section);
+        if(section) props.history.push(section);
     }
 
     function open() {
         if(expanded) return;
         setExpanded(true);
         putProjectPath();
+        window.docIsOpen = true;
     }
 
     function close() {
         setExpanded(false);
         putSectionPath();
+        window.docIsOpen = false;
     }
 
     function contact() {
