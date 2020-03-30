@@ -9,7 +9,7 @@ export default class Autocomposer extends React.Component {
     render() {
         return (
 <div>
-<h1 id="java-processing-autocomposer">Java Processing Autocomposer</h1>
+<h1 id="java-processing-auto--composer">Java Processing Auto -composer</h1>
 <h2 id="an-experminent-in-procedural-composition">An Experminent in Procedural Composition</h2>
 
 </div>

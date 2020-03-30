@@ -25,7 +25,7 @@ export default function DebugLog(...args){
 }
 
 // just gonna keep this here for a bit
-window.addEventListener('keydown', function(e){ if(e.key === 'F8') {debugger;} }, false);
+//window.addEventListener('keydown', function(e){ if(e.key === 'F8') {debugger;} }, false);
 
 export function WarnDebug() {
     return (
