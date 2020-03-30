@@ -34,7 +34,7 @@ LICENSES AND ATTRIBUTION:
 `;
 
 gulp.task("wipe-docs", once(function(done){
-    del.sync(['docs/**.*', '!docs/CNAME']);
+    del.sync(['docs/**', '!docs/CNAME']);
     done();
 }));
 
@@ -45,7 +45,7 @@ gulp.task('rename-build', function(done) {
     //     }
     //     done();
     // });
-    gulp.src('build/*')
+    gulp.src('build/**')
         .pipe(gulp.dest('docs'));
     done();
 });
