@@ -51,7 +51,7 @@ gulp.task('rename-build', function(done) {
 });
 
 gulp.task('wipe-build', once(function(done) {
-    del.sync(['build']);
+    del.sync(['build/**']);
     done();
 }));
 
