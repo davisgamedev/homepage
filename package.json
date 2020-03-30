@@ -51,7 +51,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d docs",
     "start": "react-scripts start",
-    "build": "react-scripts build && gulp licenses && gulp build-move",
+    "build": "react-scripts build && gulp licenses && gulp build-move && gulp wipe-build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
