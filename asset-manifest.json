@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "https://davisgame.dev/static/css/main.37f6b5a9.chunk.css",
-    "main.js": "https://davisgame.dev/static/js/main.99ed52a5.chunk.js",
-    "main.js.map": "https://davisgame.dev/static/js/main.99ed52a5.chunk.js.map",
+    "main.css": "https://davisgame.dev/static/css/main.97ca716e.chunk.css",
+    "main.js": "https://davisgame.dev/static/js/main.efca21a9.chunk.js",
+    "main.js.map": "https://davisgame.dev/static/js/main.efca21a9.chunk.js.map",
     "runtime-main.js": "https://davisgame.dev/static/js/runtime-main.d93ed901.js",
     "runtime-main.js.map": "https://davisgame.dev/static/js/runtime-main.d93ed901.js.map",
-    "static/js/2.8d68dab5.chunk.js": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js",
-    "static/js/2.8d68dab5.chunk.js.map": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js.map",
+    "static/js/2.d4608dc2.chunk.js": "https://davisgame.dev/static/js/2.d4608dc2.chunk.js",
+    "static/js/2.d4608dc2.chunk.js.map": "https://davisgame.dev/static/js/2.d4608dc2.chunk.js.map",
     "index.html": "https://davisgame.dev/index.html",
-    "precache-manifest.ee81f22d0b983cb087f97d15c16f9ee7.js": "https://davisgame.dev/precache-manifest.ee81f22d0b983cb087f97d15c16f9ee7.js",
+    "precache-manifest.5efe551f7442fdbd7594f8965da390e7.js": "https://davisgame.dev/precache-manifest.5efe551f7442fdbd7594f8965da390e7.js",
     "service-worker.js": "https://davisgame.dev/service-worker.js",
-    "static/css/main.37f6b5a9.chunk.css.map": "https://davisgame.dev/static/css/main.37f6b5a9.chunk.css.map",
-    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
+    "static/css/main.97ca716e.chunk.css.map": "https://davisgame.dev/static/css/main.97ca716e.chunk.css.map",
+    "static/js/2.d4608dc2.chunk.js.LICENSE.txt": "https://davisgame.dev/static/js/2.d4608dc2.chunk.js.LICENSE.txt",
     "static/media/fonts.css": "https://davisgame.dev/static/media/OldeEnglish.713ad647.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.d93ed901.js",
-    "static/js/2.8d68dab5.chunk.js",
-    "static/css/main.37f6b5a9.chunk.css",
-    "static/js/main.99ed52a5.chunk.js"
+    "static/js/2.d4608dc2.chunk.js",
+    "static/css/main.97ca716e.chunk.css",
+    "static/js/main.efca21a9.chunk.js"
   ]
 }
