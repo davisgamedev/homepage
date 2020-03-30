@@ -55,7 +55,8 @@ gulp.task('wipe-build', once(function(done) {
     done();
 }));
 
-gulp.task('build-move', gulp.series('wipe-docs', 'rename-build'));
+// gulp series doesn't want to work, let's pollute node tasks
+//gulp.task('build-move', gulp.series('wipe-docs', 'rename-build'));
 
 
 gulp.task("licenses", async function() {
