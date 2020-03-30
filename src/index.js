@@ -18,6 +18,7 @@ var hist = createBrowserHistory();
 
 window.updatedPath = false;
 
+// not necessary after migration
 const ClearHomepageUrl = withRouter(({location, history}) => {
     if(window.updatedPath) return null;
 
@@ -33,9 +34,9 @@ const ClearHomepageUrl = withRouter(({location, history}) => {
 });
 
 ReactDOM.render(
-    <Router history={hist}>
+    <Router history={hist} basename={process.env.PUBLIC_URL}>
         <Breakpoints>
-            <ClearHomepageUrl />
+            {/* <ClearHomepageUrl /> */}
             <Switch>
                 {/* <Route path="/examples/components" component={Components} /> */}
                 <Route path="/" component={Home}/>
