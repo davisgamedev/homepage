@@ -38,6 +38,11 @@ gulp.task("wipe-docs", once(function(done){
     done();
 }));
 
+gulp.task('wipe-build', once(function(done) {
+    del.sync(['build/**']);
+    done();
+}));
+
 gulp.task('rename-build', function(done) {
     // fs.rename('build', 'docs', function(err) {
     //     if(err) {
@@ -49,11 +54,6 @@ gulp.task('rename-build', function(done) {
         .pipe(gulp.dest('docs'));
     done();
 });
-
-gulp.task('wipe-build', once(function(done) {
-    del.sync(['build/**']);
-    done();
-}));
 
 // gulp series doesn't want to work, let's pollute node tasks
 //gulp.task('build-move', gulp.series('wipe-docs', 'rename-build'));
