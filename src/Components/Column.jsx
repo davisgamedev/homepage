@@ -59,8 +59,8 @@ const Interactable = withRouter(props => {
 
     const {extraSmall} = SmallView();
 
-    const section = props.sectionId ? '/' + props.sectionId : null;
-    const post = props.parentId ? '/' + props.parentId : null;
+    const section = props.sectionId ? '/' + props.sectionId : "";
+    const post = props.parentId ? '/' + props.parentId : "";
     const path = section + post;
 
     function putProjectPath() {

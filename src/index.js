@@ -16,27 +16,24 @@ import './index.css';
 
 var hist = createBrowserHistory();
 
-window.updatedPath = false;
+window.resetPath = false;
 
 // not necessary after migration
-const ClearHomepageUrl = withRouter(({location, history}) => {
-    if(window.updatedPath) return null;
+const ResetHomePath = withRouter(({location, history}) => {
+    if(window.resetPath) return null;
 
-    const paths = location.pathname.split('/').filter(x=>x); // filter removes empty strings
+    if(location.hash !== "") {
+        history.push(location.hash.replace('#', ''));
+    }
 
-    const newPath = paths.reduce(
-        (acc, val) => acc += (val !== "homepage") ? '/' + val : "", "");
-        
-    if(newPath !== location.pathname) history.push(newPath);
-
-    window.updatedPath = true;
+    window.resetPath = true;
     return null;
 });
 
 ReactDOM.render(
     <Router history={hist} basename={process.env.PUBLIC_URL}>
         <Breakpoints>
-            {/* <ClearHomepageUrl /> */}
+            <ResetHomePath />
             <Switch>
                 {/* <Route path="/examples/components" component={Components} /> */}
                 <Route path="/" component={Home}/>

@@ -99,16 +99,24 @@ const RouteUpdateHandler = ({ location, history }) => {
     
     // gets the section id from the url path, also gets the currentDocId
     function getSectionIdFromPath() {
+
+        DebugLog('called');
+        DebugLog(location.pathname);
+
         const results = location.pathname.split('/').filter(x => x);
         section = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
 
+        DebugLog(results);
+
         if(results) {
             if(results.length > 1) currentDocId = results[results.length-1];
+            DebugLog(currentDocId);
 
             const element = document.getElementById(results[0]);
 
             if(element && element.className === "section") {
                 section = sectionsSet ? Sections[results[0]] : {id: results[0]}
+                DebugLog(section);
             }
             else currentDocId = results[0];
         }
