@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "https://davisgame.dev/static/css/main.42edc842.chunk.css",
-    "main.js": "https://davisgame.dev/static/js/main.141b97ff.chunk.js",
-    "main.js.map": "https://davisgame.dev/static/js/main.141b97ff.chunk.js.map",
-    "runtime-main.js": "https://davisgame.dev/static/js/runtime-main.d93ed901.js",
-    "runtime-main.js.map": "https://davisgame.dev/static/js/runtime-main.d93ed901.js.map",
-    "static/js/2.8d68dab5.chunk.js": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js",
-    "static/js/2.8d68dab5.chunk.js.map": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js.map",
-    "index.html": "https://davisgame.dev/index.html",
-    "precache-manifest.df1cda2b23378707bdfad6aa7fe77987.js": "https://davisgame.dev/precache-manifest.df1cda2b23378707bdfad6aa7fe77987.js",
-    "service-worker.js": "https://davisgame.dev/service-worker.js",
-    "static/css/main.42edc842.chunk.css.map": "https://davisgame.dev/static/css/main.42edc842.chunk.css.map",
-    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://davisgame.dev/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
-    "static/media/fonts.css": "https://davisgame.dev/static/media/OldeEnglish.713ad647.ttf"
+    "main.css": "https://dgs4349.github.io/homepage/static/css/main.39eaa060.chunk.css",
+    "main.js": "https://dgs4349.github.io/homepage/static/js/main.141b97ff.chunk.js",
+    "main.js.map": "https://dgs4349.github.io/homepage/static/js/main.141b97ff.chunk.js.map",
+    "runtime-main.js": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js",
+    "runtime-main.js.map": "https://dgs4349.github.io/homepage/static/js/runtime-main.a943f763.js.map",
+    "static/js/2.8d68dab5.chunk.js": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js",
+    "static/js/2.8d68dab5.chunk.js.map": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.map",
+    "index.html": "https://dgs4349.github.io/homepage/index.html",
+    "precache-manifest.1075fdcce4f72a70caeb83d3385e69c8.js": "https://dgs4349.github.io/homepage/precache-manifest.1075fdcce4f72a70caeb83d3385e69c8.js",
+    "service-worker.js": "https://dgs4349.github.io/homepage/service-worker.js",
+    "static/css/main.39eaa060.chunk.css.map": "https://dgs4349.github.io/homepage/static/css/main.39eaa060.chunk.css.map",
+    "static/js/2.8d68dab5.chunk.js.LICENSE.txt": "https://dgs4349.github.io/homepage/static/js/2.8d68dab5.chunk.js.LICENSE.txt",
+    "static/media/fonts.css": "https://dgs4349.github.io/homepage/static/media/OldeEnglish.713ad647.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.d93ed901.js",
+    "static/js/runtime-main.a943f763.js",
     "static/js/2.8d68dab5.chunk.js",
-    "static/css/main.42edc842.chunk.css",
+    "static/css/main.39eaa060.chunk.css",
     "static/js/main.141b97ff.chunk.js"
   ]
 }
