@@ -18,8 +18,8 @@ export default class Featured extends React.Component {
     getParentComp = () => { return this.domRef; }
 
     Posts = [
-        {id: "FlashBang",       el: (<Flashbang />),   todo: true},
-        {id: "Return-To-Otter-Space",    el: (<Otterspace />),   todo: true},
+        {id: "FlashBang",       el: (<Flashbang />)},
+        {id: "Return-To-Otter-Space",    el: (<Otterspace />)},
         {id: "Planets-Processing",       el: (<Planetsprocessing />),   todo: true},
         {id: "Estimator",    el: (<Estimator />),   todo: true},
         {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: true},

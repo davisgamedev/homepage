@@ -1,5 +1,7 @@
 /*
     Font rules for .expanded in index.css
+
+    TODO: reorganize, eliminate !important tags
 */
 
 .column {
@@ -21,6 +23,13 @@
     font-size: 14px;
     color: #2f2f2f;
     background-color: #fafafa;
+}
+
+.expanded li {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    font-weight: 300;
+    font-size: 15px;
 }
 
 .column .MuiButton-label{
@@ -97,6 +106,7 @@ Button.container:hover {
     box-sizing: border-box;
     padding: 10px 0 0 0;
     margin: 0;
+    margin-bottom: 10px;
     text-transform: uppercase;
 }
 
@@ -128,6 +138,10 @@ Button.container:hover {
     display: none;
 }
 
+.collapsed iframe{
+    display: none;
+}
+
 .column .collapsed :nth-child(n+5){
     display: none;
 }
@@ -147,15 +161,39 @@ Button.container:hover {
     font-size: 12px;
 }
 
-a.generalLink {
+.column a {
+    font-family: 'Lora', serif;
     color: #2f2f2f !important;
     text-decoration: underline !important;
 }
 
-a.generalLink:hover{
+.column a:hover{
     color: #6b6b6b !important;
     background-color: #ffffff !important;
 }
+
+.column:hover a {
+    background-color: #2f2f2f !important;
+    color: #fafafa !important;
+    transition: all .7s;
+}
+
+.column:hover a:hover {
+    background-color: #2f2f2f !important;
+    color: #fafafa !important;
+}
+
+.expanded a {
+    font-family: 'Lora', serif;
+    color: #2f2f2f !important;
+    text-decoration: underline !important;
+}
+
+.expanded a:hover{
+    color: #6b6b6b !important;
+    background-color: #ffffff !important;
+}
+
 
 .expanded p {
     display: block;
