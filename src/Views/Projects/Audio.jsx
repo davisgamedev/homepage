@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { ParagraphSkeleton } from 'Components/Column';
 
 import Section from '../../Components/Section';
 import Column from '../../Components/Column';
 
-import Aquaticgame from 'Content-Out/audio/aquaticgame';
-import Autocomposer from 'Content-Out/audio/autocomposer';
-import Flashbang from 'Content-Out/audio/flashbang';
-import Jumptherope from 'Content-Out/audio/jumptherope';
-import Otterspace from 'Content-Out/audio/otterspace';
-import Paintrain from 'Content-Out/audio/paintrain';
+const Aquaticgame = React.lazy(() => import( 'Content-Out/audio/aquaticgame'));
+const Autocomposer = React.lazy(() => import( 'Content-Out/audio/autocomposer'));
+const Flashbang = React.lazy(() => import( 'Content-Out/audio/flashbang'));
+const Jumptherope = React.lazy(() => import( 'Content-Out/audio/jumptherope'));
+const Otterspace = React.lazy(() => import( 'Content-Out/audio/otterspace'));
+const Paintrain = React.lazy(() => import( 'Content-Out/audio/paintrain'));
 
 export default class Audio extends React.Component {
 
@@ -37,7 +38,9 @@ export default class Audio extends React.Component {
                    getParentComp={this.getParentComp}
                    todo={p.todo}
                    >
-                       {p.el}
+                       <Suspense fallback={<ParagraphSkeleton />}>
+                            {p.el}
+                        </Suspense>
                    </Column>)
                })
            }

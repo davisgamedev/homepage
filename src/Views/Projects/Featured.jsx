@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { ParagraphSkeleton } from 'Components/Column';
 
 import Section from '../../Components/Section';
 import Column from '../../Components/Column';
-import Example from 'Content-Out/web/example';
-import Flashbang from 'Content-Out/audio/flashbang';
-import Otterspace from 'Content-Out/audio/otterspace';
-import Planetsprocessing from 'Content-Out/graphics/planetsprocessing';
-import Estimator from 'Content-Out/web/estimator';
-import Gaurdianalarm from 'Content-Out/web/gaurdianalarm';
-import Gulpcontentequals from 'Content-Out/web/gulpcontentequals';
-import Gulphtmltoreactclass from 'Content-Out/web/gulphtmltoreactclass';
+
+const Flashbang = React.lazy(() => import('Content-Out/audio/flashbang'));
+const Otterspace = React.lazy(() => import('Content-Out/audio/otterspace'));
+const Planetsprocessing = React.lazy(() => import('Content-Out/graphics/planetsprocessing'));
+const Estimator = React.lazy(() => import('Content-Out/web/estimator'));
+const Gaurdianalarm = React.lazy(() => import('Content-Out/web/gaurdianalarm'));
+const Gulpcontentequals = React.lazy(() => import('Content-Out/web/gulpcontentequals'));
+const Gulphtmltoreactclass = React.lazy(() => import('Content-Out/web/gulphtmltoreactclass'));
 
 export default class Featured extends React.Component {
 
@@ -21,8 +22,8 @@ export default class Featured extends React.Component {
         {id: "FlashBang",       el: (<Flashbang />)},
         {id: "Return-To-Otter-Space",    el: (<Otterspace />)},
         {id: "Planets-Processing",       el: (<Planetsprocessing />),   todo: true},
-        {id: "Estimator",    el: (<Estimator />),   todo: true},
-        {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: true},
+        {id: "Estimator",    el: (<Estimator />),   todo: false},
+        {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: false},
         {id: "gulp-contentequals", el: (<Gulpcontentequals />),   todo: true},
         {id: "gulp-htmltoreactclass", el: (<Gulphtmltoreactclass />),   todo: true},
     ];
@@ -40,7 +41,9 @@ export default class Featured extends React.Component {
                    todo={p.todo}
                    double={p.double? true : false}
                    >
-                       {p.el}
+                       <Suspense fallback={<ParagraphSkeleton />}>
+                            {p.el}
+                        </Suspense>
                    </Column>)
                })
            }

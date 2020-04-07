@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { ParagraphSkeleton } from 'Components/Column';
 
 import Section from '../../Components/Section';
 import Column from '../../Components/Column';
-import Example from 'Content-Out/web/example';
-import Bellearg from 'Content-Out/games/bellearg';
-import Bellboardgame from 'Content-Out/games/bellboardgame';
-import Belleweb from 'Content-Out/games/belleweb';
-import Yars3D from 'Content-Out/games/yars3D';
-import Queensfodder from 'Content-Out/games/queensfodder';
-import Otterspace from 'Content-Out/audio/otterspace';
-import KoCDemos from 'Content-Out/other/KoCDemos';
+
+const Bellearg = React.lazy(() => import('Content-Out/games/bellearg'));
+const Bellboardgame = React.lazy(() => import('Content-Out/games/bellboardgame'));
+const Belleweb = React.lazy(() => import('Content-Out/games/belleweb'));
+const Yars3D = React.lazy(() => import('Content-Out/games/yars3D'));
+const Queensfodder = React.lazy(() => import('Content-Out/games/queensfodder'));
+const Otterspace = React.lazy(() => import('Content-Out/audio/otterspace'));
+const KoCDemos = React.lazy(() => import('Content-Out/other/KoCDemos'));
 
 
 export default class Games extends React.Component {
@@ -39,7 +40,9 @@ export default class Games extends React.Component {
                    getParentComp={this.getParentComp}
                    todo={p.todo}
                    >
-                       {p.el}
+                       <Suspense fallback={<ParagraphSkeleton />}>
+                            {p.el}
+                        </Suspense>
                    </Column>)
                })
            }

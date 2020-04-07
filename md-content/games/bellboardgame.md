@@ -1,2 +1,2 @@
 # Victorian Board Game
-## Belle of the Balle Part 1
+## Belle of the Ball Part 1

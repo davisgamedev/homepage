@@ -28,12 +28,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     />
 });
 
-const ParagraphSkeleton = () => {
+export const ParagraphSkeleton = (props) => {
     return (<div className={"skelContainer"}>
         {
             (new Array(9).fill(null).map(
             (x, i) => 
-            (i === 2) ? <p key={i} className={'placeholder'}>Document not imported yet</p> :
+            (props.todo && i === 2) ? <p key={i} className={'placeholder'}>Document not imported yet</p> :
             <Skeleton 
             key={i} 
             className="skel" 
@@ -102,7 +102,7 @@ const Interactable = withRouter(props => {
                 props.children
             }
             {
-                props.empty? <ParagraphSkeleton></ParagraphSkeleton> : null
+                props.empty? <ParagraphSkeleton todo={true}></ParagraphSkeleton> : null
             }
             </div>
             <Dialog 

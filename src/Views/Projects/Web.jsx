@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { ParagraphSkeleton } from 'Components/Column';
 
 import Section from '../../Components/Section';
 import Column from '../../Components/Column';
-import Example from 'Content-Out/web/example';
-import Estimator from 'Content-Out/web/estimator';
-import Gulpcontentequals from 'Content-Out/web/gulpcontentequals';
-import Gulphtmltoreactclass from 'Content-Out/web/gulphtmltoreactclass';
-import Reactnewspaper from 'Content-Out/web/reactnewspaper';
-import Gaurdianalarm from 'Content-Out/web/gaurdianalarm';
+
+const Estimator = React.lazy(() => import('Content-Out/web/estimator'));
+const Gulpcontentequals = React.lazy(() => import('Content-Out/web/gulpcontentequals'));
+const Gulphtmltoreactclass = React.lazy(() => import('Content-Out/web/gulphtmltoreactclass'));
+const Reactnewspaper = React.lazy(() => import('Content-Out/web/reactnewspaper'));
+const Gaurdianalarm = React.lazy(() => import('Content-Out/web/gaurdianalarm'));
 
 
 
@@ -18,8 +19,8 @@ export default class Web extends React.Component {
     getParentComp = () => { return this.domRef; }
 
     Posts = [
-        {id: "Estimator",    el: (<Estimator />),   todo: true},
-        {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: true},
+        {id: "Estimator",    el: (<Estimator />),   todo: false},
+        {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: false},
         {id: "gulp-contentequals", el: (<Gulpcontentequals />),   todo: true},
         {id: "gulp-htmltoreactclass", el: (<Gulphtmltoreactclass />),   todo: true},
         {id: "react-newspaper", el: (<Reactnewspaper />), todo: true}
@@ -36,7 +37,9 @@ export default class Web extends React.Component {
                    getParentComp={this.getParentComp}
                    todo={p.todo}
                    >
-                       {p.el}
+                   <Suspense fallback={<ParagraphSkeleton />}>
+                        {p.el}
+                    </Suspense>
                    </Column>)
                })
            }

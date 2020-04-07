@@ -10,7 +10,7 @@ export default class Bellboardgame extends React.Component {
         return (
 <div>
 <h1 id="victorian-board-game">Victorian Board Game</h1>
-<h2 id="belle-of-the-balle-part-1">Belle of the Balle Part 1</h2>
+<h2 id="belle-of-the-ball-part-1">Belle of the Ball Part 1</h2>
 
 </div>
         );

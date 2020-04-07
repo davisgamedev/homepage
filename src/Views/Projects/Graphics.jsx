@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { ParagraphSkeleton } from 'Components/Column';
 
 import Section from '../../Components/Section';
 import Column from '../../Components/Column';
-import Example from 'Content-Out/web/example';
-import Warpdrive from 'Content-Out/graphics/warpdrive';
-import Planetsprocessing from 'Content-Out/graphics/planetsprocessing';
-import Planetsthreejs from 'Content-Out/graphics/planetsthreejs';
-import Planetsweb from 'Content-Out/graphics/planetsweb';
-import Jumptherope from 'Content-Out/audio/jumptherope';
+
+const Warpdrive = React.lazy(() => import('Content-Out/graphics/warpdrive'));
+const Planetsprocessing = React.lazy(() => import('Content-Out/graphics/planetsprocessing'));
+const Planetsthreejs = React.lazy(() => import('Content-Out/graphics/planetsthreejs'));
+const Planetsweb = React.lazy(() => import('Content-Out/graphics/planetsweb'));
+const Jumptherope = React.lazy(() => import('Content-Out/audio/jumptherope'));
 
 
 export default class Graphics extends React.Component {
@@ -36,7 +37,9 @@ export default class Graphics extends React.Component {
                    getParentComp={this.getParentComp}
                    todo={p.todo}
                    >
-                       {p.el}
+                   <Suspense fallback={<ParagraphSkeleton />}>
+                        {p.el}
+                    </Suspense>
                    </Column>)
                })
            }
