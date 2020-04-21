@@ -25,7 +25,7 @@ The main goals of the project are:
 
 ## Roadmap:
 
- - Release 0 (Pre Alpha): April 18th, 2020:
+ - Release 0 (Pre Alpha): April 31st, 2020:
     - Dynamic audio and scene loading and management
     - Loading sound data and declarations from json files
     - Inline string interpretations for consecutive or similar filepaths
