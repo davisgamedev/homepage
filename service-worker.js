@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "https://davisgame.dev/precache-manifest.990ea6832ef5e4f0e54ebcab573b3daa.js"
+  "https://davisgame.dev/precache-manifest.7ce1837b2ae71bfbc71f941e9e04013f.js"
 );
 
 self.addEventListener('message', (event) => {
