@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7e0d2749ddd2221d1e21626fa64387f7",
+    "revision": "5ccd60f37a068210ccceed8cee998fc3",
     "url": "https://davisgame.dev/index.html"
   },
   {
-    "revision": "45213e1969ffec2c7965",
+    "revision": "a7bed85f32a04017a8e6",
     "url": "https://davisgame.dev/static/css/main.f0f51943.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://davisgame.dev/static/js/0.e3e3374b.chunk.js"
   },
   {
-    "revision": "016ee1cf0f8f4f51f6c5",
-    "url": "https://davisgame.dev/static/js/1.46767302.chunk.js"
+    "revision": "33d3c8b44263d36ce6d7",
+    "url": "https://davisgame.dev/static/js/1.e0240088.chunk.js"
   },
   {
     "revision": "36c977c00249e2e531c2",
@@ -100,12 +100,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://davisgame.dev/static/js/7.efff0561.chunk.js"
   },
   {
-    "revision": "45213e1969ffec2c7965",
-    "url": "https://davisgame.dev/static/js/main.da8e4f58.chunk.js"
+    "revision": "a7bed85f32a04017a8e6",
+    "url": "https://davisgame.dev/static/js/main.452c07de.chunk.js"
   },
   {
-    "revision": "6bbd92c2ed1a57920dee",
-    "url": "https://davisgame.dev/static/js/runtime-main.4fa985a1.js"
+    "revision": "b46cd6e0842144dd1a8f",
+    "url": "https://davisgame.dev/static/js/runtime-main.7e7a2bdc.js"
   },
   {
     "revision": "713ad647718093479ef7ba690c320048",
