@@ -30,7 +30,7 @@ export default class Flashbang extends React.Component {
 </ul>
 <h2 id="roadmap">Roadmap:</h2>
 <ul>
-<li>Release 0 (Pre Alpha): April 31st, 2020:<ul>
+<li>Release 0 (Pre Alpha): April 30th, 2020:<ul>
 <li>Dynamic audio and scene loading and management</li>
 <li>Loading sound data and declarations from json files</li>
 <li>Inline string interpretations for consecutive or similar filepaths</li>
@@ -64,7 +64,7 @@ export default class Flashbang extends React.Component {
 <li>Audio implementation unit testing &amp; debug interface/environment (may be moved to Beta)</li>
 </ul>
 </li>
-<li><p>Release 2 (Beta): June 31st, 2020</p>
+<li><p>Release 2 (Beta): June 30st, 2020</p>
 <ul>
 <li>Delay-based audio effects and controls</li>
 <li>Oscillation and modular filter patches</li>

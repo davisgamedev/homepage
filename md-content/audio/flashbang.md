@@ -25,7 +25,7 @@ The main goals of the project are:
 
 ## Roadmap:
 
- - Release 0 (Pre Alpha): April 31st, 2020:
+ - Release 0 (Pre Alpha): April 30th, 2020:
     - Dynamic audio and scene loading and management
     - Loading sound data and declarations from json files
     - Inline string interpretations for consecutive or similar filepaths
@@ -50,7 +50,7 @@ The main goals of the project are:
     - XAudio2 Reverb library and parameter control
     - Audio implementation unit testing & debug interface/environment (may be moved to Beta)
 
-- Release 2 (Beta): June 31st, 2020
+- Release 2 (Beta): June 30st, 2020
     - Delay-based audio effects and controls
     - Oscillation and modular filter patches
     - Research and planning on multiple platform support
