@@ -33,6 +33,20 @@ LICENSES AND ATTRIBUTION:
 
 `;
 
+const BUILD_DATE_SOURCE = 'src/Tech/_builddate.js';
+
+gulp.task('build-date', once(function(done) {
+
+    const event = new Date();
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const datestr = event.toLocaleDateString('en-US', options);
+    const str = `export const DATE_STR = "${datestr.replace(/\//g, '-')}";\n`;
+
+    fs.writeFileSync(BUILD_DATE_SOURCE, str);
+
+    done();
+}));
+
 gulp.task("wipe-docs", once(function(done){
     del.sync(['docs/**', '!docs/CNAME', '!docs/.nojekyll']);
     done();

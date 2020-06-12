@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import DebugLog from '../Tech/DebugLog';
 import { SmallView } from '../Tech/Breakpoints';
 
+import {DATE_STR} from '../Tech/_builddate';
+
 export default function Header() {
     const { small } = SmallView();
 
@@ -72,7 +74,7 @@ function BigHeader() {
                         <b>5&#162; &nbsp;</b>
                         | Rochester, NY
                         <br/>
-                        ISSUED: 04-25-2020
+                        ISSUED: {DATE_STR}
                     </p>
                     </div>
                 </Grid>
