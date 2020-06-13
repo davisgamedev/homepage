@@ -1,8 +1,6 @@
-import React, { Suspense } from 'react';
-import { ParagraphSkeleton } from 'Components/Column';
-
+import React from 'react';
 import Section from '../../Components/Section';
-import Column from '../../Components/Column';
+import MakeColumns from '../../Components/MakeColumns';
 
 const Estimator = React.lazy(() => import('Content-Out/web/estimator'));
 const Gulpcontentequals = React.lazy(() => import('Content-Out/web/gulpcontentequals'));
@@ -27,22 +25,8 @@ export default class Web extends React.Component {
     ];
 
     render(){return(
-        <Section id="web" ref={this.domRef} title="web projects">
-            {
-               this.Posts.map((p, i) => {
-                   return (
-                   <Column 
-                   key={p.id + i}
-                   id={p.id}
-                   getParentComp={this.getParentComp}
-                   todo={p.todo}
-                   >
-                   <Suspense fallback={<ParagraphSkeleton />}>
-                        {p.el}
-                    </Suspense>
-                   </Column>)
-               })
-           }
+       <Section id="web" ref={this.domRef} title="web projects">
+            {MakeColumns(this.Posts, this.getParentComp)}
         </Section>
     );}
 }

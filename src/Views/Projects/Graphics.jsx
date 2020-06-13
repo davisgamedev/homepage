@@ -1,8 +1,6 @@
-import React, { Suspense } from 'react';
-import { ParagraphSkeleton } from 'Components/Column';
-
+import React from 'react';
 import Section from '../../Components/Section';
-import Column from '../../Components/Column';
+import MakeColumns from '../../Components/MakeColumns';
 
 const Warpdrive = React.lazy(() => import('Content-Out/graphics/warpdrive'));
 const Planetsprocessing = React.lazy(() => import('Content-Out/graphics/planetsprocessing'));
@@ -28,21 +26,7 @@ export default class Graphics extends React.Component {
     render() { 
         return(
         <Section id="graphics" ref={this.domRef} title="graphics projects">
-           {
-               this.Posts.map((p, i) => {
-                   return (
-                   <Column 
-                   key={p.id + i}
-                   id={p.id}
-                   getParentComp={this.getParentComp}
-                   todo={p.todo}
-                   >
-                   <Suspense fallback={<ParagraphSkeleton />}>
-                        {p.el}
-                    </Suspense>
-                   </Column>)
-               })
-           }
+            {MakeColumns(this.Posts, this.getParentComp)}
         </Section>
     ); }
 }

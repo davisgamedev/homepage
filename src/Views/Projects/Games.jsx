@@ -1,8 +1,6 @@
-import React, { Suspense } from 'react';
-import { ParagraphSkeleton } from 'Components/Column';
-
+import React from 'react';
 import Section from '../../Components/Section';
-import Column from '../../Components/Column';
+import MakeColumns from '../../Components/MakeColumns';
 
 const Bellearg = React.lazy(() => import('Content-Out/games/bellearg'));
 const Bellboardgame = React.lazy(() => import('Content-Out/games/bellboardgame'));
@@ -31,21 +29,7 @@ export default class Games extends React.Component {
 
     render(){return(
         <Section id="games" ref={this.domRef} title="game projects">
-            {
-               this.Posts.map((p, i) => {
-                   return (
-                   <Column 
-                   key={p.id + i}
-                   id={p.id}
-                   getParentComp={this.getParentComp}
-                   todo={p.todo}
-                   >
-                       <Suspense fallback={<ParagraphSkeleton />}>
-                            {p.el}
-                        </Suspense>
-                   </Column>)
-               })
-           }
+            {MakeColumns(this.Posts, this.getParentComp)}
         </Section>
     );}
 }

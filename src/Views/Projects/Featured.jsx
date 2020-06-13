@@ -1,8 +1,6 @@
-import React, { Suspense } from 'react';
-import { ParagraphSkeleton } from 'Components/Column';
-
+import React from 'react';
 import Section from '../../Components/Section';
-import Column from '../../Components/Column';
+import MakeColumns from '../../Components/MakeColumns';
 
 const Flashbang = React.lazy(() => import('Content-Out/audio/flashbang'));
 const Otterspace = React.lazy(() => import('Content-Out/audio/otterspace'));
@@ -19,34 +17,44 @@ export default class Featured extends React.Component {
     getParentComp = () => { return this.domRef; }
 
     Posts = [
-        {id: "FlashBang",       el: (<Flashbang />)},
-        {id: "Return-To-Otter-Space",    el: (<Otterspace />)},
-        {id: "Planets-Processing",       el: (<Planetsprocessing />),   todo: true},
-        {id: "Estimator",    el: (<Estimator />),   todo: false},
-        {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: false},
-        {id: "gulp-contentequals", el: (<Gulpcontentequals />),   todo: true},
-        {id: "gulp-htmltoreactclass", el: (<Gulphtmltoreactclass />),   todo: true},
+        {
+            id: "FlashBang",       
+            el: (<Flashbang />),
+        },
+        {
+            id: "Return-To-Otter-Space",    
+            el: (<Otterspace />),
+            preview: 'https://res.cloudinary.com/dyzmnhqpr/image/upload/q_auto:eco/v1585425860/otterspace-ship_httiiq.jpg',
+        },
+        {
+            id: "Planets-Processing",       
+            el: (<Planetsprocessing />),   
+            todo: true
+        },
+        {
+            id: "Estimator",    
+            el: (<Estimator />),   
+        },
+        {
+            id: "Gaurdian-Alarm", 
+            el: (<Gaurdianalarm />),   
+        },
+        {
+            id: "gulp-contentequals", 
+            el: (<Gulpcontentequals />),   
+            todo: true
+        },
+        {
+            id: "gulp-htmltoreactclass", 
+            el: (<Gulphtmltoreactclass />),   
+            todo: true
+        },
     ];
 
     render() { 
         return(
         <Section id="projects" ref={this.domRef} title="featured projects">
-            {
-               this.Posts.map((p, i) => {
-                   return (
-                   <Column 
-                   key={p.id + i}
-                   id={p.id}
-                   getParentComp={this.getParentComp}
-                   todo={p.todo}
-                   double={p.double? true : false}
-                   >
-                       <Suspense fallback={<ParagraphSkeleton />}>
-                            {p.el}
-                        </Suspense>
-                   </Column>)
-               })
-           }
+            {MakeColumns(this.Posts, this.getParentComp)}
         </Section>
     ); }
 }

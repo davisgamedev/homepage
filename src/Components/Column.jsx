@@ -161,6 +161,12 @@ const tripleProps = {
     className: 'column triple'
 }
 
+/*
+    TODO: FIX THIS LOGIC
+        SEE VIEWS
+        we NEED some kind of factory function to correctly link all these props 
+            besides just passing them on all sloppy
+*/
 export default function Column(props) {
 
     const {extraSmall} = SmallView();
@@ -168,6 +174,8 @@ export default function Column(props) {
     if(props.double) gridProps = doubleProps;
     if(props.triple) gridProps = tripleProps;
     
+    gridProps = Object.assign({}, gridProps, props);
+
     let sectionId;
 
     if(props.id && props.getParentComp().current) {
@@ -180,7 +188,6 @@ export default function Column(props) {
         className="column"
         xs={extraSmall? 12: 6} 
         {...gridProps}
-        id={props.id}
         >
             {
             React.Children.map(props.children, c => {
