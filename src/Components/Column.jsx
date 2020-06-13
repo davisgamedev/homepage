@@ -173,8 +173,6 @@ export default function Column(props) {
     let gridProps = singleProps;
     if(props.double) gridProps = doubleProps;
     if(props.triple) gridProps = tripleProps;
-    
-    gridProps = Object.assign({}, gridProps, props);
 
     let sectionId;
 
@@ -188,6 +186,7 @@ export default function Column(props) {
         className="column"
         xs={extraSmall? 12: 6} 
         {...gridProps}
+        id={props.id}
         >
             {
             React.Children.map(props.children, c => {

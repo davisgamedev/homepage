@@ -2,7 +2,7 @@ import React from 'react';
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
-export const Debug = false;//"production" !== process.env.NODE_ENV;
+export const Debug = true;//"production" !== process.env.NODE_ENV;
 
 /*
     The webpack package we have forces lint warnings despite eslintignore
@@ -11,8 +11,17 @@ export const Debug = false;//"production" !== process.env.NODE_ENV;
 */
 if(Debug) {
     const warn = console.warn;
-    console.warn = ()=>{};
-    setTimeout(() => console.warn = warn, 1000);
+    const error = console.error;
+
+    const noop = ()=>{};
+    console.warn = noop;
+    console.error = noop;
+
+    setTimeout(() => {
+        console.warn = warn; 
+        console.error = error
+        console.warn("Initial warnings and errors hidden, now restored.")
+    }, 10000);
 }
 
 
