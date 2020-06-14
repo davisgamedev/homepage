@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
 
 const Aquaticgame = React.lazy(() => import( 'Content-Out/audio/aquaticgame'));
 const Autocomposer = React.lazy(() => import( 'Content-Out/audio/autocomposer'));
@@ -9,11 +9,12 @@ const Jumptherope = React.lazy(() => import( 'Content-Out/audio/jumptherope'));
 const Otterspace = React.lazy(() => import( 'Content-Out/audio/otterspace'));
 const Paintrain = React.lazy(() => import( 'Content-Out/audio/paintrain'));
 
+
 export default class Audio extends React.Component {
 
     domRef = React.createRef();
 
-    getParentComp = () => { return this.domRef; }
+    //getParentComp = () => { return this.domRef; }
 
     Posts = [
         {
@@ -39,7 +40,7 @@ export default class Audio extends React.Component {
     render() { 
         return(
         <Section id="audio" ref={this.domRef} title="audio projects">
-            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
+            {MakeColumns(this.Posts, EncapRef(this.domRef))}
         </Section>
     ); }
 }

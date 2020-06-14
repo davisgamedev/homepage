@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
 
 const Warpdrive = React.lazy(() => import('Content-Out/graphics/warpdrive'));
 const Planetsprocessing = React.lazy(() => import('Content-Out/graphics/planetsprocessing'));
@@ -26,7 +26,7 @@ export default class Graphics extends React.Component {
     render() { 
         return(
         <Section id="graphics" ref={this.domRef} title="graphics projects">
-            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
+            {MakeColumns(this.Posts, EncapRef(this.domRef))}
         </Section>
     ); }
 }

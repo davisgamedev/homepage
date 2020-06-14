@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
 
 const Bellearg = React.lazy(() => import('Content-Out/games/bellearg'));
 const Bellboardgame = React.lazy(() => import('Content-Out/games/bellboardgame'));
@@ -29,7 +29,7 @@ export default class Games extends React.Component {
 
     render(){return(
         <Section id="games" ref={this.domRef} title="game projects">
-            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
+            {MakeColumns(this.Posts, EncapRef(this.domRef))}
         </Section>
     );}
 }

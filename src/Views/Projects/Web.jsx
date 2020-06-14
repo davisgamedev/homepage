@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
 
 const Estimator = React.lazy(() => import('Content-Out/web/estimator'));
 const Gulpcontentequals = React.lazy(() => import('Content-Out/web/gulpcontentequals'));
@@ -26,7 +26,7 @@ export default class Web extends React.Component {
 
     render(){return(
        <Section id="web" ref={this.domRef} title="web projects">
-            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
+            {MakeColumns(this.Posts, EncapRef(this.domRef))}
         </Section>
     );}
 }

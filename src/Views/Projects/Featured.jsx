@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
 
 const Flashbang = React.lazy(() => import('Content-Out/audio/flashbang'));
 const Otterspace = React.lazy(() => import('Content-Out/audio/otterspace'));
@@ -54,7 +54,7 @@ export default class Featured extends React.Component {
     render() { 
         return(
         <Section id="projects" ref={this.domRef} title="featured projects">
-            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
+            {MakeColumns(this.Posts, EncapRef(this.domRef))}
         </Section>
     ); }
 }
