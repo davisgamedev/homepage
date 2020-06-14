@@ -26,7 +26,7 @@ export default class Graphics extends React.Component {
     render() { 
         return(
         <Section id="graphics" ref={this.domRef} title="graphics projects">
-            {MakeColumns(this.Posts, this.getParentComp)}
+            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
         </Section>
     ); }
 }

@@ -29,7 +29,7 @@ export default class Games extends React.Component {
 
     render(){return(
         <Section id="games" ref={this.domRef} title="game projects">
-            {MakeColumns(this.Posts, this.getParentComp)}
+            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
         </Section>
     );}
 }

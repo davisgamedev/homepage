@@ -6,7 +6,8 @@ import Column from './Column';
 
 export default function MakeColumns(posts, getParentCompFunc) {
     return(
-        posts.map((p, i) => {
+        posts.map((post, i) => {
+            let p = Object.assign({}, post, {el: undefined})
             return (
                 <Column 
                 key={p.id + i}
@@ -14,7 +15,7 @@ export default function MakeColumns(posts, getParentCompFunc) {
                 {...p}
                 >
                     <Suspense fallback={<ParagraphSkeleton />}>
-                        {p.el}
+                        {post.el}
                     </Suspense>
                 </Column>
             );

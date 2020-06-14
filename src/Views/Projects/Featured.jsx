@@ -54,7 +54,7 @@ export default class Featured extends React.Component {
     render() { 
         return(
         <Section id="projects" ref={this.domRef} title="featured projects">
-            {MakeColumns(this.Posts, this.getParentComp)}
+            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
         </Section>
     ); }
 }

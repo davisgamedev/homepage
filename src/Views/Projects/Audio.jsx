@@ -39,7 +39,7 @@ export default class Audio extends React.Component {
     render() { 
         return(
         <Section id="audio" ref={this.domRef} title="audio projects">
-            {MakeColumns(this.Posts, this.getParentComp)}
+            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
         </Section>
     ); }
 }

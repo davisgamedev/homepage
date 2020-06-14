@@ -11,17 +11,8 @@ export const Debug = true;//"production" !== process.env.NODE_ENV;
 */
 if(Debug) {
     const warn = console.warn;
-    const error = console.error;
-
-    const noop = ()=>{};
-    console.warn = noop;
-    console.error = noop;
-
-    setTimeout(() => {
-        console.warn = warn; 
-        console.error = error
-        console.warn("Initial warnings and errors hidden, now restored.")
-    }, 10000);
+    console.warn = ()=>{};
+    setTimeout(() => console.warn = warn, 1000);
 }
 
 

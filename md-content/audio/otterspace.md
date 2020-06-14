@@ -74,7 +74,7 @@ Due to external work deadlines, poor work dependency communication, and lack of 
 
 Nonetheless, the film was screened even in a rough state and is available here:
 
-<iframe width="100%" src="https://sofatube.cad.rit.edu/videos/embed/37357" frameborder="0" allowfullscreen></iframe>
+<iframe width="100%" src="https://sofatube.cad.rit.edu/videos/embed/37357" frameBorder="0" allowFullScreen></iframe>
 
 And the composition work I did is available here:
 

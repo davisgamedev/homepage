@@ -26,7 +26,7 @@ export default class Web extends React.Component {
 
     render(){return(
        <Section id="web" ref={this.domRef} title="web projects">
-            {MakeColumns(this.Posts, this.getParentComp)}
+            {MakeColumns(this.Posts, this.getParentComp.bind(this))}
         </Section>
     );}
 }
