@@ -1,4 +1,4 @@
-# Gaurdian Alarm Web App
+# Guardian Alarm Web App
 ## device management portal
 
 My Guardian Online is a customer and support management web application for [Guardian Alarm](https://guardianalarm.com/). The application allows for robust device and system management including testing devices and systems remotely, changing the contact call list on alerts, adjust and view billings, and directly contact customer support and view support documents. The portal also contains interfaces for customer support representatives to manage customer accounts and view customer system details securely.

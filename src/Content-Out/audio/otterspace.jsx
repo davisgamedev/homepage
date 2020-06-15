@@ -6,12 +6,13 @@ export default class Otterspace extends React.Component {
         super(props);
         this.ref = React.createRef();
     }
-    
+
     loadMedia() {
-        console.log("test");
-        this.ref.current.querySelectorAll('[data-src]').forEach(e => {
-            e.setAttribute('src', e.getAttribute('data-src'));
-        });
+        if(this.ref.current) {
+            this.ref.current.querySelectorAll('[data-src]').forEach(e => {
+                e.setAttribute('src', e.getAttribute('data-src'));
+            });
+        }
     }
 
     render() {

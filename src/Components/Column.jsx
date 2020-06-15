@@ -65,6 +65,8 @@ const Interactable = withRouter(props => {
     const post = props.parentId ? '/' + props.parentId : null;
     const path = (post && section) ? section + post : null;
 
+    const loadMediaRef = React.useRef();
+
     function putProjectPath() {
         SuppressRouteChangeHandler();
         if(path) props.history.push(path);
@@ -80,6 +82,13 @@ const Interactable = withRouter(props => {
         setExpanded(true);
         putProjectPath();
         window.docIsOpen = true;
+
+        console.dir(loadMediaRef);
+
+        // if(!loadMediaRef.loaded) {
+        //     DebugLog("%cMedia force loaded through column", "background-color: purple; color: white");
+        //     loadMediaRef.loadMedia();
+        // }
     }
 
     function close() {
@@ -120,7 +129,7 @@ const Interactable = withRouter(props => {
                     elevation={3}
                     variant={extraSmall ? "outlined" : "elevation"}
                     >
-                        <LoadMedia>{props.children}</LoadMedia>
+                        <LoadMedia ref={loadMediaRef}>{props.children}</LoadMedia>
                         {props.todo ? <TodoBody /> : null}
                         <p className="footer">
                             If you would like to request more information on this project, please

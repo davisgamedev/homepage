@@ -38,7 +38,7 @@
     "gh-pages": "^2.2.0",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
-    "gulp-htmltoreactclass": "^2.3.0",
+    "gulp-htmltoreactclass": "^2.3.2",
     "gulp-markdown": "^5.0.1",
     "prettier": "1.18.2",
     "react-material-ui-form-validator": "^2.0.10",

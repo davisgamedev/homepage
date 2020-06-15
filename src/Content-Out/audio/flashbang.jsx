@@ -10,7 +10,7 @@ export default class Flashbang extends React.Component {
     loadMedia() {
         if(this.ref.current) {
             this.ref.current.querySelectorAll('[data-src]').forEach(e => {
-                e.src = e['data-src'];
+                e.setAttribute('src', e.getAttribute('data-src'));
             });
         }
     }

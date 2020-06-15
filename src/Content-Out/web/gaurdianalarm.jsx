@@ -10,7 +10,7 @@ export default class Gaurdianalarm extends React.Component {
     loadMedia() {
         if(this.ref.current) {
             this.ref.current.querySelectorAll('[data-src]').forEach(e => {
-                e.src = e['data-src'];
+                e.setAttribute('src', e.getAttribute('data-src'));
             });
         }
     }
@@ -18,7 +18,7 @@ export default class Gaurdianalarm extends React.Component {
     render() {
         return (
 <div ref={this.ref} loadable-media-container="true">
-<h1 id="gaurdian-alarm-web-app">Gaurdian Alarm Web App</h1>
+<h1 id="guardian-alarm-web-app">Guardian Alarm Web App</h1>
 <h2 id="device-management-portal">device management portal</h2>
 <p>My Guardian Online is a customer and support management web application for <a href="https://guardianalarm.com/">Guardian Alarm</a>. The application allows for robust device and system management including testing devices and systems remotely, changing the contact call list on alerts, adjust and view billings, and directly contact customer support and view support documents. The portal also contains interfaces for customer support representatives to manage customer accounts and view customer system details securely.</p>
 <p>This project passed numerous audits to ensure the security of sensitive information and features given the nature of the application.</p>

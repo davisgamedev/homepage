@@ -16,7 +16,7 @@ export default class Web extends React.Component {
 
     Posts = [
         {id: "Estimator",    el: (<Estimator />),   todo: false},
-        {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: false},
+        {id: "Guardian-Alarm", el: (<Gaurdianalarm />),   todo: false},
         {id: "gulp-contentequals", el: (<Gulpcontentequals />),   todo: true},
         {id: "gulp-htmltoreactclass", el: (<Gulphtmltoreactclass />),   todo: true},
         {id: "react-newspaper", el: (<Reactnewspaper />), todo: true}
