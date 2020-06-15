@@ -14,8 +14,6 @@ export default class Audio extends React.Component {
 
     domRef = React.createRef();
 
-    //getParentComp = () => { return this.domRef; }
-
     Posts = [
         {
             id: "FlashBang",       

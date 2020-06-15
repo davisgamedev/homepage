@@ -15,8 +15,6 @@ export default class Games extends React.Component {
     
     domRef = React.createRef();
 
-    getParentComp = () => { return this.domRef; }
-
     Posts = [
         {id: "Return-To-Otter-Space",    el: (<Otterspace />)},
         {id: "Yars-3d", el: (<Yars3D />),   todo: true},

@@ -118,7 +118,7 @@ gulp.task("watch-md", function() {
 gulp.task("md-convert", function(done){
   gulp.src("./md-content/**/*.md")
     .pipe(markdown({xhtml: true}))
-    .pipe(htmltoreact())
+    .pipe(htmltoreact({unloadMedia: true}))
     .pipe(gulp.dest("./src/Content-Out"));
   done();
 });

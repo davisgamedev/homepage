@@ -13,8 +13,6 @@ export default class Graphics extends React.Component {
 
     domRef = React.createRef();
 
-    getParentComp = () => { return this.domRef; }
-
     Posts = [
         {id: "Jump-The-Rope",   el: (<Jumptherope />),   todo: true},
         {id: "Warpdrive",    el: (<Warpdrive />),   todo: true},

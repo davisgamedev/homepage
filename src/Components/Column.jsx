@@ -18,6 +18,7 @@ import { SmallView } from 'Tech/Breakpoints';
 import { withRouter, Link } from 'react-router-dom';
 import { Skeleton } from '@material-ui/lab';
 import DebugLog from 'Tech/DebugLog';
+import LoadMedia from 'Tech/LoadMedia';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -98,9 +99,7 @@ const Interactable = withRouter(props => {
         onClick={open}
         >
             <div className="innerContainer">
-            {
-                props.children
-            }
+            {props.children}
             {
                 props.empty? <ParagraphSkeleton todo={true}></ParagraphSkeleton> : null
             }
@@ -121,7 +120,7 @@ const Interactable = withRouter(props => {
                     elevation={3}
                     variant={extraSmall ? "outlined" : "elevation"}
                     >
-                        {props.children}
+                        <LoadMedia>{props.children}</LoadMedia>
                         {props.todo ? <TodoBody /> : null}
                         <p className="footer">
                             If you would like to request more information on this project, please

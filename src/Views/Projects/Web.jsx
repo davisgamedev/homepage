@@ -14,8 +14,6 @@ export default class Web extends React.Component {
     
     domRef = React.createRef();
 
-    getParentComp = () => { return this.domRef; }
-
     Posts = [
         {id: "Estimator",    el: (<Estimator />),   todo: false},
         {id: "Gaurdian-Alarm", el: (<Gaurdianalarm />),   todo: false},

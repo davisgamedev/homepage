@@ -9,7 +9,6 @@ export function EncapRef(refArg) {
 }
 
 export default function MakeColumns(posts, getParentCompFunc) {
-    console.log(getParentCompFunc());
     return(
         posts.map((post, i) => {
             let p = Object.assign({}, post, {el: undefined})

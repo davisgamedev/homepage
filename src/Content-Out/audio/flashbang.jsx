@@ -2,13 +2,22 @@ import React from 'react';
 
 export default class Flashbang extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-    } 
+        this.ref = React.createRef();
+    }
+
+    loadMedia() {
+        if(this.ref.current) {
+            this.ref.current.querySelectorAll('[data-src]').forEach(e => {
+                e.src = e['data-src'];
+            });
+        }
+    }
 
     render() {
         return (
-<div>
+<div ref={this.ref} loadable-media-container="true">
 <h1 id="directx-middleware-engine">DirectX Middleware Engine</h1>
 <h2 id="flashbang-api">FlashBang API</h2>
 <p>FlashBang API is an audio middleware engine being developed regularly in my spare time. The project aims to implement standard features of other competing audio middleware API&#39;s, while being much more intuitive than current solutions. The project will also be expanding on features lacking in <a href="https://github.com/microsoft/DirectXTK/wiki/Audio">DirectXTK Audio</a> by working with features from <a href="https://docs.microsoft.com/en-us/windows/win32/xaudio2/xaudio2-introduction">XAudio2</a>. FlashBang is largely based on concepts and syntax from <a href="https://github.com/nlohmann/json">Nlohmann&#39;s JSON library</a> to be as scalable and intuitive as possible.</p>

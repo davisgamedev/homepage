@@ -12,7 +12,7 @@ export const Debug = true;//"production" !== process.env.NODE_ENV;
 if(Debug) {
     const warn = console.warn;
     console.warn = ()=>{};
-    setTimeout(() => console.warn = warn, 1000);
+    setTimeout(() => console.warn = warn, 3000);
 }
 
 
