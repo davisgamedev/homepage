@@ -1,8 +1,8 @@
 import React from 'react';
-import { Snackbar } from "@material-ui/core";
+import { Snackbar, makeStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
-export const Debug = true;//"production" !== process.env.NODE_ENV;
+export const Debug = false;//"production" !== process.env.NODE_ENV;
 
 /*
     The webpack package we have forces lint warnings despite eslintignore
@@ -40,4 +40,21 @@ export function WarnDebug() {
             <Alert severity="warning">Debug logging is enabled!!</Alert>
         </Snackbar>
     );
+}
+
+export function DebugBox(x, y, w, h, outlineColor) {
+    let box = document.createElement("DIV");
+    box.style = {
+        position: "absolute",
+        zIndex: Number.POSITIVE_INFINITY,
+        top: x, left: y, width: w, height: h,
+        border: '1px solid ' + outlineColor
+    };
+    box.id = "box_" + Math.random() * 1000000;
+    document.body.appendChild(box);
+    return box.id;
+}
+
+export function RemoveBox(id) {
+    document.body.removeChild(document.getElementById(id));
 }

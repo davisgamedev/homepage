@@ -78,4 +78,4 @@ Nonetheless, the film was screened even in a rough state and is available here:
 
 And the composition work I did is available here:
 
-<iframe width="100%" height="600"src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1020777331&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+<iframe width="100%" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1020777331&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>

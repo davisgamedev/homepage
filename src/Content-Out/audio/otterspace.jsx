@@ -68,7 +68,7 @@ For the characters first interaction, I had the otter play a variation of the ad
 <iframe width="100%" src="" data-src="https://sofatube.cad.rit.edu/videos/embed/37357" frameBorder="0" allowFullScreen></iframe>
 
 <p>And the composition work I did is available here:</p>
-<iframe width="100%" height="600"src="" data-src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1020777331&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+<iframe width="100%" src="" data-src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1020777331&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 
 </div>
         );

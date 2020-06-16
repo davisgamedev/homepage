@@ -19,7 +19,7 @@ export function SuppressRouteChangeHandler() {
 }
 
 
-const timeout = 500;
+const timeout = 1000;
 window.SuppressRouteChangeHandler = window.SuppressRouteChangeHandler || false;
 
 // get global
@@ -76,7 +76,7 @@ function setSections() {
 }
 // yes this is awful for initalizations, but best I can come up with for now
 //  front end web is ductape and my soul is glue
-setTimeout(setSections, 500);
+setTimeout(setSections, timeout);
 
 
 /////////////////// SCROLL HANDLER FUNCTIONAL COMPONENT //////////////////
