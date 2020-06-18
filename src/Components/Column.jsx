@@ -19,6 +19,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Skeleton } from '@material-ui/lab';
 import DebugLog from 'Tech/DebugLog';
 import LoadMedia from 'Tech/LoadMedia';
+import Preview from './Preview';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -104,7 +105,11 @@ const Interactable = withRouter(props => {
         onClick={open}
         >
             <div className="innerContainer">
-            {props.children}
+            {
+            props.previewSrc? 
+                (<Preview src={props.previewSrc}>{props.children}</Preview>) :
+                props.children
+            }
             {
                 props.empty? <ParagraphSkeleton todo={true}></ParagraphSkeleton> : null
             }
@@ -129,7 +134,7 @@ const Interactable = withRouter(props => {
                         {props.todo ? <TodoBody /> : null}
                         <p className="footer">
                             If you would like to request more information on this project, please
-                            feel free to 
+                            feel free to {' '}
                             <Link 
                                 className="generalLink" 
                                 onClick={contact} 
@@ -200,6 +205,7 @@ export default function Column(props) {
                 parentId={props.id}
                 sectionId={sectionId}
                 empty={props.todo}
+                previewSrc={props.preview}
                 >
                     {c}
                 </Interactable>)

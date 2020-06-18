@@ -65,10 +65,10 @@ For the characters first interaction, I had the otter play a variation of the ad
 <h2 id="and-what-happened-to-that-game-demo">...and what happened to that game demo?</h2>
 <p>Due to external work deadlines, poor work dependency communication, and lack of planning for potential setbacks, the project unfortunately ended in a couple weeks of severe crunch. This led to some difficult decisions on what elements were critical for each project and what ultimately needed to be cut. The film lost a somewhat critical scene, which while the overall story was minimally impacted, there was a lot of work that ultimately remained unseen. The game, while missing some initially proposed levels, was able to include the cut content from the film. However, due to a Unity engine corruption between versions, the demo was ultimately broken and eventually abandoned.</p>
 <p>Nonetheless, the film was screened even in a rough state and is available here:</p>
-<iframe width="100%" src="" data-src="https://sofatube.cad.rit.edu/videos/embed/37357" frameBorder="0" allowFullScreen></iframe>
+<iframe width="100%" height="600px" src="" data-src="https://sofatube.cad.rit.edu/videos/embed/37357" frameBorder="0" allowFullScreen></iframe>
 
 <p>And the composition work I did is available here:</p>
-<iframe width="100%" src="" data-src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1020777331&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+<iframe width="100%" height="600px" src="" data-src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1020777331&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 
 </div>
         );

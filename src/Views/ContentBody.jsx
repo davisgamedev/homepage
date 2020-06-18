@@ -8,6 +8,7 @@ import Games from './Projects/Games';
 import Web from './Projects/Web';
 import Graphics from './Projects/Graphics';
 import Contact from './Contact';
+import CloudinaryContext from 'cloudinary-react/lib/components/CloudinaryContext/CloudinaryContext';
 
 const useStyles = makeStyles({
     content: {  
@@ -22,7 +23,7 @@ export default function ContentBody(props) {
     const classes = useStyles();
 
 
-    return (<div className={classes.content}>
+    return (<CloudinaryContext cloudName={'dyzmnhqpr'} className={classes.content}>
         <Featured></Featured>
         <Audio></Audio>
         <Games></Games>
@@ -30,5 +31,5 @@ export default function ContentBody(props) {
         <Graphics></Graphics>
 
         <Contact></Contact>
-</div>);
+</CloudinaryContext>);
 }

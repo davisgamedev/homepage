@@ -20,7 +20,9 @@ export default class Audio extends React.Component {
             el: (<Flashbang />)},
         {
             id: "Return-To-Otter-Space",   
-            el: (<Otterspace />)},
+            el: (<Otterspace />),
+            preview: 'otterspace-ship_httiiq.png',
+        },
         {
             id: "Pain-Train",    
             el: (<Paintrain />), todo: true},

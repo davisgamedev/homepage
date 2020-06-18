@@ -2,7 +2,7 @@ import {React, useEffect, useState} from 'react';
 
 // https://stackoverflow.com/a/59989768 and https://stackoverflow.com/a/60978633
 
-export default ComponentDimensions = (componentRef) => {
+export default function ComponentDimensions(componentRef) {
     const getDimensions = () => ({
         width: componentRef.current.offsetWidth,
         height: componentRef.current.offsetHeight

@@ -22,7 +22,7 @@ export default class Featured extends React.Component {
         {
             id: "Return-To-Otter-Space",    
             el: (<Otterspace />),
-            preview: 'https://res.cloudinary.com/dyzmnhqpr/image/upload/q_auto:eco/v1585425860/otterspace-ship_httiiq.jpg',
+            preview: 'otterspace-ship_httiiq.png',
         },
         {
             id: "Planets-Processing",       

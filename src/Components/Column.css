@@ -134,13 +134,40 @@ Button.container:hover {
     border-color: #fafafa;
 }
 
+Button.container img {
+    width: 102%;
+    position: relative;
+    left: -1%;
+    filter: grayscale(100%);
+    transition: all .7s;
+}
+
+Button.container:hover img {
+    filter: grayscale(0);
+}
+
+Button.container .imgContainer:before {
+    border-top: 1px solid #2f2f2f;
+    content: '';
+    width: 100%;
+    height: 7px;
+    display: block;
+    margin: 0 auto;
+}
+
+Button.container:hover .imgContainer:before {
+    border-color: #fafafa;
+}
+
+/* 
+ redundant after loadMedia() update
 .collapsed img{
     display: none;
 }
 
 .collapsed iframe{
     display: none;
-}
+} */
 
 .column .collapsed :nth-child(n+5){
     display: none;

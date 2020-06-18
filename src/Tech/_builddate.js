@@ -1,1 +1,1 @@
-export const DATE_STR = "6-15-2020";
+export const DATE_STR = "6-17-2020";

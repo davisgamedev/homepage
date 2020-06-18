@@ -5,8 +5,8 @@ export const breakpointsValues= {
     xs: 500,
     sm: 825,
     md: 975,
-    lg: 1400,
-    xl: 1520,
+    lg: 1600,
+    //xl
 };
 
 const theme = createMuiTheme({

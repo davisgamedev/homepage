@@ -29,6 +29,7 @@
     "@babel/preset-react": "7.0.0",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "async-once": "^1.0.1",
+    "cloudinary-react": "^1.5.0",
     "del": "^5.1.0",
     "emailjs-com": "^2.4.1",
     "eslint-config-prettier": "6.0.0",
@@ -41,6 +42,7 @@
     "gulp-htmltoreactclass": "^2.3.2",
     "gulp-markdown": "^5.0.1",
     "prettier": "1.18.2",
+    "react-clonewithprops": "^1.0.1",
     "react-material-ui-form-validator": "^2.0.10",
     "yargs": "^15.3.1"
   },
