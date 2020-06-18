@@ -17,8 +17,8 @@
     "static/js/7.2ed04ee3.chunk.js": "https://davisgame.dev/static/js/7.2ed04ee3.chunk.js",
     "static/js/7.2ed04ee3.chunk.js.map": "https://davisgame.dev/static/js/7.2ed04ee3.chunk.js.map",
     "main.css": "https://davisgame.dev/static/css/main.5f83fe14.chunk.css",
-    "main.js": "https://davisgame.dev/static/js/main.dc3335fb.chunk.js",
-    "main.js.map": "https://davisgame.dev/static/js/main.dc3335fb.chunk.js.map",
+    "main.js": "https://davisgame.dev/static/js/main.a1a3bb61.chunk.js",
+    "main.js.map": "https://davisgame.dev/static/js/main.a1a3bb61.chunk.js.map",
     "runtime-main.js": "https://davisgame.dev/static/js/runtime-main.904c9867.js",
     "runtime-main.js.map": "https://davisgame.dev/static/js/runtime-main.904c9867.js.map",
     "static/js/10.c02f6b9c.chunk.js": "https://davisgame.dev/static/js/10.c02f6b9c.chunk.js",
@@ -50,7 +50,7 @@
     "static/js/23.af89af6b.chunk.js": "https://davisgame.dev/static/js/23.af89af6b.chunk.js",
     "static/js/23.af89af6b.chunk.js.map": "https://davisgame.dev/static/js/23.af89af6b.chunk.js.map",
     "index.html": "https://davisgame.dev/index.html",
-    "precache-manifest.557a495adabfcfc3a9bf4be03e8b1115.js": "https://davisgame.dev/precache-manifest.557a495adabfcfc3a9bf4be03e8b1115.js",
+    "precache-manifest.fa4c61d919f831a2bc6056190a3cb7b7.js": "https://davisgame.dev/precache-manifest.fa4c61d919f831a2bc6056190a3cb7b7.js",
     "service-worker.js": "https://davisgame.dev/service-worker.js",
     "static/css/main.5f83fe14.chunk.css.map": "https://davisgame.dev/static/css/main.5f83fe14.chunk.css.map",
     "static/js/10.c02f6b9c.chunk.js.LICENSE.txt": "https://davisgame.dev/static/js/10.c02f6b9c.chunk.js.LICENSE.txt",
@@ -60,6 +60,6 @@
     "static/js/runtime-main.904c9867.js",
     "static/js/10.c02f6b9c.chunk.js",
     "static/css/main.5f83fe14.chunk.css",
-    "static/js/main.dc3335fb.chunk.js"
+    "static/js/main.a1a3bb61.chunk.js"
   ]
 }
