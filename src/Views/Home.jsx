@@ -1,10 +1,13 @@
 import React from 'react';
 import Header from '../Components/Header';
 import ContentBody from './ContentBody';
+import PreviewBody from './PreviewBody';
 import Spacer from '../Components/Spacer';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { WarnDebug } from 'Tech/DebugLog';
+
+import CloudinaryContext from 'cloudinary-react/lib/components/CloudinaryContext/CloudinaryContext';
 
 
 export default function Home(props) {
@@ -17,9 +20,12 @@ export default function Home(props) {
     function close() {setOpen({isOpen: false, wasOpen: true});}
 
     return(
-        <div>
+        <CloudinaryContext cloudName={'dyzmnhqpr'}>
             <Header></Header>
             <Spacer></Spacer>
+
+            <PreviewBody></PreviewBody>
+
             <ContentBody></ContentBody>
 
             <WarnDebug></WarnDebug>
@@ -37,6 +43,6 @@ export default function Home(props) {
                     New project docs are being migrated daily. Check back again soon!
                 </Alert>
             </Snackbar>
-        </div>
+        </CloudinaryContext>
     );
 }

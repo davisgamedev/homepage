@@ -1,7 +1,6 @@
 import React, {Suspense} from 'react';
-
-import { ParagraphSkeleton } from 'Components/Column';
-import Column from './Column';
+import ParagraphSkeleton from './ColumnComponents/ParagraphSkeleton'
+import ColumnRoot from './ColumnComponents/ColumnRoot';
 
 export function EncapRef(refArg) {
     const ref = refArg;
@@ -13,7 +12,7 @@ export default function MakeColumns(posts, getParentCompFunc) {
         posts.map((post, i) => {
             let p = Object.assign({}, post, {el: undefined})
             return (
-                <Column 
+                <ColumnRoot 
                 key={p.id + i}
                 getParentComp={getParentCompFunc}
                 {...p}
@@ -21,7 +20,7 @@ export default function MakeColumns(posts, getParentCompFunc) {
                     <Suspense fallback={<ParagraphSkeleton />}>
                         {post.el}
                     </Suspense>
-                </Column>
+                </ColumnRoot>
             );
         })
     );

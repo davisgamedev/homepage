@@ -306,26 +306,26 @@ button.extraSmall{
 
 
 
-div.skelContainer{
+div.skeletonContainer{
     margin-top: 20px;
     display: block !important;
 }
 
-.skel {
+.skeleton {
     /* background-color: #f2f2f2 !important; */
     transition: all .7s;
 }
 
-.column:hover .skel{
+.column:hover .skeleton{
     background-color: #ababab;
 }
 
-.column .collapsed .skelContainer :nth-child(n+5){
+.column .collapsed .skeletonContainer :nth-child(n+5){
     display: flex;
     flex-grow: 1;
 }
 
-span.skel {
+span.skeleton {
     display: flex;
     flex-grow: 1;
 }
