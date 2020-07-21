@@ -15,7 +15,7 @@ export default function ColumnHead(props) {
                 props.children
             }
             {
-                props.empty? <ParagraphSkeleton todo={true}></ParagraphSkeleton> : null
+                props.todo? <ParagraphSkeleton todo={true}></ParagraphSkeleton> : null
             }
         </div>
     );

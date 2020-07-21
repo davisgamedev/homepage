@@ -12,8 +12,7 @@ import {
 
 import './Column.css';
 import { SmallView } from 'Tech/Breakpoints';
-import { withRouter, Link } from 'react-router-dom';
-import DebugLog from 'Tech/DebugLog';
+import { withRouter} from 'react-router-dom';
 import LoadMedia from 'Tech/LoadMedia';
 
 import ColumnHead from './ColumnHead';
@@ -85,7 +84,7 @@ const Column = withRouter(props => {
         className={"container collapsed " + (extraSmall? 'extraSmall' : '')}
         onClick={open}
         >
-            <ColumnHead></ColumnHead>
+            <ColumnHead {...props}></ColumnHead>
 
             <Dialog 
                 className={"container expanded " + (extraSmall? 'extraSmall' : '') }
@@ -104,7 +103,7 @@ const Column = withRouter(props => {
                         variant={extraSmall ? "outlined" : "elevation"}
                     >
                         <LoadMedia>
-                            {props.children}
+                            {React.Children}
                         </LoadMedia>
 
                         {
@@ -113,7 +112,7 @@ const Column = withRouter(props => {
                             null
                         }
 
-                        <ColumnFooter contact={() => this.contact}></ColumnFooter>
+                        <ColumnFooter contact={() => contact}></ColumnFooter>
 
                     </Paper>
                 </ClickAwayListener>

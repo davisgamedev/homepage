@@ -52,7 +52,7 @@ function BigHeader() {
     return(
         <div className="headerContainer" id="header">
         <div className="headerWrapper">
-            <Link to="">
+            <Link to="/">
                 <div  id="mainTitle" className="title">
                 The Davis Report
                 </div>

@@ -35,6 +35,7 @@ const tripleProps = {
 export default function ColumnRoot(props) {
 
     const {extraSmall} = SmallView();
+    
     let gridProps = singleProps;
     if(props.double) gridProps = doubleProps;
     if(props.triple) gridProps = tripleProps;
@@ -59,7 +60,7 @@ export default function ColumnRoot(props) {
                     <Column
                         parentId={props.id}
                         sectionId={sectionId}
-                        empty={props.todo}
+                        todo={props.todo}
                         previewSrc={props.preview}
                     >
                         {c}

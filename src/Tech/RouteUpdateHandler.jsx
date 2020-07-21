@@ -84,8 +84,8 @@ setTimeout(setSections, timeout);
 const RouteUpdateHandler = ({ location, history }) => {
 
     let autoScrolling = false;
-    let scrollUp = false;
-    let prevScroll = 0;
+    //let scrollUp = false;
+    //let prevScroll = 0;
     let scrollTimeoutHandler;
 
     let currentDocId = undefined;
@@ -171,10 +171,10 @@ const RouteUpdateHandler = ({ location, history }) => {
         if(scrollTimeoutHandler) clearTimeout(scrollTimeoutHandler);
         scrollTimeoutHandler = setTimeout(scrollDone, 200);
 
-        if(!autoScrolling) {
-            scrollUp = (window.scrollY < prevScroll);
-            prevScroll = window.scrollY;
-        }
+        //if(!autoScrolling) {
+            //scrollUp = (window.scrollY < prevScroll);
+            //prevScroll = window.scrollY;
+        //}
     }
 
     scrollListener = checkScroll;

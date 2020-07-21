@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
 import { Button, Menu, MenuItem } from '@material-ui/core';
-import DebugLog, {Debug} from 'Tech/DebugLog';
+import DebugLog from 'Tech/DebugLog';
 
 export const Pages = [
     { route: "/"         , name: "Headlines", },
@@ -33,7 +33,7 @@ function Nav(props) {
         const pageNum = Pages.findIndex(p => p.route === props.location.pathname);
         setPageTitle(
             getPageTitle((pageNum < 0)? 0 : pageNum));
-    });
+    }, [props.location.pathname]);
 
     const PageLinks = Pages.map((p, i) => {
         return (
@@ -99,17 +99,17 @@ function Nav(props) {
             close();
 
             return; //comment out to debug nav closing
-            if(Debug) {
-                if(e.clientX < bb.x) DebugLog('x min');
-                if(e.clientX > bb.w) DebugLog('x max');
-                if(e.clientY < bb.y) DebugLog('y min');
-                if(e.clientY > bb.h) DebugLog('y max');
+            // if(Debug) {
+            //     if(e.clientX < bb.x) DebugLog('x min');
+            //     if(e.clientX > bb.w) DebugLog('x max');
+            //     if(e.clientY < bb.y) DebugLog('y min');
+            //     if(e.clientY > bb.h) DebugLog('y max');
     
-                DebugLog(`
-                mouseX: ${e.clientX}
-                mouseY: ${e.clientY}
-                `);
-            }
+            //     DebugLog(`
+            //     mouseX: ${e.clientX}
+            //     mouseY: ${e.clientY}
+            //     `);
+            // }
         }
     }
 
