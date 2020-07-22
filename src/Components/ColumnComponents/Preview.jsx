@@ -43,7 +43,7 @@ export default function Preview(props) {
                 hide(false);
             }
         }
-    });
+    }, [hidden]);
 
     return (<div>
 

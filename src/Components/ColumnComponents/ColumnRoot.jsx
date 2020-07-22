@@ -35,7 +35,7 @@ const tripleProps = {
 export default function ColumnRoot(props) {
 
     const {extraSmall} = SmallView();
-    
+
     let gridProps = singleProps;
     if(props.double) gridProps = doubleProps;
     if(props.triple) gridProps = tripleProps;
@@ -55,7 +55,7 @@ export default function ColumnRoot(props) {
             id={props.id}
         >
             {
-                React.Children.map(props.children, c => {
+                React.Children.map(props.children, child => {
                 return (
                     <Column
                         parentId={props.id}
@@ -63,12 +63,11 @@ export default function ColumnRoot(props) {
                         todo={props.todo}
                         previewSrc={props.preview}
                     >
-                        {c}
+                        {child}
                     </Column>
                 )})
             }
             <Divider></Divider>
         </Grid>
-
     )
 }
