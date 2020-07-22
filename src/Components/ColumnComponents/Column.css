@@ -21,8 +21,8 @@
 
     font-family: 'Lora', serif;
     font-size: 14px;
-    color: #2f2f2f;
-    background-color: #fafafa;
+    color: #fafafa;
+    background-color: #2f2f2f;
 }
 
 .expanded li {
@@ -58,8 +58,8 @@
 button.container {
     font-family: 'Lora', serif;
     font-size: 14px;
-    color: #2f2f2f;
-    background-color: #fafafa;
+    color: #fafafa;
+    background-color: #2f2f2f;
 
     text-align: left;
     text-transform: none;
@@ -77,8 +77,8 @@ button.container {
 }
 
 Button.container:hover {
-    background-color: #2f2f2f;
-    color: #fafafa;   
+    background-color: #fafafa;
+    color: #2f2f2f;   
 }
 
 .column h1 {
@@ -111,7 +111,7 @@ Button.container:hover {
 }
 
 .column h2:before {
-    border-top: 1px solid #2f2f2f;
+    border-top: 1px solid #fafafa;
     content: '';
     width: 100px;
     height: 7px;
@@ -119,7 +119,7 @@ Button.container:hover {
     margin: 0 auto;
 }
 .column h2:after {
-    border-bottom: 1px solid #2f2f2f;
+    border-bottom: 1px solid #fafafa;
     content: '';
     width: 100px;
     height: 10px;
@@ -128,10 +128,10 @@ Button.container:hover {
 }
 
 .column:hover h2:before {
-    border-color: #fafafa;
+    border-color: #2f2f2f;
 }
 .column:hover h2:after {
-    border-color: #fafafa;
+    border-color: #2f2f2f;
 }
 
 Button.container img {
@@ -147,7 +147,7 @@ Button.container:hover img {
 }
 
 Button.container .imgContainer:before {
-    border-top: 1px solid #2f2f2f;
+    border-top: 1px solid #fafafa;
     content: '';
     width: 100%;
     height: 7px;
@@ -156,7 +156,7 @@ Button.container .imgContainer:before {
 }
 
 Button.container:hover .imgContainer:before {
-    border-color: #fafafa;
+    border-color: #2f2f2f;
 }
 
 /* 
@@ -190,35 +190,35 @@ Button.container:hover .imgContainer:before {
 
 .column a {
     font-family: 'Lora', serif;
-    color: #2f2f2f !important;
+    color: #fafafa !important;
     text-decoration: underline !important;
 }
 
 .column a:hover{
     color: #6b6b6b !important;
-    background-color: #ffffff !important;
+    background-color: #fafafa !important;
 }
 
 .column:hover a {
-    background-color: #2f2f2f !important;
-    color: #fafafa !important;
+    background-color: #fafafa !important;
+    color: #2f2f2f !important;
     transition: all .7s;
 }
 
 .column:hover a:hover {
-    background-color: #2f2f2f !important;
-    color: #fafafa !important;
+    background-color: #fafafa !important;
+    color: #2f2f2f !important;
 }
 
 .expanded a {
     font-family: 'Lora', serif;
-    color: #2f2f2f !important;
+    color: #fafafa !important;
     text-decoration: underline !important;
 }
 
 .expanded a:hover{
     color: #6b6b6b !important;
-    background-color: #ffffff !important;
+    background-color: #fafafa !important;
 }
 
 

@@ -6,11 +6,11 @@
     left: 0;
     width: 100%;
     z-index: 100;
-    background-color: #fafafa;
+    background-color: #2f2f2f;
 }
 
 .headerWrapper {
-    color: "#2f2f2f";
+    color: "#fafafa";
 }
 
 .title {
@@ -18,8 +18,8 @@
     font-size: 96px;
     line-height: 72px;
     margin: 15px 0 20px 0;
-    color: #2f2f2f;
-    background-color: #fafafa;
+    color: #fafafa;
+    background-color: #2f2f2f;
 }
 
 .subtitle {
@@ -27,8 +27,8 @@
     font-size: 14px;
     font-weight: 100;
     text-transform: uppercase;
-    border-bottom: 1px solid #2f2f2f;
-    border-top: 1px solid #2f2f2f;
+    border-bottom: 1px solid #fafafa;
+    border-top: 1px solid #fafafa;
 
     vertical-align: bottom;
     min-height: 33px;

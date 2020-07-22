@@ -1,6 +1,6 @@
 body {
-    color: #2f2f2f;
-    background-color: #fafafa;
+    color: #fafafa;
+    background-color: #2f2f2f;
 
     font-family: 'Lora', serif;
 }
@@ -9,22 +9,22 @@ a {
     font-family: 'Playfair Display';
     font-size: 14px;
     font-weight: 100;
-    color: #2f2f2f !important;
-}
-
-a:hover {
-    background-color: #2f2f2f !important;
     color: #fafafa !important;
 }
 
+a:hover {
+    background-color: #fafafa !important;
+    color: #2f2f2f !important;
+}
+
 a:active {
-    background-color: #2f2f2f;
-    color: #fafafa;
+    background-color: #fafafa;
+    color: #2f2f2f;
 }
 
 a:visited {
-    color: #2f2f2f !important;
-    background-color: #fafafa;
+    color: #fafafa !important;
+    background-color: #2f2f2f;
 }
 
 .expanded p {

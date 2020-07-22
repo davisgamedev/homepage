@@ -26,27 +26,27 @@ const snackbarContentStyle = {
   },
   info: {
     backgroundColor: "#00d3ee",
-    color: "#ffffff",
+    color: "#fafafa",
     ...infoBoxShadow
   },
   success: {
     backgroundColor: "#5cb860",
-    color: "#ffffff",
+    color: "#fafafa",
     ...successBoxShadow
   },
   warning: {
     backgroundColor: "#ffa21a",
-    color: "#ffffff",
+    color: "#fafafa",
     ...warningBoxShadow
   },
   danger: {
     backgroundColor: "#f55a4e",
-    color: "#ffffff",
+    color: "#fafafa",
     ...dangerBoxShadow
   },
   primary: {
     backgroundColor: "#af2cc5",
-    color: "#ffffff",
+    color: "#fafafa",
     ...primaryBoxShadow
   },
   message: {

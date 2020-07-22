@@ -17,7 +17,7 @@ button .dropbtn {
 
 #dropdown-menu div {
     overflow: hidden !important;
-    background-color: #fafafa;
+    background-color: #2f2f2f;
 }
 
 #dropdown-menu ul{
@@ -33,7 +33,7 @@ button .dropbtn {
     text-transform: uppercase;
     text-decoration: none;
 
-    border-bottom: 1px solid #232323;
+    border-bottom: 1px solid #fafafa;
 
     display: flex;
     flex-grow: 1;
@@ -49,13 +49,13 @@ a.currentPage{
 }
 
 .dropdown-link:hover *{
-    background-color: #2f2f2f !important;
-    color: #fafafa !important;
+    background-color: #fafafa !important;
+    color: #2f2f2f !important;
 }
 
 li.dropdown-link:hover a {
-    background-color: #2f2f2f !important;
-    color: #fafafa !important;
+    background-color: #fafafa !important;
+    color: #2f2f2f !important;
 }
 
 .dropdown-link:last-child {
