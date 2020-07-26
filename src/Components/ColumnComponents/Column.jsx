@@ -103,7 +103,7 @@ const Column = withRouter(props => {
                         variant={extraSmall ? "outlined" : "elevation"}
                     >
                         <LoadMedia>
-                            {React.Children}
+                            {props.children}
                         </LoadMedia>
 
                         {

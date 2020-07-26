@@ -1,8 +1,16 @@
-/*
-    Font rules for .expanded in index.css
+/**
+    Column.css
+    Handles styles for:
+        - Column general
+        - Column container (button.container)
+        - Column expanded
+        - Section dividers
+        - Skeleton
+**/
 
-    TODO: reorganize, eliminate !important tags
-*/
+
+
+/**************** COLUMN - GENERAL*************/
 
 .column {
     text-align: left;
@@ -25,60 +33,16 @@
     background-color: #2f2f2f;
 }
 
-.expanded li {
-    font-family: 'Roboto', sans-serif;
-    color: black;
-    font-weight: 300;
-    font-size: 15px;
+.column .collapsed a {    
+    color: #fafafa !important;
 }
 
-.column .MuiButton-label{
-    height: 100%;
-    justify-content: space-between;
-    padding-top: 0;
-    margin-top: 0;
-    vertical-align: text-top;
+.column:hover .collapsed a:hover {    
+    color: #9f9f9f !important;
 }
 
-.placeholder {
-    text-align: center;
-    font-style: italic;
-    color: lightgrey;
-}
-
-.sectionRow > * {
-    
-    height: 100%;
-    justify-content: space-between;
-    padding-top: 0;
-    margin-top: 0;
-    vertical-align: text-top;
-}
-
-button.container {
-    font-family: 'Lora', serif;
-    font-size: 14px;
-    color: #fafafa;
-    background-color: #2f2f2f;
-
-    text-align: left;
-    text-transform: none;
-    font-weight: normal;
-    
-    transition: all 0.7s;
-}
-
-.container :after {
-    transition: all 0.7s;
-}
-
-.container :before {
-    transition: all 0.7s;
-}
-
-Button.container:hover {
-    background-color: #fafafa;
-    color: #2f2f2f;   
+.column .collapsed :nth-child(n+5){
+    display: none;
 }
 
 .column h1 {
@@ -130,8 +94,108 @@ Button.container:hover {
 .column:hover h2:before {
     border-color: #2f2f2f;
 }
+
 .column:hover h2:after {
     border-color: #2f2f2f;
+}
+
+
+.column .MuiButton-label{
+    height: 100%;
+    justify-content: space-between;
+    padding-top: 0;
+    margin-top: 0;
+    vertical-align: text-top;
+}
+
+.column a {
+    font-family: 'Lora', serif;
+    color: #fafafa;
+    text-decoration: underline;
+    transition: all .7s;
+}
+
+
+
+
+.column a:hover{
+    color: #6b6b6b;
+}
+
+.column:hover a {
+    color: #2f2f2f !important; 
+    transition: all .7s;
+}
+
+.column:hover a:hover {
+    color: #232323 !important;
+    background-color: none !important;
+}
+
+
+/* column etc */
+
+.placeholder {
+    text-align: center;
+    font-style: italic;
+    color: #fafafa;
+    transition: all 0.7s;
+}
+
+.container:hover .placeholder {
+    color: #2f2f2f;
+}
+
+.sectionRow > * {
+    
+    height: 100%;
+    justify-content: space-between;
+    padding-top: 0;
+    margin-top: 0;
+    vertical-align: text-top;
+}
+
+
+
+.paperContainer div{
+    padding: 50px;
+}
+
+
+
+
+
+
+
+/********** BUTTON CONTAINER *************/
+
+
+
+button.container {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: #fafafa;
+    background-color: #2f2f2f;
+
+    text-align: left;
+    text-transform: none;
+    font-weight: normal;
+    
+    transition: all 0.7s;
+    padding: 20px;
+}
+
+.container :after {
+    transition: all 0.7s;
+}
+
+.container :before {
+    transition: all 0.7s;
+}
+
+Button.container:hover {
+    background-color: #fafafa;
+    color: #2f2f2f;   
 }
 
 Button.container img {
@@ -159,18 +223,18 @@ Button.container:hover .imgContainer:before {
     border-color: #2f2f2f;
 }
 
-/* 
- redundant after loadMedia() update
-.collapsed img{
-    display: none;
-}
 
-.collapsed iframe{
-    display: none;
-} */
 
-.column .collapsed :nth-child(n+5){
-    display: none;
+
+
+/********************** COLUMN BUTTON CONTAINER ******************/
+
+
+.expanded li {
+    font-family: 'Roboto', sans-serif;
+    color: #fafafa;
+    font-weight: 300;
+    font-size: 15px;
 }
 
 .expanded h2 {
@@ -188,37 +252,13 @@ Button.container:hover .imgContainer:before {
     font-size: 12px;
 }
 
-.column a {
-    font-family: 'Lora', serif;
-    color: #fafafa !important;
-    text-decoration: underline !important;
-}
-
-.column a:hover{
-    color: #6b6b6b !important;
-    background-color: #fafafa !important;
-}
-
-.column:hover a {
-    background-color: #fafafa !important;
-    color: #2f2f2f !important;
-    transition: all .7s;
-}
-
-.column:hover a:hover {
-    background-color: #fafafa !important;
-    color: #2f2f2f !important;
-}
-
 .expanded a {
     font-family: 'Lora', serif;
-    color: #fafafa !important;
-    text-decoration: underline !important;
+    text-decoration: underline;
 }
 
 .expanded a:hover{
-    color: #6b6b6b !important;
-    background-color: #fafafa !important;
+    color: #6b6b6b;
 }
 
 
@@ -234,9 +274,56 @@ Button.container:hover .imgContainer:before {
     width: 100%;
 }
 
-.paperContainer div{
-    padding: 50px;
+
+.expanded *{
+    color: #232323 !important;
 }
+
+.expanded p {
+    font-family: 'Roboto', sans-serif;
+    color: #232323;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+.expanded h1 {
+    font-family: 'Lora';
+}
+
+.expanded h1:after{
+    content: '';
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid grey;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.expanded h2{
+    margin-top: 0;
+    font-size: 32px;
+    font-weight: 100;
+}
+
+.expanded h3 {
+    font-size: 32px;
+    font-weight: 100;
+}
+
+.expanded h3:after {
+    display: block;
+    content: '';
+    border-bottom: 1px solid lightgrey;
+}
+
+.expanded h4 {
+    font-size: 28px;
+    text-align: center;
+    font-family: 'Playfair-Display', serif;
+    font-style: italic;
+    font-weight: 100;
+}
+
 
 /* NOT WORKING */
 .expanded .paperContainer::-webkit-scrollbar {
@@ -249,6 +336,10 @@ Button.container:hover .imgContainer:before {
 }
 
 
+
+
+
+/********* Extra Small Rules *********/
 
 button.extraSmall{
     margin-left: 10px;
@@ -306,18 +397,21 @@ button.extraSmall{
 
 
 
+
+/*********** Skeleton *************/
+
 div.skeletonContainer{
     margin-top: 20px;
     display: block !important;
 }
 
-.skeleton {
-    /* background-color: #f2f2f2 !important; */
+div.skeletonContainer .skeleton {
+    background-color: #f2f2f244;
     transition: all .7s;
 }
 
 .column:hover .skeleton{
-    background-color: #ababab;
+    background-color: #23232344;
 }
 
 .column .collapsed .skeletonContainer :nth-child(n+5){

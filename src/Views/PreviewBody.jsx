@@ -9,7 +9,7 @@ export default class PreviewBody extends React.Component {
     render() { 
         return <Grid
             container
-            spacing={3}
+            spacing={1}
             direction='row'
             justify='flex-start'
             alignItems='stretch'

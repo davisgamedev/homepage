@@ -1,73 +1,37 @@
 body {
-    color: #fafafa;
-    background-color: #2f2f2f;
-
     font-family: 'Lora', serif;
+    color: #fafafa !important;
+    background-color: #2f2f2f !important;
+    overflow: scroll !important;
+
+    /* this fixes an issue where expanded menus cause whole body to shift*/
+    padding-right: 0px !important;
 }
 
 a {
     font-family: 'Playfair Display';
     font-size: 14px;
     font-weight: 100;
-    color: #fafafa !important;
-}
-
-a:hover {
-    background-color: #fafafa !important;
     color: #2f2f2f !important;
 }
 
+a:hover {
+    color: #9f9f9f !important;
+}
+
 a:active {
-    background-color: #fafafa;
     color: #2f2f2f;
 }
 
 a:visited {
-    color: #fafafa !important;
+    color: inherit;
     background-color: #2f2f2f;
 }
 
-.expanded p {
-    font-family: 'Roboto', sans-serif;
-    color: black;
-    font-weight: 300;
-    font-size: 15px;
+.debug {
+    border: 1px solid red !important;
 }
 
-.expanded h1 {
-    font-family: 'Lora';
-}
-
-.expanded h1:after{
-    content: '';
-    display: block;
-    width: 100%;
-    border-bottom: 1px solid grey;
-    margin-top: 10px;
-    margin-bottom: 0;
-}
-
-.expanded h2{
-    margin-top: 0;
-    font-size: 32px;
-    font-weight: 100;
-}
-
-.expanded h3 {
-    font-size: 32px;
-    font-weight: 100;
-}
-
-.expanded h3:after {
-    display: block;
-    content: '';
-    border-bottom: 1px solid lightgrey;
-}
-
-.expanded h4 {
-    font-size: 28px;
-    text-align: center;
-    font-family: 'Playfair-Display', serif;
-    font-style: italic;
-    font-weight: 100;
+.fa {
+    transform: scale(0.8, 0.8);
 }

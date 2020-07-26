@@ -2,10 +2,10 @@ import React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
 export const breakpointsValues= {
-    xs: 500,
-    sm: 825,
-    md: 975,
-    lg: 1600,
+    xs: 650,
+    sm: 875,
+    md: 1100,
+    lg: 1800,
     //xl
 };
 

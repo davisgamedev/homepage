@@ -16,7 +16,7 @@ const useStyles = makeStyles({
         fontSize: '36px',
 
         marginBottom: 20,
-        borderBottom: '1px solid black',
+        borderBottom: '1px solid #fafafa',
     },
     smallTitle: {
         textAlign: 'right',
@@ -64,7 +64,7 @@ function SectionContents(props) {
             </h2>
             <Grid 
                 container 
-                spacing={3}
+                spacing={1}
                 className={classes.grid + " sectionRow"}
                 direction='row'
                 justify='flex-start'
