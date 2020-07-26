@@ -2,7 +2,7 @@ import { container, title } from "common/assets/jss/material-kit-react.js";
 
 const notificationsStyles = {
   section: {
-    backgroundColor: "#fafafa",
+    backgroundColor: "#fafaf5",
     display: "block",
     width: "100%",
     position: "relative",

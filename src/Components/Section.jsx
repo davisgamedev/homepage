@@ -16,7 +16,7 @@ const useStyles = makeStyles({
         fontSize: '36px',
 
         marginBottom: 20,
-        borderBottom: '1px solid #fafafa',
+        borderBottom: '1px solid #fafaf5',
     },
     smallTitle: {
         textAlign: 'right',

@@ -1,7 +1,7 @@
 body{
     font-family: 'Lora', serif;
     font-size: 14px;
-    color: #fafafa;
+    color: #fafaf5;
     background-color: #f9f7f1;
 }
 p{
@@ -27,7 +27,7 @@ p{
     transition: all .7s;
 }
 .collumn + .collumn { 
-  border-left: 1px solid #fafafa;
+  border-left: 1px solid #fafaf5;
 }
 .collumn .headline{
     text-align: center;
@@ -50,7 +50,7 @@ p{
 
 }
 .collumn .citation:before{
-    border-top: 1px solid #fafafa;
+    border-top: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 16px;
@@ -58,7 +58,7 @@ p{
     margin: 0 auto;
 }
 .collumn .citation:after{
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 16px;
@@ -98,7 +98,7 @@ p{
 }
 
 .collumn .headline.hl2:before{
-    border-top: 1px solid #fafafa;
+    border-top: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 7px;
@@ -106,7 +106,7 @@ p{
     margin: 0 auto;
 }
 .collumn .headline.hl2:after{
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 13px;
@@ -129,7 +129,7 @@ p{
     padding: 10px 0 10px 0;
 }
 .collumn .headline.hl4:before{
-    border-top: 1px solid #fafafa;
+    border-top: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 7px;
@@ -137,7 +137,7 @@ p{
     margin: 0 auto;
 }
 .collumn .headline.hl4:after{
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 10px;
@@ -161,7 +161,7 @@ p{
     padding: 10px 0 10px 0;
 }
 .collumn .headline.hl6:before{
-    border-top: 1px solid #fafafa;
+    border-top: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 7px;
@@ -169,7 +169,7 @@ p{
     margin: 0 auto;
 }
 .collumn .headline.hl6:after{
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 10px;
@@ -222,7 +222,7 @@ p{
     }
 	.collumn + .collumn {
 				border-left: none;
-      	border-bottom: 1px solid #fafafa;
+      	border-bottom: 1px solid #fafaf5;
 	}
     header{
         max-width: 320px;

@@ -23,7 +23,7 @@ const basicsStyle = {
   icons: {
     width: "17px",
     height: "17px",
-    color: "#fafafa"
+    color: "#fafaf5"
   },
   ...customCheckboxRadioSwitch
 };

@@ -70,37 +70,37 @@ const headerStyle = {
   },
   primary: {
     backgroundColor: primaryColor,
-    color: "#fafafa",
+    color: "#fafaf5",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(156, 39, 176, 0.46)"
   },
   info: {
     backgroundColor: infoColor,
-    color: "#fafafa",
+    color: "#fafaf5",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(0, 188, 212, 0.46)"
   },
   success: {
     backgroundColor: successColor,
-    color: "#fafafa",
+    color: "#fafaf5",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(76, 175, 80, 0.46)"
   },
   warning: {
     backgroundColor: warningColor,
-    color: "#fafafa",
+    color: "#fafaf5",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(255, 152, 0, 0.46)"
   },
   danger: {
     backgroundColor: dangerColor,
-    color: "#fafafa",
+    color: "#fafaf5",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(244, 67, 54, 0.46)"
   },
   rose: {
     backgroundColor: roseColor,
-    color: "#fafafa",
+    color: "#fafaf5",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
   },
@@ -108,10 +108,10 @@ const headerStyle = {
     backgroundColor: "transparent !important",
     boxShadow: "none",
     paddingTop: "25px",
-    color: "#fafafa"
+    color: "#fafaf5"
   },
   dark: {
-    color: "#fafafa",
+    color: "#fafaf5",
     backgroundColor: "#212121 !important",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(33, 33, 33, 0.46)"

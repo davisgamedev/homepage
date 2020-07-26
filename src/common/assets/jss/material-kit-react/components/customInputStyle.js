@@ -32,10 +32,10 @@ const customInputStyle = {
   },
   whiteUnderline: {
     "&:hover:not($disabled):before,&:before": {
-      borderColor: "#fafafa"
+      borderColor: "#fafaf5"
     },
     "&:after": {
-      borderColor: "#fafafa"
+      borderColor: "#fafaf5"
     }
   },
   labelRoot: {
@@ -80,7 +80,7 @@ const customInputStyle = {
   },
   whiteInput: {
     "&,&::placeholder": {
-      color: "#fafafa",
+      color: "#fafaf5",
       opacity: "1"
     }
   }

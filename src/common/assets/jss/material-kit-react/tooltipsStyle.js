@@ -4,7 +4,7 @@ const tooltipsStyle = {
     minWidth: "130px",
     color: "#555555",
     lineHeight: "1.7em",
-    background: "#fafafa",
+    background: "#fafaf5",
     border: "none",
     borderRadius: "3px",
     boxShadow:

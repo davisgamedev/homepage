@@ -14,7 +14,7 @@
 }
 
 .column + .column { 
-  border-left: 1px solid #fafafa;
+  border-left: 1px solid #fafaf5;
 }
 
 
@@ -29,7 +29,7 @@
 }
 
 div.headline + div.headline:before {
-    border-top: 1px solid #fafafa;
+    border-top: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 7px;
@@ -38,7 +38,7 @@ div.headline + div.headline:before {
 }
 
 div.headline + div.headline:after {
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 10px;
@@ -134,7 +134,7 @@ div.s8 {
 
 }
 .column .citation:before{
-    border-top: 1px solid #fafafa;
+    border-top: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 16px;
@@ -142,7 +142,7 @@ div.s8 {
     margin: 0 auto;
 }
 .column .citation:after{
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #fafaf5;
     content: '';
     width: 100px;
     height: 16px;
@@ -175,7 +175,7 @@ div.s8 {
     }
 	.column + .column {
 				border-left: none;
-      	border-bottom: 1px solid #fafafa;
+      	border-bottom: 1px solid #fafaf5;
 	}
     header{
         max-width: 320px;

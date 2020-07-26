@@ -4,9 +4,9 @@ button .dropbtn {
 
 #dropdown-menu div {
     overflow: hidden !important;
-    background-color: #2f2f2f;
+    background-color: #272729;
 
-    color: #fafafa !important;
+    color: #fafaf5 !important;
 }
 
 #dropdown-menu ul{
@@ -15,7 +15,7 @@ button .dropbtn {
 
 .dropdown span {
     
-    color: #fafafa !important;
+    color: #fafaf5 !important;
 }
 
 
@@ -29,7 +29,7 @@ button .dropbtn {
     text-decoration: none;
 
     border-bottom: 1px solid #f2f2f244 !important;
-    color: #fafafa !important;
+    color: #fafaf5 !important;
 
     display: flex;
     flex-grow: 1;
@@ -56,17 +56,17 @@ a.currentPage{
 }
 
 .dropdown-link:hover *{
-    background-color: #fafafa !important;
-    color: #2f2f2f !important;
+    background-color: #fafaf5 !important;
+    color: #272729 !important;
 }
 
 li.dropdown-link:hover a {
-    background-color: #fafafa !important;
-    color: #2f2f2f !important;
+    background-color: #fafaf5 !important;
+    color: #272729 !important;
 }
 
 li.dropdown-link a {
-    color: #fafafa !important;
+    color: #fafaf5 !important;
     
     padding: 10px;
 }

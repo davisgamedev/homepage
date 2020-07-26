@@ -3,7 +3,7 @@ import { container, title } from "common/assets/jss/material-kit-react.js";
 const landingPageStyle = {
   container: {
     zIndex: "12",
-    color: "#fafafa",
+    color: "#fafaf5",
     ...container
   },
   title: {
@@ -12,7 +12,7 @@ const landingPageStyle = {
     position: "relative",
     marginTop: "30px",
     minHeight: "32px",
-    color: "#fafafa",
+    color: "#fafaf5",
     textDecoration: "none"
   },
   subtitle: {
@@ -21,7 +21,7 @@ const landingPageStyle = {
     margin: "10px auto 0"
   },
   main: {
-    background: "#fafafa",
+    background: "#fafaf5",
     position: "relative",
     zIndex: "3"
   },
