@@ -1,7 +1,5 @@
 import React, { Suspense } from 'react';
 import Section from '../Components/Section';
-import LazyImage from 'Tech/LazyImage';
-import ParagraphSkeleton from 'Components/ColumnComponents/ParagraphSkeleton';
 import { Grid, Divider, Button } from '@material-ui/core';
 import { SmallView } from 'Tech/Breakpoints';
 import Column from './ColumnComponents/Column';
@@ -11,6 +9,8 @@ import { DebugDir } from 'Tech/DebugLog';
 
 
 import './ColumnComponents/Column.css';
+import ParagraphSkeleton from './ColumnComponents/ParagraphSkeleton';
+import SmartImage from 'Tech/SmartImage';
 
 
 const colGrid = {
@@ -95,13 +95,19 @@ const HeadlineDescription = withRouter(({
 
 export default class Headline extends React.Component {
 
-    domRef = React.createRef();
+    domRef = React.createRef(); // todo?
+
+    /*
+        do we want autosizing in lazy img?
+    */
+
+    imgContainerRef = React.createRef();
 
     render() {
         return(
             <Section id="headline" ref={this.domRef}>
                 <HeadlineImage>
-                    <LazyImage src="sample"></LazyImage>
+                    <SmartImage src="sample"></SmartImage>
                 </HeadlineImage>
                 <HeadlineDescription todo={this.props.todo}>
                     <Suspense fallback={<ParagraphSkeleton />}>

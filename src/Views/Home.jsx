@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../Components/Header';
 import ContentBody from './ContentBody';
-import PreviewBody from './PreviewBody';
+import HeadlineBody from './HeadlineBody';
 import Spacer from '../Components/Spacer';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -24,7 +24,7 @@ export default function Home(props) {
             <Header></Header>
             <Spacer></Spacer>
 
-            <PreviewBody></PreviewBody>
+            <HeadlineBody></HeadlineBody>
 
             <ContentBody></ContentBody>
 

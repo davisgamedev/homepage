@@ -3,7 +3,7 @@ import Section from '../../Components/Section';
 import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
 
 const Warpdrive = React.lazy(() => import('Content-Out/graphics/warpdrive'));
-const Planetsprocessing = React.lazy(() => import('Content-Out/graphics/planetsprocessing'));
+const Planetsprocessing = React.lazy(() => import('Views/Headlines/node_modules/Content-Out/graphics/planetsprocessing'));
 const Planetsthreejs = React.lazy(() => import('Content-Out/graphics/planetsthreejs'));
 const Planetsweb = React.lazy(() => import('Content-Out/graphics/planetsweb'));
 const Jumptherope = React.lazy(() => import('Content-Out/audio/jumptherope'));

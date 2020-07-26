@@ -252,6 +252,10 @@ Button.container:hover .imgContainer:before {
     font-size: 12px;
 }
 
+.expanded p.todo {
+    text-align: center;
+}
+
 .expanded a {
     font-family: 'Lora', serif;
     text-decoration: underline;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import Planets from './Previews/Planets';
+import Planets from './Headlines/Planets';
 
 
-export default class PreviewBody extends React.Component {
+export default class HeadlineBody extends React.Component {
 
 
     render() { 

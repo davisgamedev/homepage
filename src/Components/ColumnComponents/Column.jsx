@@ -29,7 +29,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const TodoBody = () => {
     return(
-        <p>
+        <p className="todo">
             It seems the full documentation has not been migrated yet. Please check again soon!
         </p>
     );
