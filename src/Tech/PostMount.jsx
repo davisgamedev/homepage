@@ -13,7 +13,10 @@ export default class PostMount extends React.Component {
         this.mounted = false;
     }
 
-    componentDidMount() { this.mounted = true; }
+    componentDidMount() { 
+        this.mounted = true;
+        if(this.props.callback) this.props.callback();
+    }
 
     render() {
         return(

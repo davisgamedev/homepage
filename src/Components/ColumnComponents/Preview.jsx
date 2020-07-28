@@ -8,7 +8,7 @@ const styles = makeStyles({
         display: 'none',
         height: 500,
     },
-    cointainer: {
+    container: {
         height: 500
     },
     imgSkel: {
@@ -18,15 +18,27 @@ const styles = makeStyles({
 })
 
 function PreviewImg(props) {
-    return(
-    <div className="imgContainer">
+    /*
+<div className="imgContainer">
         <Image publicId={props.src}>
                 <Transformation quality="10" width="600" height="500" crop="fill" />
         </Image>
-    </div>);
+        
+    </div>
+    */
+    return(
+        <EasyImage
+            className="imgContainer"
+            src={props.src}
+            width="600"
+            height="500"
+            etc={{quality: "10"}}
+        >
+        </EasyImage>
+    );
 }
 
-
+// todo <PostMount> pattern
 export default function Preview(props) {
     const childRef = useRef();
     const img = useRef();
@@ -45,7 +57,8 @@ export default function Preview(props) {
         }
     }, [hidden]);
 
-    return (<div>
+    return (
+    <div>
 
         <div ref={childRef}>{props.children}</div>
 
