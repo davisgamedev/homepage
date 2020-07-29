@@ -25,13 +25,14 @@ function getLocalTrace() {
         /Report|DebugDir|DebugLog|Error|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
     
     let split = stack
-                    .split(/\W/gm)
-                    .filter(x => x.length > 0)
-                    .reverse()
-                    .reduce(
-                        (acc, curr, i, arr) => acc + curr + (i < arr.length - 1 ? ' => ' : '')
-                        , '');
-    return split;
+        .split(/\W/gm)
+        .filter(x => x.length > 0)
+        .reverse()
+
+    let message = split.length < 1 ? '[anonymous callback]' 
+                : split.reduce((acc, curr, i, arr) => acc + curr + (i < arr.length - 1 ? ' => ' : ''), '');
+
+    return message;
 }
 
 export function Report(debugDir=false) {

@@ -1,14 +1,18 @@
 import React from 'react';
 import { Image, Placeholder, Transformation } from 'cloudinary-react'
 import { DebugDir } from './DebugLog';
+import DebugLog from './DebugLog';
 
 class EasyImage extends React.Component {
 
     constructor(props){
+
+        DebugLog('hello');
+
         super(props);
 
-        this.w = this.props.width || 1;
-        this.h = this.props.height || 1;
+        this.w = this.props.width;
+        this.h = this.props.height;
         this.c = this.props.crop || 'lfill';
         this.g = this.props.gravity || 'auto';
         
@@ -21,7 +25,7 @@ class EasyImage extends React.Component {
         return(
             <Image
                 publicId={this.props.src}
-                // loading="lazy"
+                //loading="lazy"
                 >
                     <Placeholder type="blur"></Placeholder>
                     <Transformation 

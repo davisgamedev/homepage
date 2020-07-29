@@ -12,24 +12,33 @@ export default class PostMount extends React.Component {
         this.placeholder = this.props.placeholder || 
             (<Skeleton variant={this.props.variant || 'rect'} animation="wave" />);
 
-        this.mounted = false;
-
-        this.state = { mounted: false, toRender: this.placeholder};
+        this.state = {mounted: false};
     }
 
     componentDidMount() { 
-        this.setState({
-            mounted: true,
-            toRender: this.props.children
-        })
 
-        if(this.props.callback) this.props.callback();
+        setTimeout(
+            () => {
+            this.setState({mounted: true})
+
+            if(this.props.callback) this.props.callback();
+    
+            DebugDir(this.props);
+            }, 2000
+        )
+        
+
+
     }
 
     render() {
         return(
         <Suspense fallback={this.placeholder}>
-            {this.state.toRender}
+            {
+                this.state.mounted? 
+                    this.props.children
+                    : this.props.placeholder
+            }
         </Suspense>
         );
     }

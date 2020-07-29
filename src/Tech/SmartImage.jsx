@@ -9,8 +9,10 @@ import DebugLog from './DebugLog';
 
 const useStyles = makeStyles({
     resize: {
+        display: 'block',
         width: '100%',
-        height: '100%'
+        height: 'auto',
+        minHeight: '100%'
     }
 });
 
@@ -27,30 +29,27 @@ export default function SmartImage(props) {
     const sizeRef = React.useRef();
     const {width, height} = ComponentDimensions(sizeRef);
 
-    DebugLog('width' + width + 'heigh' + height)
+    DebugLog('width ' + width + ' height ' + height)
 
     return (
     <div 
     className={classes.resize} 
-    ref={sizeRef}
-    >
-    <PostMount 
-        
-    >
-        <EasyImage 
-            src={props.src}
-            width={width}
-            height={height}
-            crop={"pad"}
-            // etc={{ background:"#00000000"}}
-            >
-                {props.children}
+    ref={sizeRef}>
+        <PostMount>
+            <EasyImage 
+                src={props.src}
+                width={width}
+                height={height}
+                crop={"pad"}
+                etc={{ background:"#00000000"}}
+                >
+                    {props.children}
 
-                {/* <Transformation underlay={props.src}></Transformation>
-                    <Transformation width={width} height={height} crop="mfit"></Transformation>
-                    <Transformation blur="300"></Transformation>
-                <Transformation flags="layer_apply"></Transformation> */}
-        </EasyImage>
-    </PostMount>
+                    <Transformation underlay={props.src}></Transformation>
+                        <Transformation width={width} height={height} crop="mfit"></Transformation>
+                        <Transformation blur="300"></Transformation>
+                    <Transformation flags="layer_apply"></Transformation>
+            </EasyImage>
+        </PostMount>
     </div>);
 }

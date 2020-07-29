@@ -7,6 +7,8 @@ const knownHeight = 145;
 
 let logResize = true;
 
+const spamDelay = 500;
+
 function getHeight() {
     const header = document.getElementById('header');
 
@@ -48,11 +50,20 @@ export default function HeaderHeight() {
     const [height, setHeight] = useState(getHeight());
 
     useEffect(() => {
+
         function handleResize() {
             setHeight(getHeight());
         }
+    
+        const report = () =>  DebugLog("HeaderHeight: header resized!");
 
-        DebugLog("HeaderHeight: header resized!");
+        function delayReport() {
+            clearTimeout(report);
+            setTimeout(report, spamDelay);
+        }
+
+        delayReport();
+        
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
         

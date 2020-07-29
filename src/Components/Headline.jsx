@@ -34,7 +34,7 @@ function HeadlineImage(props){
     return(
         <Grid 
             item 
-            className="column"
+            className="column headlineImg"
             xs={extraSmall? 12: 6} 
             {...imgGrid}
             id={props.id}

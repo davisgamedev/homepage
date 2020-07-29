@@ -1,5 +1,6 @@
 import {React, useEffect, useState} from 'react';
 import { DebugDir } from './DebugLog';
+import DebugLog from './DebugLog';
 
 // https://stackoverflow.com/a/59989768 and https://stackoverflow.com/a/60978633
 
@@ -8,14 +9,12 @@ export default function ComponentDimensions(componentRef) {
         width: componentRef.current.offsetWidth,
         height: componentRef.current.offsetHeight
       })
-
-      DebugDir(componentRef);
     
       const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
     
       useEffect(() => {
         const handleResize = () => {
-          setDimensions(getDimensions())
+          setTimeout(() => setDimensions(getDimensions()), 1000);
         }
     
         if (componentRef.current) {
