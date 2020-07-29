@@ -1,29 +1,32 @@
-import React, {Suspense} from 'react';
-import { Image, Placeholder } from 'cloudinary-react'
-import Transformation from 'cloudinary-react/lib/components/Transformation';
+import React from 'react';
+import { Image, Placeholder, Transformation } from 'cloudinary-react'
+import { DebugDir } from './DebugLog';
 
-export default class EasyImage extends React.component {
+class EasyImage extends React.Component {
 
     constructor(props){
         super(props);
 
-        this.w = this.props.width;
-        this.h = this.props.height;
+        this.w = this.props.width || 1;
+        this.h = this.props.height || 1;
         this.c = this.props.crop || 'lfill';
         this.g = this.props.gravity || 'auto';
+        
         this.etc = this.props.etc;
+
+        DebugDir(this.props);
     }
 
     render(){
         return(
             <Image
-                public-id={this.props.src}
-                loading="lazy"
+                publicId={this.props.src}
+                // loading="lazy"
                 >
                     <Placeholder type="blur"></Placeholder>
                     <Transformation 
                         width={this.w} height={this.h}
-                        crop={this.c} gravity={this.g}
+                        crop={this.c} 
                         {...this.etc}
                     />
                     {this.props.children}
@@ -31,3 +34,5 @@ export default class EasyImage extends React.component {
         );
     }
 }
+
+export default EasyImage;

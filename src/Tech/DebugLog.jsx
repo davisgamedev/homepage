@@ -3,6 +3,7 @@ import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 export const Debug = true;//"production" !== process.env.NODE_ENV;
+export const LogTrace = Debug && true;
 
 /*
     The webpack package we have forces lint warnings despite eslintignore
@@ -15,13 +16,44 @@ if(Debug) {
     setTimeout(() => console.warn = warn, 3000);
 }
 
+function getLocalTrace() {
+
+    let obj = {};
+    Error.captureStackTrace(obj, getLocalTrace);
+
+    let stack = obj.stack.replace(
+        /Report|DebugDir|DebugLog|Error|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
+    
+    let split = stack
+                    .split(/\W/gm)
+                    .filter(x => x.length > 0)
+                    .reverse()
+                    .reduce(
+                        (acc, curr, i, arr) => acc + curr + (i < arr.length - 1 ? ' => ' : '')
+                        , '');
+    return split;
+}
+
+export function Report(debugDir=false) {
+    if(!LogTrace) return;
+
+    const message = `%c${debugDir? 'DebugDir()' : 'DebugLog()'} called from: ${getLocalTrace()}`;
+
+    console.log(message, 'color: grey; font-size: 10px; font-style: italic');
+}
 
 export function DebugDir(obj) {
-    if(Debug) console.dir(obj);
+    if(Debug) {
+        Report(true);
+        console.dir(obj);
+    }
 }
 
 export default function DebugLog(...args){
-    if(Debug) console.log(...args);
+    if(Debug) {
+        console.log(...args);
+        Report();
+    }
 }
 
 // just gonna keep this here for a bit

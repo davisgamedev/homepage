@@ -2,6 +2,7 @@ import React, {useRef, useEffect } from 'react';
 import { Image, Transformation } from 'cloudinary-react'
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core';
+import EasyImage from '../../Tech/EasyImage'
 
 const styles = makeStyles({
     hide: {
@@ -26,6 +27,9 @@ function PreviewImg(props) {
         
     </div>
     */
+
+    return (<div></div>)
+
     return(
         <EasyImage
             className="imgContainer"
