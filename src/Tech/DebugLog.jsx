@@ -59,7 +59,7 @@ export default function DebugLog(...args){
 
 export function DebugColorLog(message, color, background='none') {
     if(Debug) {
-        console.log('%c' + message, `color: ${color}; background-color:" ${background};`);
+        console.log('%c' + message, `color: ${color}; background-color: ${background}`);
         Report();
     }
 }

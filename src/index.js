@@ -38,7 +38,7 @@ ReactDOM.render(
             <ResetHomePath />
             <Switch>
                 {/* <Route path="/examples/components" component={Components} /> */}
-                <Route path="/" component={Home}/>
+                <Route path="" component={Home}/>
             </Switch>
         </Breakpoints>
     </Router>,

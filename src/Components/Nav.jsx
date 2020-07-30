@@ -5,6 +5,7 @@ import Icon from '@material-ui/core/Icon';
 import './Nav.css';
 import { Button, Menu, MenuItem } from '@material-ui/core';
 import DebugLog from 'Tech/DebugLog';
+import { Debug } from 'Tech/DebugLog';
 
 export const Pages = [
     { route: "/",          name: "Headlines"},
@@ -31,10 +32,10 @@ function Nav(props) {
     const [pageTitle, setPageTitle] = React.useState(getPageTitle(0));
     
     React.useEffect(() => {
-        const pageNum = Pages.findIndex(p => p.route === props.location.pathname);
+        const pageNum = Pages.findIndex(p => p.route === window.location.pathname);
         setPageTitle(
             getPageTitle((pageNum < 0)? 0 : pageNum));
-    }, [props.location.pathname]);
+    }, [window.location.pathname]);
 
     const PageLinks = Pages.map((p, i) => {
         return (
@@ -70,7 +71,7 @@ function Nav(props) {
 
     function setBB(bb) {
         bb.w = bb.right + bb.x;
-        bb.h = bb.bottom + bb.y;
+        bb.h = bb.bottom + bb.y + 50;
         bb.y -= 10;
     }
 
@@ -85,8 +86,8 @@ function Nav(props) {
             btnbb = document.getElementById('dropdown-btn')
                                      .getBoundingClientRect();
 
-            // DebugLog(el);
-            // DebugLog(btnbb);
+            DebugLog(el);
+            DebugLog(btnbb);
 
             setBB(bb);
             setBB(btnbb);
@@ -100,17 +101,17 @@ function Nav(props) {
             close();
 
             return; //comment out to debug nav closing
-            // if(Debug) {
-            //     if(e.clientX < bb.x) DebugLog('x min');
-            //     if(e.clientX > bb.w) DebugLog('x max');
-            //     if(e.clientY < bb.y) DebugLog('y min');
-            //     if(e.clientY > bb.h) DebugLog('y max');
+            if(Debug) {
+                if(e.clientX < bb.x) DebugLog('x min');
+                if(e.clientX > bb.w) DebugLog('x max');
+                if(e.clientY < bb.y) DebugLog('y min');
+                if(e.clientY > bb.h) DebugLog('y max');
     
-            //     DebugLog(`
-            //     mouseX: ${e.clientX}
-            //     mouseY: ${e.clientY}
-            //     `);
-            // }
+                DebugLog(`
+                mouseX: ${e.clientX}
+                mouseY: ${e.clientY}
+                `);
+            }
         }
     }
 

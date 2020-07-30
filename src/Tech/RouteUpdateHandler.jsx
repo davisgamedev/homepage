@@ -1,13 +1,18 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useLayoutEffect } from 'react';
+import { withRouter, useLocation, useHistory } from 'react-router-dom';
 
 import HeaderHeight from './HeaderHeight';
 import DebugLog from './DebugLog';
+import { DebugDir } from './DebugLog';
+import { DebugColorLog } from './DebugLog';
+import { Debug } from './DebugLog';
 
 // modified from https://stackoverflow.com/a/56250408
 
- ///////////////// SUPPRESS SCROLL LOGIC ////////////////
+const DRAW_DEBUG_LINES = Debug && false;
 
+
+ ///////////////// SUPPRESS SCROLL LOGIC ////////////////
 
 /*
     Sets supress global to true, which suppresses automatic scrolling in scroll handler
@@ -19,7 +24,7 @@ export function SuppressRouteChangeHandler() {
 }
 
 
-const timeout = 1000;
+const timeout = 1500;
 window.SuppressRouteChangeHandler = window.SuppressRouteChangeHandler || false;
 
 // get global
@@ -38,14 +43,30 @@ function setSuppressTimeout() {
     window.SuppressScrollTimeout = setTimeout(() => setSuppress(false), timeout);
 }
 
-/////////// global scroll listeners
-
-let scrollListener = ()=>{};
-window.addEventListener('scroll', ()=>scrollListener());
-
 function windowLineIntersects(windowLine, section){
     return windowLine < section.bottom && windowLine > section.top;
 }
+
+
+let windowLineDebug = (() => {
+
+    if(!DRAW_DEBUG_LINES) return {};
+
+    let div = document.createElement("DIV");
+    div.style = `
+        display: block;
+        position: absolute;
+        height: 1px;
+        width: 500px;
+        left: 10px;
+        border: 1px solid red;
+        z-index: 100000;
+        pointer-events:none;
+    `;
+    div.id = "window-line-debug";
+    document.body.append(div);
+    return div;
+})();
 
 
 /////////// section element retrievals
@@ -53,11 +74,16 @@ let Sections = {};
 let SectionsIdArray = [];
 let sectionsSet = false;
 
+let sectionsDebug = {};
+
 // used within element, but should be updated by setSections
 let section = {id: null};
 let previousId;
 
 function setSections() {
+
+    DebugColorLog('SECTIONS ARE NOW SET', 'white', 'red');
+
     Array.from(document.getElementsByClassName("section")).forEach(
         (el, i) => {
             Sections[el.id] = {
@@ -72,16 +98,49 @@ function setSections() {
     section = Sections[section.id || SectionsIdArray[0]];
     sectionsSet = true;
 
+
+    if(DRAW_DEBUG_LINES) {
+        SectionsIdArray.forEach(el => {
+
+            let sect = Sections[el];
+
+            if(!sectionsDebug[el]) {
+                let div = document.createElement("DIV");
+                div.style = `
+                    display: block;
+                    position: absolute;
+                    height: ${sect.bottom - sect.top}px;
+                    width: 700px;
+                    left: 20px;
+                    border: 1px solid yellow;
+                    z-index: 100000;
+                    pointer-events: none;
+                `;
+                div.id = "debug-section-" + el;
+                document.body.append(div);
+                sectionsDebug[el] = div;
+            }
+
+            let div = sectionsDebug[el];
+            div.style.height = (sect.bottom - sect.top) + 'px';
+            div.style.top = sect.top + 'px';
+        });
+    }
+
+    window.removeEventListener('resize', setSections);
     window.addEventListener('resize', setSections);
 }
 // yes this is awful for initalizations, but best I can come up with for now
 //  front end web is ductape and my soul is glue
-setTimeout(setSections, timeout);
-
+setTimeout(setSections, 500);
+setTimeout(setSections, 3000);
 
 /////////////////// SCROLL HANDLER FUNCTIONAL COMPONENT //////////////////
 
-const RouteUpdateHandler = ({ location, history }) => {
+export default function RouteUpdateHandler() {
+
+    let location = useLocation();
+    let history = useHistory();
 
     let autoScrolling = false;
     let scrollUp = false;
@@ -96,11 +155,12 @@ const RouteUpdateHandler = ({ location, history }) => {
     const height = HeaderHeight();    
 
     function getElementHeight() { return element ? element.offsetTop : 0; }
-    
+
     // gets the section id from the url path, also gets the currentDocId
     function getSectionIdFromPath() {
 
-        const results = location.pathname.split('/').filter(x => x);
+        const results = window.location.pathname.split('/').filter(x => x);
+
         section = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
 
         if(results) {
@@ -133,6 +193,8 @@ const RouteUpdateHandler = ({ location, history }) => {
 
             const windowLine = (window.scrollY - height) + (window.innerHeight * 3/4);
             
+            if(DRAW_DEBUG_LINES) windowLineDebug.style.top = windowLine + 'px';
+            
             if(!windowLineIntersects(windowLine, section)) {
 
                 SectionsIdArray.forEach(s => {
@@ -163,7 +225,7 @@ const RouteUpdateHandler = ({ location, history }) => {
         we can fix the weird initial page load but checking a scroll update here
     */
     function checkScroll() {
-        DebugLog("Scrolling..");
+
         if(autoScrolling && Math.abs(elementHeight - getElementHeight()) > 5){
             onRouteChange(true);
             DebugLog("%cElement height updated mid scroll", "background-color: orange; color: white");
@@ -177,7 +239,7 @@ const RouteUpdateHandler = ({ location, history }) => {
         }
     }
 
-    scrollListener = checkScroll;
+    window.addEventListener('scroll', checkScroll);
 
 
     function autoScroll() {
@@ -219,5 +281,3 @@ const RouteUpdateHandler = ({ location, history }) => {
 
     return(<span id="RouteUpdateHandler"></span>);
   };
-
-export default withRouter(RouteUpdateHandler);
