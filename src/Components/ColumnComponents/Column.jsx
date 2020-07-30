@@ -48,12 +48,12 @@ const Column = withRouter(props => {
 
     function putProjectPath() {
         SuppressRouteChangeHandler();
-        if(path) props.history.push(path);
+        if(path) props.history.push({pathname: path});
     }
 
     function putSectionPath() {
         SuppressRouteChangeHandler();
-        if(section) props.history.push(section);
+        if(section) props.history.push({pathname: section});
     }
 
     function open() {
@@ -76,7 +76,7 @@ const Column = withRouter(props => {
 
     function contact() {
         setExpanded(false);
-        setTimeout(() => {props.history.push("/contact")}, 100);
+        setTimeout(() => {props.history.push({pathname: "/contact"})}, 100);
     }
 
     return (

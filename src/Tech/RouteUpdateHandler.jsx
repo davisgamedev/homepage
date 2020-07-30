@@ -53,7 +53,7 @@ let SectionsIdArray = [];
 let sectionsSet = false;
 
 // used within element, but should be updated by setSections
-let section = {id: null};
+let currentSection = {id: null};
 let previousId;
 
 function setSections() {
@@ -68,7 +68,7 @@ function setSections() {
             SectionsIdArray.push(el.id);
         });
     
-    section = Sections[section.id || SectionsIdArray[0]];
+    currentSection = Sections[currentSection.id || SectionsIdArray[0]];
     sectionsSet = true;
 
     window.addEventListener('resize', setSections);
@@ -99,11 +99,9 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
     // gets the section id from the url path, also gets the currentDocId
     function getSectionIdFromPath() {
 
-        DebugDir(location);
-        DebugColorLog(location.pathname, 'orange');
-
-        const results = location.pathname.split('/').filter(x => x);
-        section = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
+        currentSection = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
+        
+        const results = location.pathname && location.pathname.split('/').filter(x => x);
 
         if(results) {
             if(results.length > 1) currentDocId = results[results.length-1];
@@ -111,7 +109,7 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
             const element = document.getElementById(results[0]);
 
             if(element && element.className === "section") {
-                section = sectionsSet ? Sections[results[0]] : {id: results[0]}
+                currentSection = sectionsSet ? Sections[results[0]] : {id: results[0]}
             }
             else currentDocId = results[0];
         }
@@ -135,13 +133,22 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
 
             const windowLine = (window.scrollY - height) + (window.innerHeight * 3/4);
             
-            if(!windowLineIntersects(windowLine, section)) {
+            DebugColorLog('check', 'yellow', 'black');
+            DebugDir(currentSection);
+
+            if(!windowLineIntersects(windowLine, currentSection)) {
+        
 
                 SectionsIdArray.forEach(s => {
+
+                    DebugDir(SectionsIdArray);
+                    DebugDir(s);
+                    DebugDir(Sections[s]);
+
                     if(windowLineIntersects(windowLine, Sections[s])){
                         SuppressRouteChangeHandler();
-                        section = Sections[s];
-                        history.push('/' + section.id);
+                        currentSection = Sections[s];
+                        history.push({pathname: '/' + currentSection.id});
                     }
                 });
             }
@@ -165,7 +172,11 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
         we can fix the weird initial page load but checking a scroll update here
     */
     function checkScroll() {
-        DebugLog("Scrolling..");
+
+        
+    DebugColorLog('current section: ', 'magenta');
+    DebugDir(currentSection);
+
         if(autoScrolling && Math.abs(elementHeight - getElementHeight()) > 5){
             onRouteChange(true);
             DebugLog("%cElement height updated mid scroll", "background-color: orange; color: white");
@@ -178,11 +189,11 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
             //prevScroll = window.scrollY;
         //}
     }
-    
+
     window.addEventListener('scroll', checkScroll);
 
     function autoScroll() {
-        element = document.getElementById(section.id);
+        element = document.getElementById(currentSection.id);
         elementHeight = getElementHeight();
         scrollTarget = elementHeight - height;
 
@@ -200,7 +211,8 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
 
     function onRouteChange(forceAutoScroll=false) {
 
-        previousId = section.id;
+        previousId = currentSection.id;
+        
         getSectionIdFromPath();
 
         if(Suppressed()) return;
@@ -213,7 +225,7 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
         */
         scrollDone(false);
 
-        autoScrolling = (forceAutoScroll || previousId !== section.id);
+        autoScrolling = (forceAutoScroll || previousId !== currentSection.id);
         if(autoScrolling) autoScroll();
 
     }

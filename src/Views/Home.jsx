@@ -8,6 +8,7 @@ import { Alert } from '@material-ui/lab';
 import { WarnDebug } from 'Tech/DebugLog';
 
 import CloudinaryContext from 'cloudinary-react/lib/components/CloudinaryContext/CloudinaryContext';
+import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
 
 
 export default function Home(props) {
@@ -21,9 +22,12 @@ export default function Home(props) {
 
     return(
         <CloudinaryContext cloudName={'dyzmnhqpr'}>
+            
+            <RouteUpdateHandler />
+
             <Header></Header>
             <Spacer></Spacer>
-            
+
             <ContentBody></ContentBody>
 
             <WarnDebug></WarnDebug>

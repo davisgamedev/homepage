@@ -42,7 +42,7 @@ function Nav(props) {
         className={"dropdown-link"}
         onClick={()=> {
             close();
-            props.history.push(p.route)
+            props.history.push({pathname: p.route})
         }} 
         key={`${i+1}: ${p.name}`}
         >

@@ -29,7 +29,7 @@ export default function SmartImage(props) {
     const sizeRef = React.useRef();
     const {width, height} = ComponentDimensions(sizeRef);
 
-    DebugLog('width ' + width + ' height ' + height)
+    //DebugLog('width ' + width + ' height ' + height)
 
     return (
     <div 
