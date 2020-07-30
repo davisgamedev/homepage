@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
-import ParagraphSkeleton from './ColumnComponents/ParagraphSkeleton'
-import ColumnRoot from './ColumnComponents/ColumnRoot';
+import ParagraphSkeleton from './ParagraphSkeleton'
+import ColumnRoot from './ColumnRoot';
 
 export function EncapRef(refArg) {
     const ref = refArg;

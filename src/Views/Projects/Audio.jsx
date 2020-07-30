@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/ColumnComponents/MakeColumns';
 
 const Aquaticgame = React.lazy(() => import( 'Content-Out/audio/aquaticgame'));
 const Autocomposer = React.lazy(() => import( 'Content-Out/audio/autocomposer'));

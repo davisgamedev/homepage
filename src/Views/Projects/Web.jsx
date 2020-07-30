@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/ColumnComponents/MakeColumns';
 
 const Estimator = React.lazy(() => import('Content-Out/web/estimator'));
 const Gulpcontentequals = React.lazy(() => import('Content-Out/web/gulpcontentequals'));

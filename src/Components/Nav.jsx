@@ -7,7 +7,8 @@ import { Button, Menu, MenuItem } from '@material-ui/core';
 import DebugLog from 'Tech/DebugLog';
 
 export const Pages = [
-    { route: "/"         , name: "Headlines", },
+    { route: "/",          name: "Headlines"},
+    { route: "/featured" , name: "Featured Projects", },
     { route: "/audio"    , name: "Audio Projects", },
     { route: "/games"    , name: "Game Projects", },
     { route: "/web"      , name: "Web Projects", },

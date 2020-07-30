@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/ColumnComponents/MakeColumns';
 
 const Warpdrive = React.lazy(() => import('Content-Out/graphics/warpdrive'));
 const Planetsprocessing = React.lazy(() => import('Content-Out/graphics/planetsprocessing'));

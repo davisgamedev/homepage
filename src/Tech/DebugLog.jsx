@@ -57,6 +57,13 @@ export default function DebugLog(...args){
     }
 }
 
+export function DebugColorLog(message, color, background='none') {
+    if(Debug) {
+        console.log('%c' + message, `color: ${color}; background-color:" ${background};`);
+        Report();
+    }
+}
+
 // just gonna keep this here for a bit
 //window.addEventListener('keydown', function(e){ if(e.key === 'F8') {debugger;} }, false);
 

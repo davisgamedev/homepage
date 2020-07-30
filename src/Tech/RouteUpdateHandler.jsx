@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 
 import HeaderHeight from './HeaderHeight';
 import DebugLog from './DebugLog';
+import { DebugDir } from './DebugLog';
+import { DebugColorLog } from './DebugLog';
 
 // modified from https://stackoverflow.com/a/56250408
 
@@ -39,9 +41,6 @@ function setSuppressTimeout() {
 }
 
 /////////// global scroll listeners
-
-let scrollListener = ()=>{};
-window.addEventListener('scroll', ()=>scrollListener());
 
 function windowLineIntersects(windowLine, section){
     return windowLine < section.bottom && windowLine > section.top;
@@ -81,7 +80,7 @@ setTimeout(setSections, timeout);
 
 /////////////////// SCROLL HANDLER FUNCTIONAL COMPONENT //////////////////
 
-const RouteUpdateHandler = ({ location, history }) => {
+export const RouteUpdateHandler = withRouter(({ location, history }) => {
 
     let autoScrolling = false;
     //let scrollUp = false;
@@ -99,6 +98,9 @@ const RouteUpdateHandler = ({ location, history }) => {
     
     // gets the section id from the url path, also gets the currentDocId
     function getSectionIdFromPath() {
+
+        DebugDir(location);
+        DebugColorLog(location.pathname, 'orange');
 
         const results = location.pathname.split('/').filter(x => x);
         section = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
@@ -176,9 +178,8 @@ const RouteUpdateHandler = ({ location, history }) => {
             //prevScroll = window.scrollY;
         //}
     }
-
-    scrollListener = checkScroll;
-
+    
+    window.addEventListener('scroll', checkScroll);
 
     function autoScroll() {
         element = document.getElementById(section.id);
@@ -201,7 +202,9 @@ const RouteUpdateHandler = ({ location, history }) => {
 
         previousId = section.id;
         getSectionIdFromPath();
+
         if(Suppressed()) return;
+        
         
         /*
             We call this once, because the route has changed and not suppressed
@@ -218,6 +221,6 @@ const RouteUpdateHandler = ({ location, history }) => {
     React.useEffect(onRouteChange, [location]);
 
     return(<span id="RouteUpdateHandler"></span>);
-  };
+  });
 
-export default withRouter(RouteUpdateHandler);
+  export default RouteUpdateHandler;

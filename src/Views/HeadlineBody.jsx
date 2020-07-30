@@ -1,25 +1,18 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import Planets from './Headlines/Planets';
+import Planets from './Headlines/PlanetsHeadline';
+import PlanetsHeadline from './Headlines/PlanetsHeadline';
+import Section from 'Components/Section';
 
 
-export default class HeadlineBody extends React.Component {
+export default function HeadlineBody(props){
 
+    const domRef = React.createRef(); // todo?
 
-    render() { 
-        return <Grid
-            container
-            spacing={1}
-            direction='row'
-            justify='flex-start'
-            alignItems='stretch'
-            wrap='wrap'
-        >
-            <Planets> </Planets>
-
-
-        </Grid>; 
-    
-    }
+    return(
+        <Section id="headlines" ref={domRef} title="headlines">
+            <PlanetsHeadline></PlanetsHeadline>
+        </Section>
+    );
 
 }

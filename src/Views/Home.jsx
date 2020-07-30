@@ -23,9 +23,7 @@ export default function Home(props) {
         <CloudinaryContext cloudName={'dyzmnhqpr'}>
             <Header></Header>
             <Spacer></Spacer>
-
-            <HeadlineBody></HeadlineBody>
-
+            
             <ContentBody></ContentBody>
 
             <WarnDebug></WarnDebug>

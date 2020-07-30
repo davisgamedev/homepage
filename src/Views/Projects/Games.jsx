@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from '../../Components/Section';
-import MakeColumns, {EncapRef} from '../../Components/MakeColumns';
+import MakeColumns, {EncapRef} from '../../Components/ColumnComponents/MakeColumns';
 
 const Bellearg = React.lazy(() => import('Content-Out/games/bellearg'));
 const Bellboardgame = React.lazy(() => import('Content-Out/games/bellboardgame'));

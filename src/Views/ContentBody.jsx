@@ -8,6 +8,7 @@ import Games from './Projects/Games';
 import Web from './Projects/Web';
 import Graphics from './Projects/Graphics';
 import Contact from './Contact';
+import HeadlineBody from './HeadlineBody';
 
 const useStyles = makeStyles({
     content: {  
@@ -24,6 +25,7 @@ export default function ContentBody(props) {
 
     return (
         <div className={classes.content}>
+            <HeadlineBody></HeadlineBody>
             <Featured></Featured>
             <Audio></Audio>
             <Games></Games>

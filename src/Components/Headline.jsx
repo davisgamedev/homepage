@@ -94,28 +94,18 @@ const HeadlineDescription = withRouter(({
 });
 
 export default class Headline extends React.Component {
-
-    domRef = React.createRef(); // todo?
-
-    /*
-        do we want autosizing in lazy img?
-    */
-
-    imgContainerRef = React.createRef();
-
     render() {
         return(
-            <Section id="headline" ref={this.domRef}>
-                <HeadlineImage>
-                    <SmartImage src="sample"></SmartImage>
-                </HeadlineImage>
-                <HeadlineDescription todo={this.props.todo}>
-                    <Suspense fallback={<ParagraphSkeleton />}>
-                        {this.props.children}
-                    </Suspense>
-                </HeadlineDescription>
-            </Section>
+            <div>
+            <HeadlineImage>
+                <SmartImage src="sample"></SmartImage>
+            </HeadlineImage>
+            <HeadlineDescription todo={this.props.todo}>
+                <Suspense fallback={<ParagraphSkeleton />}>
+                    {this.props.children}
+                </Suspense>
+            </HeadlineDescription>
+            </div>
         );
     } 
-
 }
