@@ -34,10 +34,11 @@ const ResetHomePath = withRouter(({location, history}) => {
 ReactDOM.render(
     <Router history={hist} basename={process.env.PUBLIC_URL}>
         <Breakpoints>
+            <RouteUpdateHandler />
             <ResetHomePath />
             <Switch>
                 {/* <Route path="/examples/components" component={Components} /> */}
-                <Route path="" component={Home}/>
+                <Route path="/" component={Home}/>
             </Switch>
         </Breakpoints>
     </Router>,

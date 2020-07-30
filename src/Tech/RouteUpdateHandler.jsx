@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 
 import HeaderHeight from './HeaderHeight';
 import DebugLog from './DebugLog';
-import { DebugDir } from './DebugLog';
-import { DebugColorLog } from './DebugLog';
 
 // modified from https://stackoverflow.com/a/56250408
 
@@ -42,6 +40,9 @@ function setSuppressTimeout() {
 
 /////////// global scroll listeners
 
+let scrollListener = ()=>{};
+window.addEventListener('scroll', ()=>scrollListener());
+
 function windowLineIntersects(windowLine, section){
     return windowLine < section.bottom && windowLine > section.top;
 }
@@ -53,7 +54,7 @@ let SectionsIdArray = [];
 let sectionsSet = false;
 
 // used within element, but should be updated by setSections
-let currentSection = {id: null};
+let section = {id: null};
 let previousId;
 
 function setSections() {
@@ -68,7 +69,7 @@ function setSections() {
             SectionsIdArray.push(el.id);
         });
     
-    currentSection = Sections[currentSection.id || SectionsIdArray[0]];
+    section = Sections[section.id || SectionsIdArray[0]];
     sectionsSet = true;
 
     window.addEventListener('resize', setSections);
@@ -80,11 +81,11 @@ setTimeout(setSections, timeout);
 
 /////////////////// SCROLL HANDLER FUNCTIONAL COMPONENT //////////////////
 
-export const RouteUpdateHandler = withRouter(({ location, history }) => {
+const RouteUpdateHandler = ({ location, history }) => {
 
     let autoScrolling = false;
-    //let scrollUp = false;
-    //let prevScroll = 0;
+    let scrollUp = false;
+    let prevScroll = 0;
     let scrollTimeoutHandler;
 
     let currentDocId = undefined;
@@ -99,9 +100,8 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
     // gets the section id from the url path, also gets the currentDocId
     function getSectionIdFromPath() {
 
-        currentSection = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
-        
-        const results = location.pathname && location.pathname.split('/').filter(x => x);
+        const results = location.pathname.split('/').filter(x => x);
+        section = sectionsSet? Sections[SectionsIdArray[0]] : {id: ""};
 
         if(results) {
             if(results.length > 1) currentDocId = results[results.length-1];
@@ -109,7 +109,7 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
             const element = document.getElementById(results[0]);
 
             if(element && element.className === "section") {
-                currentSection = sectionsSet ? Sections[results[0]] : {id: results[0]}
+                section = sectionsSet ? Sections[results[0]] : {id: results[0]}
             }
             else currentDocId = results[0];
         }
@@ -133,22 +133,13 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
 
             const windowLine = (window.scrollY - height) + (window.innerHeight * 3/4);
             
-            DebugColorLog('check', 'yellow', 'black');
-            DebugDir(currentSection);
-
-            if(!windowLineIntersects(windowLine, currentSection)) {
-        
+            if(!windowLineIntersects(windowLine, section)) {
 
                 SectionsIdArray.forEach(s => {
-
-                    DebugDir(SectionsIdArray);
-                    DebugDir(s);
-                    DebugDir(Sections[s]);
-
                     if(windowLineIntersects(windowLine, Sections[s])){
                         SuppressRouteChangeHandler();
-                        currentSection = Sections[s];
-                        history.push({pathname: '/' + currentSection.id});
+                        section = Sections[s];
+                        history.push('/' + section.id);
                     }
                 });
             }
@@ -172,11 +163,7 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
         we can fix the weird initial page load but checking a scroll update here
     */
     function checkScroll() {
-
-        
-    DebugColorLog('current section: ', 'magenta');
-    DebugDir(currentSection);
-
+        DebugLog("Scrolling..");
         if(autoScrolling && Math.abs(elementHeight - getElementHeight()) > 5){
             onRouteChange(true);
             DebugLog("%cElement height updated mid scroll", "background-color: orange; color: white");
@@ -184,16 +171,17 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
         if(scrollTimeoutHandler) clearTimeout(scrollTimeoutHandler);
         scrollTimeoutHandler = setTimeout(scrollDone, 200);
 
-        //if(!autoScrolling) {
-            //scrollUp = (window.scrollY < prevScroll);
-            //prevScroll = window.scrollY;
-        //}
+        if(!autoScrolling) {
+            scrollUp = (window.scrollY < prevScroll);
+            prevScroll = window.scrollY;
+        }
     }
 
-    window.addEventListener('scroll', checkScroll);
+    scrollListener = checkScroll;
+
 
     function autoScroll() {
-        element = document.getElementById(currentSection.id);
+        element = document.getElementById(section.id);
         elementHeight = getElementHeight();
         scrollTarget = elementHeight - height;
 
@@ -211,12 +199,9 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
 
     function onRouteChange(forceAutoScroll=false) {
 
-        previousId = currentSection.id;
-        
+        previousId = section.id;
         getSectionIdFromPath();
-
         if(Suppressed()) return;
-        
         
         /*
             We call this once, because the route has changed and not suppressed
@@ -225,7 +210,7 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
         */
         scrollDone(false);
 
-        autoScrolling = (forceAutoScroll || previousId !== currentSection.id);
+        autoScrolling = (forceAutoScroll || previousId !== section.id);
         if(autoScrolling) autoScroll();
 
     }
@@ -233,6 +218,6 @@ export const RouteUpdateHandler = withRouter(({ location, history }) => {
     React.useEffect(onRouteChange, [location]);
 
     return(<span id="RouteUpdateHandler"></span>);
-  });
+  };
 
-  export default RouteUpdateHandler;
+export default withRouter(RouteUpdateHandler);
