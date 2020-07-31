@@ -23,7 +23,6 @@ export default class PostMount extends React.Component {
 
             if(this.props.callback) this.props.callback();
     
-            DebugDir(this.props);
             }, 2000
         )
         

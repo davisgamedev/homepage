@@ -3,4 +3,4 @@
 - small nav should be full width, or adjusted to size, it's awkward and off center
 - small nav location is off center
 
-- issue in redirect to top of page
+- contact styling issues

@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react';
 import DebugLog from '../Tech/DebugLog';
+import { Debug } from './DebugLog';
 
 /******** UPDATE NEW HEIGHT HERE **********/
 const knownHeight = 145;
 /*****************************************/
 
-let logResize = true;
+let logResize = Debug && true;
 
 const spamDelay = 500;
 

@@ -11,6 +11,9 @@ import { DebugDir } from 'Tech/DebugLog';
 import './ColumnComponents/Column.css';
 import ParagraphSkeleton from './ColumnComponents/ParagraphSkeleton';
 import SmartImage from 'Tech/SmartImage';
+import HeaderHeight from 'Tech/HeaderHeight';
+import WindowDimensions from 'Tech/WindowDimensions';
+import { DebugList } from 'Tech/DebugLog';
 
 
 const colGrid = {
@@ -31,6 +34,15 @@ function HeadlineImage(props){
 
     const {extraSmall} = SmallView();
 
+    const headerHeight = HeaderHeight();
+    const {windowWidth, windowHeight} = WindowDimensions();
+
+    const height = windowHeight||0 - headerHeight||500 - 250;
+    const width = windowWidth;
+
+
+    DebugList(headerHeight, windowWidth, windowHeight, width, height);
+
     return(
         <Grid 
             item 
@@ -39,7 +51,11 @@ function HeadlineImage(props){
             {...imgGrid}
             id={props.id}
         >
-            {props.children}
+            <div style={{
+                height: height
+            }}>
+                <SmartImage width={width} height={height} src={props.src}></SmartImage>
+            </div>
         </Grid>
 
         );
@@ -94,11 +110,13 @@ const HeadlineDescription = withRouter(({
 });
 
 export default class Headline extends React.Component {
+
+    columnRef = React.createRef();
+
     render() {
         return(
             <div>
-            <HeadlineImage>
-                <SmartImage src="sample"></SmartImage>
+            <HeadlineImage src="sample" getRef={()=>this.columnRef}>
             </HeadlineImage>
             <HeadlineDescription todo={this.props.todo}>
                 <Suspense fallback={<ParagraphSkeleton />}>

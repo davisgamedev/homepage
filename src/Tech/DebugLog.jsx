@@ -35,32 +35,44 @@ function getLocalTrace() {
     return message;
 }
 
-export function Report(debugDir=false) {
+export function Report(func) {
     if(!LogTrace) return;
 
-    const message = `%c${debugDir? 'DebugDir()' : 'DebugLog()'} called from: ${getLocalTrace()}`;
+    const message = `%c${func.name}() called from: ${getLocalTrace()}`;
 
     console.log(message, 'color: grey; font-size: 10px; font-style: italic');
 }
 
 export function DebugDir(obj) {
     if(Debug) {
-        Report(true);
         console.dir(obj);
+        Report(DebugDir);
     }
 }
 
 export default function DebugLog(...args){
     if(Debug) {
         console.log(...args);
-        Report();
+        Report(DebugLog);
     }
 }
 
 export function DebugColorLog(message, color, background='none') {
     if(Debug) {
         console.log('%c' + message, `color: ${color}; background-color: ${background}`);
-        Report();
+        Report(DebugColorLog);
+    }
+}
+
+export function DebugList(...args) {
+    if(Debug) {
+        console.log(`
+        [ ${args.reduce(
+            (acc, curr) => acc + curr + ', ',
+            ''
+        )}];
+        `)
+        Report(DebugList);
     }
 }
 

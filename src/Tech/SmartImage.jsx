@@ -6,6 +6,7 @@ import PostMount from './PostMount';
 import { Transformation } from 'cloudinary-react';
 import { DebugDir } from './DebugLog';
 import DebugLog from './DebugLog';
+import { DebugList } from './DebugLog';
 
 const useStyles = makeStyles({
     resize: {
@@ -27,9 +28,9 @@ export default function SmartImage(props) {
     const classes = useStyles();
 
     const sizeRef = React.useRef();
-    const {width, height} = ComponentDimensions(sizeRef);
+    const {componentWidth, componentHeight} = ComponentDimensions(sizeRef);
 
-    //DebugLog('width ' + width + ' height ' + height)
+    DebugList(componentWidth, componentHeight);
 
     return (
     <div 
@@ -38,16 +39,15 @@ export default function SmartImage(props) {
         <PostMount>
             <EasyImage 
                 src={props.src}
-                width={width}
-                height={height}
+                width={componentWidth} height={componentHeight}
                 crop={"pad"}
                 etc={{ background:"#00000000"}}
                 >
                     {props.children}
 
                     <Transformation underlay={props.src}></Transformation>
-                        <Transformation width={width} height={height} crop="mfit"></Transformation>
-                        <Transformation blur="300"></Transformation>
+                        <Transformation width={componentWidth} height={componentHeight} crop="mfit"></Transformation>
+                        <Transformation blur="3"></Transformation>
                     <Transformation flags="layer_apply"></Transformation>
             </EasyImage>
         </PostMount>

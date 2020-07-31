@@ -1,9 +1,8 @@
-import React, { useLayoutEffect } from 'react';
-import { withRouter, useLocation, useHistory } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import HeaderHeight from './HeaderHeight';
 import DebugLog from './DebugLog';
-import { DebugDir } from './DebugLog';
 import { DebugColorLog } from './DebugLog';
 import { Debug } from './DebugLog';
 
@@ -153,6 +152,7 @@ export default function RouteUpdateHandler() {
     let scrollTarget;
 
     const height = HeaderHeight();    
+    DebugColorLog('header height is: ' + height, 'magenta')
 
     function getElementHeight() { return element ? element.offsetTop : 0; }
 

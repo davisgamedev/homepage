@@ -17,8 +17,6 @@ class EasyImage extends React.Component {
         this.g = this.props.gravity || 'auto';
         
         this.etc = this.props.etc;
-
-        DebugDir(this.props);
     }
 
     render(){
