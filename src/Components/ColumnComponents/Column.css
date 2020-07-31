@@ -30,7 +30,7 @@
     font-family: 'Lora', serif;
     font-size: 14px;
     color: #fafaf5;
-    background-color: #272729;
+    background-color: #0c0c0d;
 }
 
 .column .collapsed a {    
@@ -92,11 +92,11 @@
 }
 
 .column:hover h2:before {
-    border-color: #272729;
+    border-color: #0c0c0d;
 }
 
 .column:hover h2:after {
-    border-color: #272729;
+    border-color: #0c0c0d;
 }
 
 
@@ -128,12 +128,12 @@ div.headlineImg {
 }
 
 .column:hover a {
-    color: #272729 !important; 
+    color: #0c0c0d !important; 
     transition: all .7s;
 }
 
 .column:hover a:hover {
-    color: #272729 !important;
+    color: #0c0c0d !important;
     background-color: none !important;
 }
 
@@ -148,7 +148,7 @@ div.headlineImg {
 }
 
 .container:hover .placeholder {
-    color: #272729;
+    color: #0c0c0d;
 }
 
 .sectionRow > * {
@@ -180,7 +180,7 @@ button.container {
     font-family: 'Lora', serif;
     font-size: 14px;
     color: #fafaf5;
-    background-color: #272729;
+    background-color: #0c0c0d;
 
     text-align: left;
     text-transform: none;
@@ -200,7 +200,7 @@ button.container {
 
 Button.container:hover {
     background-color: #fafaf5;
-    color: #272729;   
+    color: #0c0c0d;   
 }
 
 Button.container img {
@@ -225,7 +225,7 @@ Button.container .imgContainer:before {
 }
 
 Button.container:hover .imgContainer:before {
-    border-color: #272729;
+    border-color: #0c0c0d;
 }
 
 
@@ -285,12 +285,12 @@ Button.container:hover .imgContainer:before {
 
 
 .expanded *{
-    color: #272729 !important;
+    color: #0c0c0d !important;
 }
 
 .expanded p {
     font-family: 'Roboto', sans-serif;
-    color: #272729;
+    color: #0c0c0d;
     font-weight: 300;
     font-size: 15px;
 }

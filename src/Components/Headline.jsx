@@ -18,14 +18,14 @@ import { DebugList } from 'Tech/DebugLog';
 
 const colGrid = {
     sm: 12,
-    md: 4,
-    lg: 2,
+    md: 3,
+    lg: 1,
     className: 'column'
 }
 
 const imgGrid = {
     sm: 12,
-    md: 8,
+    md: 9,
     lg: 10,
 }
 
@@ -34,28 +34,15 @@ function HeadlineImage(props){
 
     const {extraSmall} = SmallView();
 
-    const headerHeight = HeaderHeight();
-    const {windowWidth, windowHeight} = WindowDimensions();
-
-    const height = windowHeight||0 - headerHeight||500 - 250;
-    const width = windowWidth;
-
-
-    DebugList(headerHeight, windowWidth, windowHeight, width, height);
-
     return(
         <Grid 
             item 
-            className="column headlineImg"
+            className="column headlineImg debug"
             xs={extraSmall? 12: 6} 
             {...imgGrid}
             id={props.id}
         >
-            <div style={{
-                height: height
-            }}>
-                <SmartImage width={width} height={height} src={props.src}></SmartImage>
-            </div>
+                <SmartImage src={props.src}></SmartImage>
         </Grid>
 
         );
@@ -82,13 +69,13 @@ const HeadlineDescription = withRouter(({
     return (
         <Grid 
             item 
-            className="column"
+            className="column debug"
             xs={extraSmall? 12: 6} 
             {...colGrid}
             id={id}
         >
             <Button 
-                className={"container collapsed " + (extraSmall? 'extraSmall' : '')}
+                className={"container collapsed debug" + (extraSmall? 'extraSmall' : '')}
                 onClick={()=>history.push({pathname: "/graphics/Planets-Processing"})}
                 >
                 <div className="innerContainer">
@@ -110,12 +97,9 @@ const HeadlineDescription = withRouter(({
 });
 
 export default class Headline extends React.Component {
-
-    columnRef = React.createRef();
-
     render() {
         return(
-            <div>
+            <Section id="headlines" title="headlines">
             <HeadlineImage src="sample" getRef={()=>this.columnRef}>
             </HeadlineImage>
             <HeadlineDescription todo={this.props.todo}>
@@ -123,7 +107,7 @@ export default class Headline extends React.Component {
                     {this.props.children}
                 </Suspense>
             </HeadlineDescription>
-            </div>
+            </Section>
         );
     } 
 }

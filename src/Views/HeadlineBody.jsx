@@ -10,9 +10,7 @@ export default function HeadlineBody(props){
     const domRef = React.createRef(); // todo?
 
     return(
-        <Section id="headlines" ref={domRef} title="headlines">
             <PlanetsHeadline></PlanetsHeadline>
-        </Section>
     );
 
 }

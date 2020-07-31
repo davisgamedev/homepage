@@ -1,7 +1,7 @@
 body {
     font-family: 'Lora', serif;
     color: #fafaf5 !important;
-    background-color: #272729 !important;
+    background-color: #0c0c0d !important;
     overflow: scroll !important;
 
     /* this fixes an issue where expanded menus cause whole body to shift*/
@@ -12,7 +12,7 @@ a {
     font-family: 'Playfair Display';
     font-size: 14px;
     font-weight: 100;
-    color: #272729 !important;
+    color: #0c0c0d !important;
 }
 
 a:hover {
@@ -20,12 +20,12 @@ a:hover {
 }
 
 a:active {
-    color: #272729;
+    color: #0c0c0d;
 }
 
 a:visited {
     color: inherit;
-    background-color: #272729;
+    background-color: #0c0c0d;
 }
 
 .debug {

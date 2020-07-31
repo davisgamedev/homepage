@@ -15,18 +15,18 @@
     font-weight: 400;
 
     background-color: #fafaf5;
-    color: #272729;
+    color: #0c0c0d;
     
     border-width: 2px;
 }
 
 #contactSubmit:hover{
-    color: #272729;
+    color: #0c0c0d;
     background-color: #565656;
 }
 
 #contactSubmit:disabled{
-    color: #272729;
+    color: #0c0c0d;
     background-color: #565656;
 }
 

@@ -4,7 +4,7 @@ button .dropbtn {
 
 #dropdown-menu div {
     overflow: hidden !important;
-    background-color: #272729;
+    background-color: #0c0c0d;
 
     color: #fafaf5 !important;
 }
@@ -57,12 +57,12 @@ a.currentPage{
 
 .dropdown-link:hover *{
     background-color: #fafaf5 !important;
-    color: #272729 !important;
+    color: #0c0c0d !important;
 }
 
 li.dropdown-link:hover a {
     background-color: #fafaf5 !important;
-    color: #272729 !important;
+    color: #0c0c0d !important;
 }
 
 li.dropdown-link a {

@@ -4,8 +4,6 @@ import ComponentDimensions from './ComponentDimensions';
 import EasyImage from './EasyImage';
 import PostMount from './PostMount';
 import { Transformation } from 'cloudinary-react';
-import { DebugDir } from './DebugLog';
-import DebugLog from './DebugLog';
 import { DebugList } from './DebugLog';
 
 const useStyles = makeStyles({
@@ -30,8 +28,6 @@ export default function SmartImage(props) {
     const sizeRef = React.useRef();
     const {componentWidth, componentHeight} = ComponentDimensions(sizeRef);
 
-    DebugList(componentWidth, componentHeight);
-
     return (
     <div 
     className={classes.resize} 
@@ -40,15 +36,16 @@ export default function SmartImage(props) {
             <EasyImage 
                 src={props.src}
                 width={componentWidth} height={componentHeight}
-                crop={"pad"}
-                etc={{ background:"#00000000"}}
+                crop={"lfill"}
                 >
-                    {props.children}
-
-                    <Transformation underlay={props.src}></Transformation>
-                        <Transformation width={componentWidth} height={componentHeight} crop="mfit"></Transformation>
-                        <Transformation blur="3"></Transformation>
-                    <Transformation flags="layer_apply"></Transformation>
+                    {/* <Transformation transformation={["q_auto:eco"]}></Transformation> */}
+                    <Transformation effect="blur:10000"></Transformation>
+                    <Transformation opacity="90"></Transformation>
+                    <Transformation 
+                    overlay={props.src}
+                    width={componentWidth} height={componentHeight}
+                    crop="fit"
+                    />
             </EasyImage>
         </PostMount>
     </div>);

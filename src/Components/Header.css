@@ -6,7 +6,7 @@
     left: 0;
     width: 100%;
     z-index: 100;
-    background-color: #272729;
+    background-color: #0c0c0d;
 }
 
 .headerWrapper {
@@ -19,7 +19,7 @@
     line-height: 72px;
     margin: 15px 0 20px 0;
     color: #fafaf5;
-    background-color: #272729;
+    background-color: #0c0c0d;
 }
 
 .subtitle {
