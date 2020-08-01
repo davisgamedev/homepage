@@ -31,14 +31,17 @@ export default function SmartImage(props) {
     return (
     <div 
     className={classes.resize} 
-    ref={sizeRef}>
-        <PostMount>
+    ref={sizeRef}
+    width={componentWidth} height={componentHeight}
+    >
+        <PostMount
+        width={componentWidth} height={componentHeight}
+        >
             <EasyImage 
                 src={props.src}
                 width={componentWidth} height={componentHeight}
-                crop={"lfill"}
+                crop={"fill"}
                 >
-                    {/* <Transformation transformation={["q_auto:eco"]}></Transformation> */}
                     <Transformation effect="blur:10000"></Transformation>
                     <Transformation opacity="90"></Transformation>
                     <Transformation 

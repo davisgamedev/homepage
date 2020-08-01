@@ -1,40 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, Placeholder, Transformation } from 'cloudinary-react'
 import { DebugDir } from './DebugLog';
 import DebugLog from './DebugLog';
 
-class EasyImage extends React.Component {
+export default function EasyImage(props){
 
-    constructor(props){
+    useEffect(() => {}, [props.width, props.height]);
 
-        DebugLog('hello');
-
-        super(props);
-
-        this.w = this.props.width;
-        this.h = this.props.height;
-        this.c = this.props.crop || 'lfill';
-        this.g = this.props.gravity || 'auto';
-        
-        this.etc = this.props.etc;
-    }
-
-    render(){
-        return(
-            <Image
-                publicId={this.props.src}
-                //loading="lazy"
-                >
-                    <Placeholder type="blur"></Placeholder>
-                    <Transformation 
-                        width={this.w} height={this.h}
-                        crop={this.c} 
-                        {...this.etc}
-                    />
-                    {this.props.children}
-            </Image>
-        );
-    }
+    return(
+        <Image
+            publicId={props.src}
+            loading="lazy"
+            >
+                <Placeholder type="blur"></Placeholder>
+                <Transformation 
+                    width={props.width} height={props.height}
+                    crop={props.crop} 
+                    {...props.etc}
+                />
+                {props.children}
+        </Image>
+    );
 }
-
-export default EasyImage;

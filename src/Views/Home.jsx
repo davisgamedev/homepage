@@ -9,6 +9,7 @@ import { WarnDebug } from 'Tech/DebugLog';
 
 import CloudinaryContext from 'cloudinary-react/lib/components/CloudinaryContext/CloudinaryContext';
 import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
+import ParallaxHandler from 'Tech/ParallaxHandler';
 
 
 export default function Home(props) {
@@ -22,6 +23,8 @@ export default function Home(props) {
 
     return(
         <CloudinaryContext cloudName={'dyzmnhqpr'}>
+
+            <ParallaxHandler />
 
             <Header></Header>
             <Spacer></Spacer>

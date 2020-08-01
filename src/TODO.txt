@@ -4,3 +4,8 @@
 - small nav location is off center
 
 - contact styling issues
+
+- invert column colors again, replace black with transparent background of the current headline
+- add the little to top button in the corner, i forget what it's called
+
+- paralax?

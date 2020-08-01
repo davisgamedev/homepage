@@ -2,16 +2,23 @@ import React, { Suspense } from 'react';
 import { Skeleton } from '@material-ui/lab';
 import DebugLog from './DebugLog';
 import { DebugDir } from './DebugLog';
+import ComponentDimensions from './ComponentDimensions';
 
+export function Placeholder(props) {
+    return(
+            <Skeleton 
+                variant={props.variant||'rect'} 
+                animation="pulse" 
+                style={{width: props.width, height: props.height}}
+                className="placeholderSkeleton"
+            />
+    );
+}
 
 export default class PostMount extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.placeholder = this.props.placeholder || 
-            (<Skeleton variant={this.props.variant || 'rect'} animation="wave" />);
-
         this.state = {mounted: false};
     }
 
@@ -23,20 +30,24 @@ export default class PostMount extends React.Component {
 
             if(this.props.callback) this.props.callback();
     
-            }, 2000
+            }, 1500
         )
-        
-
-
+    
     }
 
     render() {
         return(
-        <Suspense fallback={this.placeholder}>
+        <Suspense 
+            style={{
+                width: this.props.width,
+                height: this.props.height
+            }}
+            fallback={this.placeholder}
+        >
             {
                 this.state.mounted? 
-                    this.props.children
-                    : this.props.placeholder
+                this.props.children :
+                (<Placeholder width={this.props.width} height={this.props.height} />)
             }
         </Suspense>
         );

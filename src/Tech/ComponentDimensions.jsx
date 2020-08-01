@@ -12,7 +12,7 @@ export default function ComponentDimensions(componentRef) {
     
       useEffect(() => {
         const handleResize = () => {
-          setTimeout(() => setDimensions(getDimensions()), 1000);
+          setTimeout(() => setDimensions(getDimensions()), 500);
         }
     
         if (componentRef.current) {

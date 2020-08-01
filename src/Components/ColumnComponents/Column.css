@@ -118,7 +118,6 @@
 div.headlineImg {
     width: 100%;
     height: auto;
-    min-height: 100% !important;
     display: block;
 }
 
@@ -402,35 +401,6 @@ button.extraSmall{
 
 .expanded.extraSmall .paperContainer div{
     margin: 10px;
-}
-
-
-
-
-/*********** Skeleton *************/
-
-div.skeletonContainer{
-    margin-top: 20px;
-    display: block !important;
-}
-
-div.skeletonContainer .skeleton {
-    background-color: #f2f2f244;
-    transition: all .7s;
-}
-
-.column:hover .skeleton{
-    background-color: #23232344;
-}
-
-.column .collapsed .skeletonContainer :nth-child(n+5){
-    display: flex;
-    flex-grow: 1;
-}
-
-span.skeleton {
-    display: flex;
-    flex-grow: 1;
 }
 
 /* to explore

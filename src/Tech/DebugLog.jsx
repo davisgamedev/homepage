@@ -22,7 +22,7 @@ function getLocalTrace() {
     Error.captureStackTrace(obj, getLocalTrace);
 
     let stack = obj.stack.replace(
-        /Report|DebugDir|DebugLog|Error|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
+        /Report|DebugDir|DebugLog|DebugColorLog|Error|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
     
     let split = stack
         .split(/\W/gm)

@@ -2,47 +2,49 @@ import React, { Suspense } from 'react';
 import Section from '../Components/Section';
 import { Grid, Divider, Button } from '@material-ui/core';
 import { SmallView } from 'Tech/Breakpoints';
-import Column from './ColumnComponents/Column';
 import { withRouter } from 'react-router-dom';
 import Preview from './ColumnComponents/Preview';
-import { DebugDir } from 'Tech/DebugLog';
 
 
 import './ColumnComponents/Column.css';
 import ParagraphSkeleton from './ColumnComponents/ParagraphSkeleton';
 import SmartImage from 'Tech/SmartImage';
-import HeaderHeight from 'Tech/HeaderHeight';
 import WindowDimensions from 'Tech/WindowDimensions';
-import { DebugList } from 'Tech/DebugLog';
+import BackgroundSpread from 'Tech/BackgroundSpread';
 
 
 const colGrid = {
     sm: 12,
     md: 3,
-    lg: 1,
+    lg: 3,
     className: 'column'
 }
 
 const imgGrid = {
     sm: 12,
     md: 9,
-    lg: 10,
+    lg: 9,
 }
 
 
 function HeadlineImage(props){
 
     const {extraSmall} = SmallView();
+    
+    const {windowWidth, windowHeight} = WindowDimensions();
 
     return(
         <Grid 
             item 
-            className="column headlineImg debug"
-            xs={extraSmall? 12: 6} 
+            className="column"
+            xs={extraSmall? 12: 12} 
             {...imgGrid}
             id={props.id}
         >
+            <div className="headlineImg headlineImgContainer" style={{minHeight: windowHeight * 2/3}}>
+                <BackgroundSpread src={props.src}></BackgroundSpread>
                 <SmartImage src={props.src}></SmartImage>
+            </div>
         </Grid>
 
         );
@@ -53,6 +55,7 @@ const HeadlineDescription = withRouter(({
     getParentComp, 
     todo, 
     previewSrc,
+    link,
     
     children,
     history}) => {
@@ -69,14 +72,14 @@ const HeadlineDescription = withRouter(({
     return (
         <Grid 
             item 
-            className="column debug"
-            xs={extraSmall? 12: 6} 
+            className="column"
+            xs={extraSmall? 12: 12} 
             {...colGrid}
             id={id}
         >
             <Button 
-                className={"container collapsed debug" + (extraSmall? 'extraSmall' : '')}
-                onClick={()=>history.push({pathname: "/graphics/Planets-Processing"})}
+                className={"container collapsed" + (extraSmall? 'extraSmall' : '')}
+                onClick={()=>history.push({pathname: link})}
                 >
                 <div className="innerContainer">
                     {
@@ -100,13 +103,13 @@ export default class Headline extends React.Component {
     render() {
         return(
             <Section id="headlines" title="headlines">
-            <HeadlineImage src="sample" getRef={()=>this.columnRef}>
-            </HeadlineImage>
-            <HeadlineDescription todo={this.props.todo}>
-                <Suspense fallback={<ParagraphSkeleton />}>
-                    {this.props.children}
-                </Suspense>
-            </HeadlineDescription>
+                <HeadlineDescription todo={this.props.todo} link={this.props.link}>
+                    <Suspense fallback={<ParagraphSkeleton />}>
+                        {this.props.children}
+                    </Suspense>
+                </HeadlineDescription>
+                <HeadlineImage src={this.props.src} getRef={()=>this.columnRef}>
+                </HeadlineImage>
             </Section>
         );
     } 

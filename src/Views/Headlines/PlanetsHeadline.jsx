@@ -7,7 +7,11 @@ export default class PlanetsHeadline extends React.Component {
 
     render() {
         return (
-        <Headline todo={true}>
+        <Headline 
+        todo={true} 
+        src={'sample'}
+        link={"/graphics/Planets-Processing"}
+        >
             <Planets></Planets>
         </Headline>
         );
