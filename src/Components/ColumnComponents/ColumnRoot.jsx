@@ -8,7 +8,7 @@ import Column from './Column';
 const singleProps = {
     sm: 4,
     md: 3,
-    lg: 2,
+    lg: 3,
     className: 'column'
 }
 

@@ -151,8 +151,7 @@ export default function RouteUpdateHandler() {
     let elementHeight;
     let scrollTarget;
 
-    const height = HeaderHeight();    
-    DebugColorLog('header height is: ' + height, 'magenta')
+    const height = HeaderHeight();
 
     function getElementHeight() { return element ? element.offsetTop : 0; }
 

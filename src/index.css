@@ -7,10 +7,44 @@ body {
     padding-right: 0px !important;
 
     background-attachment: fixed;
-    background-position: center;
+    background-position: 0 0;
     background-repeat: no-repeat;
     background-size: cover;
+
+    -webkit-transition: background-image 0.7s ease-in-out;
+    transition: background-image 0.7s ease-in-out;
 }
+
+/***** MUI abuse here **********/
+
+div.MuiPaper-root {
+    background-color: #ffffff44;
+    backdrop-filter: blur(50px) brightness(3) grayscale(25%);
+
+    color: #0c0c0d;  
+}
+
+div.MuiPaper-rounded {
+    border-radius: 25px;
+}
+
+div.paperContainer {
+    border-radius: 25px;
+    padding: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 a {
     font-family: 'Playfair Display';

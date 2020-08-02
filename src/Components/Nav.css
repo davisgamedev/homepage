@@ -4,7 +4,10 @@ button .dropbtn {
 
 #dropdown-menu div {
     overflow: hidden !important;
-    background-color: #0c0c0d;
+    
+    background-color: #000000aa;
+
+    backdrop-filter: blur(10px);
 
     color: #fafaf5 !important;
 }

@@ -4,9 +4,9 @@ import { Skeleton } from '@material-ui/lab';
 export default function ParagraphSkeleton(props) {
     return (<div className={"skeletonContainer"}>
         {
-            (new Array(9).fill(null).map(
+            (new Array(12).fill(null).map(
             (x, i) => 
-            (props.todo && i === 2) ? 
+            (props.todo && i === 4) ? 
                 <p key={i} className={'placeholder'}>
                     Document not imported yet
                 </p> :

@@ -64,7 +64,7 @@ function SectionContents(props) {
             </h2>
             <Grid 
                 container 
-                spacing={1}
+                spacing={3}
                 className={classes.grid + " sectionRow"}
                 direction='row'
                 justify='flex-start'
