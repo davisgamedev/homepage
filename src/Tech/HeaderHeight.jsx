@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
-import DebugLog from '../Tech/DebugLog';
-import { Debug } from './DebugLog';
+import DebugLog from './DebugTools';
+import { Debug } from './DebugTools';
 
 /******** UPDATE NEW HEIGHT HERE **********/
 const knownHeight = 145;

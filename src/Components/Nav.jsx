@@ -4,8 +4,8 @@ import {Link, withRouter} from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import './Nav.css';
 import { Button, Menu, MenuItem } from '@material-ui/core';
-import DebugLog from 'Tech/DebugLog';
-import { Debug } from 'Tech/DebugLog';
+import DebugLog from 'Tech/DebugTools';
+import { Debug } from 'Tech/DebugTools';
 
 export const Pages = [
     { route: "/",          name: "Headlines"},

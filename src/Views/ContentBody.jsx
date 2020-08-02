@@ -9,6 +9,7 @@ import Web from './Projects/Web';
 import Graphics from './Projects/Graphics';
 import Contact from './Contact';
 import HeadlineBody from './HeadlineBody';
+import { SmoothScrollAdapter } from 'Tech/SmoothScrollAdapter';
 
 const useStyles = makeStyles({
     content: {  
@@ -21,7 +22,6 @@ const useStyles = makeStyles({
 export default function ContentBody(props) {
 
     const classes = useStyles();
-
 
     return (
         <div className={classes.content}>

@@ -4,7 +4,7 @@ import ComponentDimensions from './ComponentDimensions';
 import EasyImage from './EasyImage';
 import PostMount from './PostMount';
 import { Transformation } from 'cloudinary-react';
-import { DebugList } from './DebugLog';
+import { DebugList } from './DebugTools';
 
 const useStyles = makeStyles({
     resize: {

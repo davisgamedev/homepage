@@ -1,6 +1,6 @@
 import React from 'react';
-import { DebugColorLog } from './DebugLog';
-import { DebugList } from './DebugLog';
+import { DebugColorLog } from './DebugTools';
+import { DebugList } from './DebugTools';
 import WindowDimensions from './WindowDimensions';
 
 export default function ParallaxHandler(props) {

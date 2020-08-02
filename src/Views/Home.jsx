@@ -5,12 +5,14 @@ import HeadlineBody from './HeadlineBody';
 import Spacer from '../Components/Spacer';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { WarnDebug } from 'Tech/DebugLog';
+import { WarnDebug } from 'Tech/DebugTools';
 
 import CloudinaryContext from 'cloudinary-react/lib/components/CloudinaryContext/CloudinaryContext';
 import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
 import ParallaxHandler from 'Tech/ParallaxHandler';
 
+import Scrollbar from 'react-smooth-scrollbar';
+import { SmoothScrollAdapter } from 'Tech/SmoothScrollAdapter';
 
 export default function Home(props) {
 
@@ -22,13 +24,14 @@ export default function Home(props) {
     function close() {setOpen({isOpen: false, wasOpen: true});}
 
     return(
+        <SmoothScrollAdapter>
         <CloudinaryContext cloudName={'dyzmnhqpr'}>
 
             <ParallaxHandler />
 
             <Header></Header>
             <Spacer></Spacer>
-
+            
             <ContentBody></ContentBody>
 
             <WarnDebug></WarnDebug>
@@ -47,5 +50,6 @@ export default function Home(props) {
                 </Alert>
             </Snackbar>
         </CloudinaryContext>
+        </SmoothScrollAdapter>
     );
 }

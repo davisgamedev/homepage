@@ -4,11 +4,11 @@ import ComponentDimensions from './ComponentDimensions';
 import EasyImage from './EasyImage';
 import PostMount from './PostMount';
 import { Transformation } from 'cloudinary-react';
-import { DebugList } from './DebugLog';
+import { DebugList } from './DebugTools';
 import WindowDimensions from './WindowDimensions';
-import { DebugColorLog } from './DebugLog';
+import { DebugColorLog } from './DebugTools';
 import Image from 'cloudinary-react/lib/components/Image';
-import { DebugDir } from './DebugLog';
+import { DebugDir } from './DebugTools';
 import { findDOMNode } from 'react-dom';
 
 /**

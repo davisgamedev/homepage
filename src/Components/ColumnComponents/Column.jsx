@@ -17,6 +17,7 @@ import LoadMedia from 'Tech/LoadMedia';
 
 import ColumnHead from './ColumnHead';
 import ColumnFooter from './ColumnFooter';
+import { DebugColorLog } from 'Tech/DebugTools';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -69,9 +70,12 @@ const Column = withRouter(props => {
     }
 
     function close() {
-        setExpanded(false);
-        putSectionPath();
-        window.docIsOpen = false;
+        if(expanded) {
+            DebugColorLog('CLOSED', 'yellow', 'green');
+            setExpanded(false);
+            putSectionPath();
+            window.docIsOpen = false;
+        }
     }
 
     function contact() {

@@ -44,6 +44,9 @@
     "prettier": "2.0.5",
     "react-clonewithprops": "^1.0.1",
     "react-material-ui-form-validator": "^2.1.0",
+    "react-scroll": "^1.8.0",
+    "react-smooth-scrollbar": "^8.0.6",
+    "smooth-scrollbar": "^8.5.2",
     "yargs": "^15.4.1"
   },
   "optionalDependencies": {

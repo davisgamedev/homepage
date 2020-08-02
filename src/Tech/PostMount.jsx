@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import DebugLog from './DebugLog';
-import { DebugDir } from './DebugLog';
+import DebugLog from './DebugTools';
+import { DebugDir } from './DebugTools';
 import ComponentDimensions from './ComponentDimensions';
 
 export function Placeholder(props) {

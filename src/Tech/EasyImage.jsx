@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Image, Placeholder, Transformation } from 'cloudinary-react'
-import { DebugDir } from './DebugLog';
-import DebugLog from './DebugLog';
+import { DebugDir } from './DebugTools';
+import DebugLog from './DebugTools';
 
 export default function EasyImage(props){
 

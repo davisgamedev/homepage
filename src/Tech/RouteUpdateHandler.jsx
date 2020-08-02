@@ -1,10 +1,10 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import HeaderHeight from './HeaderHeight';
-import DebugLog from './DebugLog';
-import { DebugColorLog } from './DebugLog';
-import { Debug } from './DebugLog';
+import DebugLog from './DebugTools';
+import { DebugColorLog } from './DebugTools';
+import { Debug } from './DebugTools';
 
 // modified from https://stackoverflow.com/a/56250408
 
@@ -28,6 +28,7 @@ window.SuppressRouteChangeHandler = window.SuppressRouteChangeHandler || false;
 
 // get global
 function Suppressed() {
+    DebugColorLog('SUPPRESSED', 'yellow', 'purple');
     return window.SuppressRouteChangeHandler;
 }
 
@@ -138,8 +139,8 @@ setTimeout(setSections, 3000);
 
 export default function RouteUpdateHandler() {
 
-    let location = useLocation();
     let history = useHistory();
+    let location = useLocation();
 
     let autoScrolling = false;
     let scrollUp = false;
@@ -207,12 +208,13 @@ export default function RouteUpdateHandler() {
         }
 
         if(currentDocId) {
-
-            const el = document.getElementById(currentDocId);
-            if(el && !window.docIsOpen) {
-                const button = el.getElementsByTagName('button')[0];
-                button.focus();
-                button.click();
+            if(!Suppressed()) {
+                const el = document.getElementById(currentDocId);
+                if(el && !window.docIsOpen) {
+                    const button = el.getElementsByTagName('button')[0];
+                    button.focus();
+                    button.click();
+                }
             }
             currentDocId = null;
         }
@@ -224,21 +226,18 @@ export default function RouteUpdateHandler() {
         we can fix the weird initial page load but checking a scroll update here
     */
     function checkScroll() {
-
         if(autoScrolling && Math.abs(elementHeight - getElementHeight()) > 5){
             onRouteChange(true);
             DebugLog("%cElement height updated mid scroll", "background-color: orange; color: white");
         }
         if(scrollTimeoutHandler) clearTimeout(scrollTimeoutHandler);
-        scrollTimeoutHandler = setTimeout(scrollDone, 200);
+        scrollTimeoutHandler = setTimeout(scrollDone, 500);
 
         if(!autoScrolling) {
             scrollUp = (window.scrollY < prevScroll);
             prevScroll = window.scrollY;
         }
     }
-
-    window.addEventListener('scroll', checkScroll);
 
 
     function autoScroll() {
@@ -260,9 +259,14 @@ export default function RouteUpdateHandler() {
 
     function onRouteChange(forceAutoScroll=false) {
 
+        DebugColorLog('Called!', 'pink');
+
         previousId = section.id;
         getSectionIdFromPath();
+
         if(Suppressed()) return;
+        
+        DebugColorLog('not supressed lets go!', 'magenta');
         
         /*
             We call this once, because the route has changed and not suppressed
@@ -276,6 +280,7 @@ export default function RouteUpdateHandler() {
 
     }
 
+    window.addEventListener('scroll', checkScroll);
     React.useEffect(onRouteChange, [location]);
 
     return(<span id="RouteUpdateHandler"></span>);

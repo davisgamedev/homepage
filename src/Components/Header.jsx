@@ -5,7 +5,7 @@ import './Header.css';
 import Nav from './Nav';
 import { Link } from 'react-router-dom';
 
-import DebugLog from '../Tech/DebugLog';
+import DebugLog from '../Tech/DebugTools';
 import { SmallView } from '../Tech/Breakpoints';
 
 import {DATE_STR} from '../Tech/_builddate';

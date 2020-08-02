@@ -1,5 +1,5 @@
 import React from 'react';
-import DebugLog from './DebugLog';
+import DebugLog from './DebugTools';
 
 const mediaContainerQuery = "[loadable-media-container]";
 const unloadedMediaQuery = "[data-src]";

@@ -1,7 +1,7 @@
 body {
     font-family: 'Lora', serif;
     color: #fafaf5 !important;
-    overflow: scroll !important;
+    overflow: hidden;
 
     /* this fixes an issue where expanded menus cause whole body to shift*/
     padding-right: 0px !important;
