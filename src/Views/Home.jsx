@@ -24,7 +24,6 @@ export default function Home(props) {
     function close() {setOpen({isOpen: false, wasOpen: true});}
 
     return(
-        <SmoothScrollAdapter>
         <CloudinaryContext cloudName={'dyzmnhqpr'}>
 
             <ParallaxHandler />
@@ -32,7 +31,9 @@ export default function Home(props) {
             <Header></Header>
             <Spacer></Spacer>
             
-            <ContentBody></ContentBody>
+            <SmoothScrollAdapter>
+                <ContentBody></ContentBody>
+            </SmoothScrollAdapter>
 
             <WarnDebug></WarnDebug>
 
@@ -50,6 +51,5 @@ export default function Home(props) {
                 </Alert>
             </Snackbar>
         </CloudinaryContext>
-        </SmoothScrollAdapter>
     );
 }

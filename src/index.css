@@ -1,7 +1,7 @@
 body {
     font-family: 'Lora', serif;
     color: #fafaf5 !important;
-    overflow: hidden;
+    overflow: hidden !important;
 
     /* this fixes an issue where expanded menus cause whole body to shift*/
     padding-right: 0px !important;
@@ -17,10 +17,23 @@ body {
 
 /***** MUI abuse here **********/
 
-div.MuiPaper-root {
-    background-color: #ffffff44;
-    backdrop-filter: blur(50px) brightness(3) grayscale(25%);
+/* .no-backdrop {
+    backdrop-filter: none !important;
+}
 
+.no-backdrop * {
+    backdrop-filter: none !important;
+}
+
+.no-backdrop .MuiPaper-root {
+    backdrop-filter: blur(10px) brightness(2) grayscale(30%) !important;
+} */
+
+div.MuiPaper-root {
+    backdrop-filter: blur(5px) brightness(2) grayscale(30%) !important;
+    transform: translateZ(0);
+    
+    background-color: #ffffff44;
     color: #0c0c0d;  
 }
 
@@ -33,15 +46,10 @@ div.paperContainer {
     padding: 50px;
 }
 
-
-
-
-
-
-
-
-
-
+div.MuiSnackbar-root {
+    border-radius: 15px;
+    background-color: #ffffff55;
+}
 
 
 

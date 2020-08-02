@@ -7,7 +7,8 @@ button .dropbtn {
     
     background-color: #000000aa;
 
-    backdrop-filter: blur(10px);
+    transform: translateZ(0);
+    backdrop-filter: blur(3px);
 
     color: #fafaf5 !important;
 }

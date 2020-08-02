@@ -8,7 +8,9 @@
     z-index: 100;
 
     background-color: #000000aa;
-    backdrop-filter: blur(10px);
+
+    /* backdrop-filter: blur(3px);
+    transform: translateZ(0); */
 }
 
 .headerWrapper {

@@ -91,6 +91,23 @@ export default function ScrollRouter(props) {
             currentSection = Sections[SectionIds[0]];
         }
     }
+
+    function autoScroll() {
+        element = document.getElementById(section.id);
+        elementHeight = getElementHeight();
+        scrollTarget = elementHeight - height;
+
+        setTimeout(() => {
+
+          DebugLog(`%cScrolling to ${scrollTarget}, which is ${scrollTarget - window.scrollY} lower.`, "color: orange");
+
+          window.scrollTo({
+            behavior: "smooth",
+            top: scrollTarget
+          });
+
+        }, 100);
+    }
     
     function scrollFinishedEvent() {
         if(autoScrolling) {

@@ -170,7 +170,8 @@ button.container {
     color: #fafaf5;
     
     background-color: #000000aa;
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(3px);
+    transform: translateZ(0); */
 
     text-align: left;
     text-transform: none;
@@ -192,7 +193,9 @@ button.container {
 
 Button.container:hover {
     background-color: #ffffff88;
-    backdrop-filter: blur(10px);
+
+    /* backdrop-filter: blur(3px);
+    transform: translateZ(0); */
     
     color: #0c0c0d;   
 }

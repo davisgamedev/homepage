@@ -18,6 +18,7 @@ import LoadMedia from 'Tech/LoadMedia';
 import ColumnHead from './ColumnHead';
 import ColumnFooter from './ColumnFooter';
 import { DebugColorLog } from 'Tech/DebugTools';
+import { SmoothScrollAdapter } from 'Tech/SmoothScrollAdapter';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -58,6 +59,9 @@ const Column = withRouter(props => {
     }
 
     function open() {
+
+        document.body.className = 'no-backdrop';
+
         if(expanded) return;
         setExpanded(true);
         putProjectPath();
@@ -70,6 +74,10 @@ const Column = withRouter(props => {
     }
 
     function close() {
+
+        
+        document.body.className = '';
+
         if(expanded) {
             DebugColorLog('CLOSED', 'yellow', 'green');
             setExpanded(false);
@@ -85,7 +93,10 @@ const Column = withRouter(props => {
 
     return (
         <Button 
-        className={"container collapsed " + (extraSmall? 'extraSmall' : '')}
+        className={
+            "container collapsed " + 
+            (extraSmall? 'extraSmall' : '')
+        }
         onClick={open}
         >
             <ColumnHead {...props}></ColumnHead>
@@ -120,7 +131,6 @@ const Column = withRouter(props => {
 
                     </Paper>
                 </ClickAwayListener>
-
             </Dialog>
         </Button>
     );
