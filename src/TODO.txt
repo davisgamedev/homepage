@@ -1,11 +1,10 @@
 - react memory leak error on console concerning small header, not sure how to replicate
+    - because of UseEffect not returning cleanupfunctions, do this.
+
 - small nav off navigation to the right doesn't collapse
 - small nav should be full width, or adjusted to size, it's awkward and off center
 - small nav location is off center
 
-- contact styling issues
-
-- invert column colors again, replace black with transparent background of the current headline
-- add the little to top button in the corner, i forget what it's called
-
-- paralax?
+- blur effect css over all of section, increase large margins for 'windows'
+    - doing this on section reduces rendering layers
+    - can also do with a webgl shader   

@@ -8,39 +8,43 @@ import { Router, Route, Switch, withRouter } from "react-router-dom";
 
 import "common/assets/scss/material-kit-react.scss?v=1.8.0";
 
-import Home from "Views/Home";
-import Breakpoints from 'Tech/Breakpoints';
-import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
+// import Home from "Views/Home";
+// import Breakpoints from 'Tech/Breakpoints';
+// import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
 
 import './index.css';
+import BackgroundFiberDemoScene from 'Components/WebGL/BackgroundFiberDemoScene';
+import IcoBackgroundScene from 'Components/WebGL/IcoBackgroundScene';
 
 var hist = createBrowserHistory();
 
 window.resetPath = false;
 
 // not necessary after migration
-const ResetHomePath = withRouter(({location, history}) => {
-    if(window.resetPath) return null;
+// const ResetHomePath = withRouter(({location, history}) => {
+//     if(window.resetPath) return null;
 
-    if(location.hash !== "") {
-        history.push(location.hash.replace('#', ''));
-    }
-    // add a check here for redirected to projects
+//     if(location.hash !== "") {
+//         history.push(location.hash.replace('#', ''));
+//     }
+//     // add a check here for redirected to projects
 
-    window.resetPath = true;
-    return null;
-});
+//     window.resetPath = true;
+//     return null;
+// });
 
 ReactDOM.render(
     <Router history={hist} basename={process.env.PUBLIC_URL}>
+       {/*
         <Breakpoints>
             <RouteUpdateHandler />
             <ResetHomePath />
             <Switch>
-                {/* <Route path="/examples/components" component={Components} /> */}
                 <Route path="" component={Home}/>
             </Switch>
         </Breakpoints>
+       */}
+       <IcoBackgroundScene></IcoBackgroundScene>
     </Router>,
     document.getElementById("root")
 );
