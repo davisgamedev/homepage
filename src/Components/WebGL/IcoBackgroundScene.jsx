@@ -1,16 +1,65 @@
-import React, { useRef, useState, Suspense, useMemo, useEffect } from 'react';
-import { Canvas, useFrame, useThree, useLoader } from 'react-three-fiber';
+import React, { useRef, useState, Suspense, useMemo, useEffect, useCallback } from 'react';
+import { Canvas, useFrame, useThree, useLoader, extend } from 'react-three-fiber';
 import { DebugDir } from 'Tech/DebugTools';
 import WindowDimensions from 'Tech/WindowDimensions';
 import { DebugList } from 'Tech/DebugTools';
 import * as THREE from 'three';
 import { RenderPass } from 'postprocessing';
 
-import marbleAlbedo from './Textures/MarbleTiles_albedo.tif';
-import marbleNormal from './Textures/MarbleTiles_normal.tif';
-import marbleRough from './Textures/MarbleTiles_roughness.tif';
+
+import albedoUrl from './Textures/marble_albedo.jpg';
+import roughUrl from './Textures/marble_rough.jpg';
+
+import pxUrl from './EnvMaps/Gentor/px.png'
+import nxUrl from './EnvMaps/Gentor/nx.png'
+import pyUrl from './EnvMaps/Gentor/py.png'
+import nyUrl from './EnvMaps/Gentor/ny.png'
+import pzUrl from './EnvMaps/Gentor/pz.png'
+import nzUrl from './EnvMaps/Gentor/nz.png'
 
 
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { CubeTextureLoader } from 'three';
+extend({ OrbitControls });
+
+const CameraControls = () => {
+  // Get a reference to the Three.js Camera, and the canvas html element.
+  // We need these to setup the OrbitControls class.
+  // https://threejs.org/docs/#examples/en/controls/OrbitControls
+
+  const {
+    camera,
+    gl: { domElement },
+  } = useThree();
+
+  // Ref to the controls, so that we can update them on every frame with useFrame
+  const controls = useRef();
+  useFrame(() => controls.current.update());
+  return (
+    <orbitControls
+      ref={controls}
+      args={[camera, domElement]}
+      autoRotate={true}
+      enableZoom={false}
+    />
+  );
+};
+
+let skyMap = null;
+
+function SkyBox() {
+    const { scene } = useThree();
+    const loader = new CubeTextureLoader();
+    // The CubeTextureLoader load method takes an array of urls representing all 6 sides of the cube.
+    
+    const texture = loader.load(
+        [pxUrl, nxUrl, pyUrl, nyUrl, pzUrl, nzUrl]
+    );
+    // Set the scene background property to the resulting texture.
+    scene.background = texture;
+    skyMap = texture;
+    return null;
+  }
 
 
 const Materials = {
@@ -60,24 +109,55 @@ function Ico(props) {
 
 export function Wall(props) {
 
-    const [albedo, normal, rough ] = useLoader(THREE.TextureLoader,
-                [marbleAlbedo, marbleNormal, marbleRough])
+    
+    const [albedo, rough] = useLoader(THREE.TextureLoader, [albedoUrl, roughUrl]);
+    
+    [albedo, rough].forEach(e => {
+        e.wrapS = THREE.RepeatWrapping;
+        e.wrapT = THREE.RepeatWrapping;
+        e.repeat.set(3, 3);
+    })
+
 
     const mesh = useRef();
+
 
     return(
         <mesh ref={mesh}
         position= {props.position}
         >
-            <planeBufferGeometry attach="geometry" args={[15, 15]} ></planeBufferGeometry>
-            <meshPhongMaterial attach="material"
-                args={[{
-                    map: albedo,
-                    normalMap: normal,
-                    bumpMap: rough
-                }]}
+            <planeBufferGeometry attach="geometry" args={[35, 35]} ></planeBufferGeometry>
+            <meshStandardMaterial 
+            attach="material"
+            map={albedo} 
+            roughnessMap={rough}
+            envMap={skyMap}
+            args={[{
+                color: 'white',
+                emissive: 'black',
+                roughness: 0.8,
+                metalness: 0.5,
+
+            }]}
+            />
+ 
         </mesh>
     )
+}
+
+export function MoveLight(props) {
+
+    let mouse = props.mouse;
+    const light = useRef();
+
+    const { size, viewport } = useThree();
+    const aspect = size.width / viewport.width;
+
+    useFrame(state => {
+        light.current.position.set(mouse.current[0] / aspect, -mouse.current[1] / aspect, 0);
+    });
+
+    return(<pointLight ref={light} distance={40} intensity={1} color="lightblue"></pointLight>)
 }
 
 
@@ -85,27 +165,37 @@ export default function BackgroundScene(){
 
     const {windowWidth, windowHeight} = WindowDimensions();
 
+    const mouse = useRef([0, 0])
+    const onMouseMove = useCallback(({ clientX: x, clientY: y }) => (mouse.current = [x - window.innerWidth / 2, y - window.innerHeight / 2]), [])
+  
+
     return(
         <Canvas 
         id="threeCanvas" 
         style={{width: windowWidth, height: windowHeight}}
         gl={{ antialias: true, logarithmicDepthBuffer: true }}
-        camera={{ fov: 75, position: [0, 0, -15] }}
+        camera={{ fov: 75, position: [0, 0, 15] }}
         onCreated={({ gl }) => {
-            gl.setClearColor('white')
+            gl.clearColor('white');
             gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 0.5;
             gl.outputEncoding = THREE.sRGBEncoding;
             gl.gammaOutput = true;
-            gl.gammaFactor = 2.2;
+            gl.gammaFactor = 1;
           }}
+        onMouseMove={onMouseMove}
         >
             
-        <ambientLight intensity={0.5} />
-        <pointLight position={[100, 100, 100]} intensity={2} />
-        <pointLight position={[-100, -100, -100]} intensity={5} color="red" />
+          <Suspense fallback={null}>
 
+          <CameraControls />
+          <SkyBox></SkyBox>
 
+        <pointLight position={[100, 100, 100]} intensity={0.1} />
+        <pointLight position={[-100, -100, -100]} intensity={0.1} color="red" />
 
+          <MoveLight mouse={mouse} />
+          <Wall position={[0, 0, -5]} />
           <Ico position={[-10, -10, 0]} material={Materials.normal} radius={1}></Ico>
           <Ico position={[10, 10, 0]} material={Materials.normal} radius={1}></Ico>
 
@@ -119,6 +209,7 @@ export default function BackgroundScene(){
                 material={Materials.phongWhite}
                 />)
             } */}
+            </Suspense>
         </Canvas>
     )
 }
