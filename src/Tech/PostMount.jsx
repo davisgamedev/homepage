@@ -20,6 +20,8 @@ export default class PostMount extends React.Component {
     constructor(props) {
         super(props);
         this.state = {mounted: false};
+        this.placeholder = props.placeholder || 
+            (<Placeholder width={this.props.width} height={this.props.height} />);
     }
 
     componentDidMount() { 
@@ -46,8 +48,7 @@ export default class PostMount extends React.Component {
         >
             {
                 this.state.mounted? 
-                this.props.children :
-                (<Placeholder width={this.props.width} height={this.props.height} />)
+                this.props.children : this.placeholder
             }
         </Suspense>
         );

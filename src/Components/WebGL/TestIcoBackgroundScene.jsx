@@ -22,7 +22,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { CubeTextureLoader } from 'three';
 extend({ OrbitControls });
 
-const CameraControls = () => {
+export function CameraControls(){
   // Get a reference to the Three.js Camera, and the canvas html element.
   // We need these to setup the OrbitControls class.
   // https://threejs.org/docs/#examples/en/controls/OrbitControls
@@ -44,6 +44,7 @@ const CameraControls = () => {
     />
   );
 };
+
 
 let skyMap = null;
 
@@ -76,7 +77,7 @@ function position() {
     return Array.from({length: 3}, () => randomRange(-3, 3));
 }
 
-function Ico(props) {
+export function Ico(props) {
 
     const mesh = useRef();
 
