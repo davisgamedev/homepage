@@ -41,7 +41,7 @@ function WaterPlane(props) {
 
     const THREE = useThree();
     
-    var waterGeometry = new PlaneBufferGeometry(20, 20);
+    var waterGeometry = new PlaneBufferGeometry(200, 200);
 
     var textureLoader = new TextureLoader();
     var waterNormals = textureLoader.load(waterURL, function(map) {
@@ -77,8 +77,8 @@ function Plane(props) {
     const [albedo, rough] = useLoader(THREE.TextureLoader, [albedoUrl, roughUrl]);
     
     [albedo, rough].forEach(e => {
-        e.wrapS = THREE.RepeatWrapping;
-        e.wrapT = THREE.RepeatWrapping;
+        e.wrapS = THREE.MirroredRepeatWrapping;
+        e.wrapT = THREE.MirroredRepeatWrapping;
         e.repeat.set(3, 3);
     })
 
