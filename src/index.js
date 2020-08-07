@@ -7,18 +7,20 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch, withRouter } from "react-router-dom";
 
 import "common/assets/scss/material-kit-react.scss?v=1.8.0";
+import Backdrop from 'Components/WebGL/Backdrop';
 
 // import Home from "Views/Home";
 // import Breakpoints from 'Tech/Breakpoints';
 // import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
 
-import './index.css';
-import BackgroundFiberDemoScene from 'Components/WebGL/BackgroundFiberDemoScene';
-import IcoBackgroundScene from 'Components/WebGL/IcoBackgroundScene';
+// import './index.css';
+// import BackgroundFiberDemoScene from 'Components/WebGL/BackgroundFiberDemoScene';
+// import IcoBackgroundScene from 'Components/WebGL/IcoBackgroundScene';
+// import { Backdrop } from '@material-ui/core';
 
 var hist = createBrowserHistory();
 
-window.resetPath = false;
+// window.resetPath = false;
 
 // not necessary after migration
 // const ResetHomePath = withRouter(({location, history}) => {
@@ -44,7 +46,7 @@ ReactDOM.render(
             </Switch>
         </Breakpoints>
        */}
-       <IcoBackgroundScene></IcoBackgroundScene>
+       <Backdrop />
     </Router>,
     document.getElementById("root")
 );
