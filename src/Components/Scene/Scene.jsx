@@ -1,18 +1,16 @@
 import React, { Suspense } from 'react';
 import { Canvas, extend } from "react-three-fiber";
 import WindowDimensions from "Tech/WindowDimensions";
-import SkyBox from "./SkyBox";
-
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import Controls from './Controls';
 import Ocean from './Ocean';
 
-import * as THREE from 'three';
 import { Ico } from 'Components/webg-tests/TestIcoBackgroundScene';
-
-
-extend({OrbitControls})
-
+import { Sky, OrbitControls, Plane } from 'drei';
+import { DebugDir } from 'Tech/DebugTools';
+import DebugLog from 'Tech/DebugTools';
+import SkyShader from './SkyShader';
+import { Group, BoxBufferGeometry } from 'three';
+import { DebugList } from 'Tech/DebugTools';
+import SkyBox from './SkyBox';
 
 
 export default function Scene(props) {
@@ -23,25 +21,27 @@ export default function Scene(props) {
         <Canvas
             id="threeCanvas"
             style={{width: windowWidth, height: windowHeight}}
-            camera={{ fov: 55, position: [-15, 7, 15] }}
+            camera={
+                { 
+                    fov: 55, 
+                    position: [0, 0, -10],
+                }}
             gl={{ antialias: true, logarithmicDepthBuffer: true }}
+            onCreated={({gl}) => { gl.setClearColor('black'); }}
         >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[-1, 1, 1]} intensity={0.6}/>
 
-            <Controls />
+    <Suspense fallback={null}>
 
             <SkyBox />
-            
 
-            <Ico position={[0, 10, 0]} radius={1}></Ico>
+            {/* <SkyShader />
+            <Ocean /> */}
 
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[-1, 1, 1]} intensity={0.6}/>
+            <OrbitControls />
+
+            <Ico position={[0, 0, 0]} radius={1}></Ico>
 
 
-        <Suspense fallback={null}>
-            <Ocean />
         </Suspense>
 
         </Canvas>

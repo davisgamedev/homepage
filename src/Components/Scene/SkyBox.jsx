@@ -60,12 +60,12 @@ export default function SkyBox() {
     
     const texture = loader.load(
         [
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836459/Maps/Early%20Beach/px_pxosau.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836459/Maps/Early%20Beach/nx_iqios7.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836458/Maps/Early%20Beach/py_rkqxbf.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836459/Maps/Early%20Beach/ny_mqgymg.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836458/Maps/Early%20Beach/pz_frupjb.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836459/Maps/Early%20Beach/nz_dt5y1g.png',
+            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/px_fuzanw.png',
+            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/nx_hkqur2.png',
+            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/py_lcshrf.png',
+            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/ny_yaytac.png',
+            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/pz_jcfzlj.png',
+            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/nz_g1rtcf.png',
         ]
     );
     // Set the scene background property to the resulting texture.

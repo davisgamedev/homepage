@@ -2,14 +2,15 @@ import React from 'react';
 
 import { Water } from 'three/examples/jsm/objects/Water.js';
 import { extend, useThree, useLoader, useFrame } from 'react-three-fiber';
-import { PlaneBufferGeometry, Vector2, TextureLoader, RepeatWrapping, Vector3, SphereBufferGeometry } from 'three';
+import { PlaneBufferGeometry, Vector2, TextureLoader, RepeatWrapping, Vector3, SphereBufferGeometry, IcosahedronBufferGeometry, TorusKnotBufferGeometry } from 'three';
+import { DebugDir } from 'Tech/DebugTools';
 
 extend({Water})
 
 // 'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596832830/Textures/waternormals_vgvtks.jpg'
 
 
-export default function Ocean() {
+export default function Ocean(props) {
     const THREE = useThree();
     
     var waterGeometry = new PlaneBufferGeometry(1000, 1000);
@@ -21,25 +22,24 @@ export default function Ocean() {
     });
 
     var water = new Water( waterGeometry, {
-        scale: 50,
-        flowDirection: new Vector2( -1, 1 ),
-        textureWidth: 512,
-        textureHeight: 512,
+        scale: 0.5,
+
+        textureWidth: 1024,
+        textureHeight: 1024,
         waterNormals: waterNormals,
-        waterColor: 0xffffff,
-        distortionScale: 5,
-        alpha: 1.0,
-        sunDirection: new Vector3(),
-        sunColor: 0xffffff,
-        waterColor: 0x001e0f,
+        distortionScale: 15,
+        alpha: 0.7,
+        sunDirection: new Vector3(0, 1, 0),
+        waterColor: 0x000033,
     } );
 
-    water.position.y = 1;
-    water.rotation.x = Math.PI * - 0.5;
+    water.position.y = -5;
+    water.rotation.x = -Math.PI/2;
 
+    water.material.side = THREE.BackSide;
 
     useFrame((state, delta) => {
-        water.material.uniforms['time'].value += delta;
+        water.material.uniforms['time'].value += 0.5 * delta;
     });
 
 
