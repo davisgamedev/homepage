@@ -47,16 +47,11 @@ const Colors = [
     // "#e62a76",
     // "#fbb901",
 
-]
+];
 
-const newColors = Colors.map(n => new Color(n));
-
-
-const numIcos = 10;
-
+const numIcos = 30;
 
 const IcoUpdates = [];
-
 
 
 const spread = 50;
@@ -69,35 +64,11 @@ const inertia = 1;
 const grav = 0.01;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 let gravForce;
 let diff;
 
 
-let marchingCubes;
-let cubesInit = false;
-
-let time = 0;
-
-let myColor = new Color(0xff0000);
-
 const UpdateLogic = (delta) => {
-
-    let n = 0;
-
-    marchingCubes.reset();
 
     IcoUpdates.forEach((
         {mesh, rotationSpeed, position, velocity}
@@ -127,51 +98,7 @@ const UpdateLogic = (delta) => {
                 mesh.current.position.y = position.y;
                 mesh.current.position.z = position.z;
 
-                
-
-                let mx = [0.9, 0.1];
-                let my = [0.9, 0.1];
-                let mz = [0.9, 0.1];
-
-                marchingCubes.addBall(
-                    map(position.x, 150, -150, mx[0], mx[1]),
-                    map(position.y, 150, -150, my[0], my[1]), 
-                    map(position.z, 150, -150, mz[0], mz[1]),
-                    1, 10,
-                    newColors[n++]
-                )
     });
-
-    // time += delta;
-
-
-
-    //  let subtract = 10;
-    // let strength = 1;
-            
-    //         var rainbow = [
-	// 			new Color( 0xff0000 ),
-	// 			new Color( 0xff7f00 ),
-	// 			new Color( 0xffff00 ),
-	// 			new Color( 0x00ff00 ),
-	// 			new Color( 0x0000ff ),
-	// 			new Color( 0x4b0082 ),
-	// 			new Color( 0x9400d3 )
-    //         ];
-
-    // for ( let i = 0; i < 5; i ++ ) {
-
-    //     let ballx = Math.sin( i + 1.26 * time * ( 1.03 + 0.5 * Math.cos( 0.21 * i ) ) ) * 0.27 + 0.5;
-    //     let bally = Math.abs( Math.cos( i + 1.12 * time * Math.cos( 1.22 + 0.1424 * i ) ) ) * 0.77; // dip into the floor
-    //     let ballz = Math.cos( i + 1.32 * time * 0.1 * Math.sin( ( 0.92 + 0.53 * i ) ) ) * 0.27 + 0.5;
-    //     marchingCubes.addBall( ballx, bally, ballz, strength, subtract, );
-
-
-    // }
-    
-    //marchingCubes.addPlaneX(2, 12);
-
-
 };
 
 
@@ -237,44 +164,11 @@ export function Ico(props) {
     )
 }
 
-export function Blob(props) {
 
 
-    const resolution = 50;
+export function RaymarchPlane(props) {
 
-    const THREE = useThree();
-
-    useMemo(() => {
-        marchingCubes = new MarchingCubes(
-            resolution,
-            new MeshPhongMaterial( { 
-                shininess: 30,
-                specular: 0x454545,
-                flatShading: true, 
-                vertexColors: true,
-            } ),
-            true, true
-            );
-
-
-        marchingCubes.position.set(0, 0, 0);
-        marchingCubes.scale.set(150, 150, 150);
-
-
-        marchingCubes.isolation = 5000;
-
-        marchingCubes.enableColors = true;
-        marchingCubes.enableUVs = false;
-
-        THREE.scene.add(marchingCubes);;
-    })
-
-    return null;
 }
-
-
-
-
 
 
 
@@ -284,7 +178,6 @@ export default function Icos(props) {
 
 
     return(<group>
-        <Blob />
         {
             Array.from({length: numIcos}, (_, i) => <Ico key={i} index={i} />)
         }
