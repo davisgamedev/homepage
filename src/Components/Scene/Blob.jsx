@@ -7,7 +7,7 @@ import { Sky, OrbitControls, Plane } from 'drei';
 import { DebugDir } from 'Tech/DebugTools';
 import DebugLog from 'Tech/DebugTools';
 import SkyShader from './SkyShader';
-import { Group, BoxBufferGeometry, MeshPhongMaterial, TorusGeometry, Material, PlaneBufferGeometry, Vector3, IcosahedronBufferGeometry, Vector4 } from 'three';
+import { Vector2, Vector3, IcosahedronBufferGeometry, Vector4 } from 'three';
 import { DebugList } from 'Tech/DebugTools';
 import SkyBox from './SkyBox';
 import { useMemo } from 'react';
@@ -19,14 +19,7 @@ import RaymarchBlobFragShader from './RaymarchBlobFragShader';
 import * as Three from 'three';
 
 
-const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
-
-
-const debugFragShader = `
-    void main() {
-        gl_FragColor = vec4(1., 0., 0., 1.);
-    }
-`;
+const showDebugIcos = false;
 
 
 /*
@@ -38,19 +31,21 @@ const debugFragShader = `
 */
 let Uniforms = {
 
+    DebugLocation: false,
+
     NumSpheres: 15, // check length below
     SphereRadius: 0.1,
 
     Spheres: Array.from({length: 15}, () => new Vector3()),
 
-    Resolution: new Vector3(0, 0, 0),
-    Eye: new Vector3(0, 0, 0),
+    Resolution: new Vector2(600, 800),
+    Eye: new Vector3(0, 0, -15),
         
     AmbientLight: new Vector3(0.1, 0.1, 0.1),
 
-    DirectionLightPosition: new Vector3(5., 7., 1.),
+    DirectionLightPosition: new Vector3(-1, 1, -1),
     DirectionLightColor: new Vector3(1., 1., 1.),
-    DirectionLightIntensity: 10.,
+    DirectionLightIntensity: 15.,
     
     SpecularColor: new Vector3(1., 1., 1.),
     SpecularAlpha: 100.,
@@ -65,20 +60,30 @@ let Uniforms = {
 
 }
 
+
+Uniforms.GradientColorSteps.forEach(c => {
+    c.x /= 256;
+    c.y /= 256;
+    c.z /= 256;
+});
+
+
 // Convert each property to a Three 'Uniform' object
 let temp = Uniforms;
 Object.keys(temp).forEach(k => {
     Uniforms[k] = new Three.Uniform(temp[k])
 });
 
-const UniformUpdateKeys = [ "Spheres", "Eye" ];
+
+
+const UniformUpdateKeys = [ "Spheres", "Eye", "Resolution" ];
 
 
 // GooUpdate: { mesh, rotationSpeed, position, velocity }
 const GooUpdates = [];
 
 const spread = 50;
-const initialSpeed = 10;
+const initialSpeed = 5;
 
 const origin = new Vector(0, 0, -10);
 const originMass = 10000; // with each object being 1
@@ -93,8 +98,12 @@ let diff;
 
 const UpdateLogic = (delta) => {
 
+    // slowdown
+
+    delta *= 0.8;
+
     GooUpdates.forEach((
-        {mesh, rotationSpeed, position, velocity}, i
+        {mesh, rotationSpeed, position, velocity, mapped}, i
             ) => {
 
             mesh.current.rotation.x += rotationSpeed.x * delta;
@@ -121,7 +130,10 @@ const UpdateLogic = (delta) => {
             mesh.current.position.y = position.y;
             mesh.current.position.z = position.z;
 
-            Uniforms.Spheres.value[i] = new Vector3(0, 0, 0);
+            mapped = position.map(-10, 10, 1, -1);
+
+            if(Uniforms.Spheres.value[i])
+             Uniforms.Spheres.value[i].set(mapped.x, mapped.y, mapped.z);
     });
 
 };
@@ -135,6 +147,9 @@ const randomAxis = () => {
     if(factor > 0.67) return new Vector().right().mult(sign, true);
     return new Vector().forward().mult(sign, true);
 }
+
+
+
 
 
 
@@ -167,22 +182,31 @@ export function Goo(props) {
             position={props.position}
             scale={[1, 1, 1]}
         >
-            <icosahedronBufferGeometry 
-            attach="geometry" 
-            args={[props.radius||2, props.detail||1]}
-            />
-           <meshPhongMaterial
-                attach="material"
-                args={[{
-                    color: color,
-                    shininess: 30,
-                    specular: 0x454545,
-                    flatShading: true,
-                }]}
-            />
+            {
+                showDebugIcos? (<>
+                    <icosahedronBufferGeometry 
+                        attach="geometry" 
+                        args={[props.radius||2, props.detail||1]}
+                        />
+                    <meshPhongMaterial
+                            attach="material"
+                            args={[{
+                                color: color,
+                                shininess: 30,
+                                specular: 0x454545,
+                                flatShading: true,
+                            }]}
+                        />
+                </>) : null
+            }
         </mesh>
-    )
+    );
 }
+
+
+
+
+
 
 
 
@@ -196,43 +220,53 @@ export default function Blob(props) {
 
     const {windowWidth, windowHeight} = WindowDimensions();
 
-    if(windowWidth && materialRef.current) 
-        materialRef.current.uniforms["Resolution"].value = new Vector3(windowWidth/3, windowHeight/3, 0.);
-    else Uniforms.Resolution.value = new Vector3(100., 100., 0.);
+    Uniforms.Resolution.value = new Vector2(windowWidth * 1.5, windowHeight * 1.5);
     
-
     useFrame((state, delta) => {
 
         UpdateLogic(delta);
 
-        Uniforms.Eye = THREE.camera.position;
+        let eye = THREE.camera.position.clone();
+        eye.multiplyScalar(0.5);
         
-        materialRef.current.uniforms["Eye"].value = Uniforms.Eye;
 
+        //off center
 
+        let half = eye.clone();
+        half.divideScalar(2);
+        eye.sub(half);
+
+        Uniforms.Eye.value = eye;
+        
         UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key].value = Uniforms[key].value);
 
     });
     
     return(<group>
         {
-            Array.from({length: Uniforms.NumSpheres}, (_, i) => <Goo key={i} index={i} />)
+            Array.from({length: Uniforms.NumSpheres.value}, (_, i) => <Goo key={i} index={i} />)
         }
         <mesh
-            position={[0, 10, 0]}
+            position={[0, 0, 0]}
             rotation={[0, Math.PI, 0]}
             ref={ref}
         >
         <planeBufferGeometry 
             attach="geometry"
-            args={[50, 50]}
+            args={[80, 80]}
         />
         <shaderMaterial 
             attach="material" 
             ref={materialRef}
             uniforms={Uniforms}
             fragmentShader={RaymarchBlobFragShader}
+            // uniforms={{
+            //     iResolution: new Three.Uniform(new Vector3(600, 800, 0)),
+            //     iTime: { value: 1.0 }
+            // }}
+            // fragmentShader={SandboxFragShader}
             transparent={true}
+
         />
 
         </mesh>

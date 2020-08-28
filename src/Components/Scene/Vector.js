@@ -19,6 +19,9 @@
 import { Vector3 } from "three";
 
 
+
+const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
+
 /**
  * Vector class
  * @param {Number} x - x coord
@@ -103,6 +106,39 @@ export default function Vector(x, y, z) {
         }
         return result;
     };
+
+
+
+    this.map = (inMin, inMax, outMin, outMax, self=false) => {
+        let result = new Vector(
+            map(this.x, inMin, inMax, outMin, outMax),
+            map(this.y, inMin, inMax, outMin, outMax),
+            map(this.z, inMin, inMax, outMin, outMax),
+        );
+        if (self) {
+            Object.assign(this, result);
+        }
+        return result;
+    }
+
+
+    this.mapVector = (inMin, inMax, outMin, outMax, self=false) => {
+        let result = new Vector(
+            map(this.x, inMin.x, inMax.x, outMin.x, outMax.x),
+            map(this.y, inMin.y, inMax.x, outMin.x, outMax.x),
+            map(this.z, inMin.y, inMax,x, outMin.x, outMax.x),
+        );
+        if (self) {
+            Object.assign(this, result);
+        }
+        return result;
+    }
+
+
+
+
+
+
 
     /**
      * Rotates a vector
@@ -241,3 +277,5 @@ export default function Vector(x, y, z) {
 
     this.toString = () => `Vector{ ${this.x}, ${this.y}, ${this.z} }`;
 }
+
+export {map};
