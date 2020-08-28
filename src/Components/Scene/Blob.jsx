@@ -38,10 +38,10 @@ const debugFragShader = `
 */
 let Uniforms = {
 
-    NumSpheres: 15,
+    NumSpheres: 15, // check length below
     SphereRadius: 0.1,
 
-    Spheres: Array.from({length: 30}, () => new Vector3()),
+    Spheres: Array.from({length: 15}, () => new Vector3()),
 
     Resolution: new Vector3(0, 0, 0),
     Eye: new Vector3(0, 0, 0),
@@ -65,6 +65,12 @@ let Uniforms = {
 
 }
 
+// Convert each property to a Three 'Uniform' object
+let temp = Uniforms;
+Object.keys(temp).forEach(k => {
+    Uniforms[k] = new Three.Uniform(temp[k])
+});
+
 const UniformUpdateKeys = [ "Spheres", "Eye" ];
 
 
@@ -86,8 +92,6 @@ let diff;
 
 
 const UpdateLogic = (delta) => {
-
-    DebugLog("we were here");
 
     GooUpdates.forEach((
         {mesh, rotationSpeed, position, velocity}, i
@@ -117,7 +121,7 @@ const UpdateLogic = (delta) => {
             mesh.current.position.y = position.y;
             mesh.current.position.z = position.z;
 
-            Uniforms.Spheres[i].set(position.x, position.y, position.z);
+            Uniforms.Spheres.value[i] = new Vector3(0, 0, 0);
     });
 
 };
@@ -193,15 +197,11 @@ export default function Blob(props) {
     const {windowWidth, windowHeight} = WindowDimensions();
 
     if(windowWidth && materialRef.current) 
-        materialRef.current["Resolution"] = new Vector3(windowWidth/3, windowHeight/3, 0.);
-    else Uniforms.Resolution = new Vector3(100., 100., 0.);
+        materialRef.current.uniforms["Resolution"].value = new Vector3(windowWidth/3, windowHeight/3, 0.);
+    else Uniforms.Resolution.value = new Vector3(100., 100., 0.);
     
 
-    let attach = false;
-
-
     useFrame((state, delta) => {
-
 
         UpdateLogic(delta);
 
@@ -210,9 +210,8 @@ export default function Blob(props) {
         materialRef.current.uniforms["Eye"].value = Uniforms.Eye;
 
 
-        //UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key] = Uniforms[key]);
+        UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key].value = Uniforms[key].value);
 
-        DebugDir(Uniforms);
     });
     
     return(<group>
@@ -231,8 +230,9 @@ export default function Blob(props) {
         <shaderMaterial 
             attach="material" 
             ref={materialRef}
-            fragmentShader={RaymarchBlobFragShader}
             uniforms={Uniforms}
+            fragmentShader={RaymarchBlobFragShader}
+            transparent={true}
         />
 
         </mesh>

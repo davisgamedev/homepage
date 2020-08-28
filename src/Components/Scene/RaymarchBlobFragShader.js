@@ -183,7 +183,8 @@ void main() {
     float dist = March(Eye, worldDir, MIN, MAX);
     
     if(dist > MAX - EPSILON) {
-        gl_FragColor = vec4(0.);
+        //gl_FragColor = vec4(0.);
+        gl_FragColor = vec4(0., 0., 0., 0.5);
         return;
     }
 
