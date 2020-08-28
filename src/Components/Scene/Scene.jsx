@@ -43,8 +43,6 @@ export default function Scene(props) {
             <Stats />
 
             <OrbitControls />
-
-
         </Suspense>
 
         </Canvas>

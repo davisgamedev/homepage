@@ -1,3 +1,5 @@
+const RaymarchBlobFragShader = //frag`
+`
 #define MAX_STEPS 64
 #define MIN 1.
 #define MAX 100.
@@ -6,27 +8,27 @@
 
 
 uniform float NumSpheres;
-uniform vec3 Spheres[];
-uniform float SphereRadius = 0.1;
+uniform vec3 Spheres[15];
+uniform float SphereRadius;
 
 uniform vec3 Eye;
 uniform vec3 Resolution;
 
-uniform vec3 AmbientLight = vec3(0.1);
+uniform vec3 AmbientLight;
 
-uniform vec3 DirectionLightPosition = vec3(5., 7., 1.);
-uniform vec3 DirectionLightColor = vec3(1.);
-uniform float DirectionLightIntensity = vec3(10.);
+uniform vec3 DirectionLightPosition;
+uniform vec3 DirectionLightColor;
+uniform float DirectionLightIntensity;
 
-uniform vec3 SpecularColor = vec3(1.);
-uniform float SpecularAlpha = 100.;
+uniform vec3 SpecularColor;
+uniform float SpecularAlpha;
 
 
 // (r, g, b, colorDist)
 uniform vec4 GradientColorSteps[4];
 
 
-const vec3 DirectionLight = DirectionLightColor * DirectionLightIntensity;
+vec3 DirectionLight;
 
 
 
@@ -46,8 +48,8 @@ float Scene(vec3 point) {
 
     float dist = SphereSDF(point + Spheres[0]);
 
-    for(int i = 1; i < NumSpheres; ++i) {
-        float distA = SphereSDF(point + Sphere[i]);
+    for(float i = 1.; i < NumSpheres; ++i) {
+        float distA = SphereSDF(point + Spheres[int(i)]);
         dist = SmoothMinSDF(dist, distA);
     }
 
@@ -169,9 +171,11 @@ float March(vec3 eye, vec3 dir, float start, float end) {
     return end;
 }
     
-void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+void main() {
 
-    vec3 viewDir = GetRayDirection(45., Resolution.xy, fragCoord);
+    DirectionLight = DirectionLightColor * DirectionLightIntensity;
+
+    vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), vec2(gl_FragCoord));
     
     mat4 worldViewMatrix = GetViewMatrix(Eye, vec3(0.), vec3(0., 1., 0.));
     vec3 worldDir = (worldViewMatrix * vec4(viewDir, 0.)).xyz;
@@ -179,7 +183,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float dist = March(Eye, worldDir, MIN, MAX);
     
     if(dist > MAX - EPSILON) {
-        fragColor = vec4(0.);
+        gl_FragColor = vec4(0.);
         return;
     }
 
@@ -195,6 +199,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         surfacePoint,
         Eye);
     
-    fragColor = vec4(surfaceColor, 1.);
+    gl_FragColor = vec4(surfaceColor, 1.);
     
-}
+}`;
+
+export default RaymarchBlobFragShader;

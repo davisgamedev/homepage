@@ -7,17 +7,26 @@ import { Sky, OrbitControls, Plane } from 'drei';
 import { DebugDir } from 'Tech/DebugTools';
 import DebugLog from 'Tech/DebugTools';
 import SkyShader from './SkyShader';
-import { Group, BoxBufferGeometry, MeshPhongMaterial, TorusGeometry, Material, PlaneBufferGeometry, Vector3 } from 'three';
+import { Group, BoxBufferGeometry, MeshPhongMaterial, TorusGeometry, Material, PlaneBufferGeometry, Vector3, IcosahedronBufferGeometry, Vector4 } from 'three';
 import { DebugList } from 'Tech/DebugTools';
 import SkyBox from './SkyBox';
 import { useMemo } from 'react';
 import Vector from './Vector';
 import {MeshLambertMaterial, Color} from 'three';
 
+import RaymarchBlobFragShader from './RaymarchBlobFragShader';
+
+import * as Three from 'three';
+
 
 const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
 
-import RaymarchBlobFragShader from './RaymarchBlobFragShader.glsl';
+
+const debugFragShader = `
+    void main() {
+        gl_FragColor = vec4(1., 0., 0., 1.);
+    }
+`;
 
 
 /*
@@ -31,10 +40,11 @@ let Uniforms = {
 
     NumSpheres: 15,
     SphereRadius: 0.1,
-    Spheres: [],
 
-    Resolution,
-    Eye,
+    Spheres: Array.from({length: 30}, () => new Vector3()),
+
+    Resolution: new Vector3(0, 0, 0),
+    Eye: new Vector3(0, 0, 0),
         
     AmbientLight: new Vector3(0.1, 0.1, 0.1),
 
@@ -47,15 +57,15 @@ let Uniforms = {
 
     // r g b dist
     GradientColorSteps: [
-        new Three.Color(64, 31, 62,       1.0 ),
-        new Three.Color(69, 63, 120,      2.0 ),
-        new Three.Color(117, 154, 171,    2.5 ),
-        new Three.Color(250, 242, 161,    3.5 ),
+        new Vector4(64, 31, 62,       1.0 ), // to color
+        new Vector4(69, 63, 120,      2.0 ),
+        new Vector4(117, 154, 171,    2.5 ),
+        new Vector4(250, 242, 161,    3.5 ),
     ],
 
 }
 
-const UniformUpdateKeys = [ Spheres, Eye ];
+const UniformUpdateKeys = [ "Spheres", "Eye" ];
 
 
 // GooUpdate: { mesh, rotationSpeed, position, velocity }
@@ -76,6 +86,8 @@ let diff;
 
 
 const UpdateLogic = (delta) => {
+
+    DebugLog("we were here");
 
     GooUpdates.forEach((
         {mesh, rotationSpeed, position, velocity}, i
@@ -105,7 +117,7 @@ const UpdateLogic = (delta) => {
             mesh.current.position.y = position.y;
             mesh.current.position.z = position.z;
 
-            Uniforms.Spheres
+            Uniforms.Spheres[i].set(position.x, position.y, position.z);
     });
 
 };
@@ -170,44 +182,59 @@ export function Goo(props) {
 
 
 
-
 export default function Blob(props) {
 
 
     const materialRef = React.useRef();
+    const ref = React.useRef();
 
     const THREE = useThree();
 
+    const {windowWidth, windowHeight} = WindowDimensions();
+
+    if(windowWidth && materialRef.current) 
+        materialRef.current["Resolution"] = new Vector3(windowWidth/3, windowHeight/3, 0.);
+    else Uniforms.Resolution = new Vector3(100., 100., 0.);
+    
+
+    let attach = false;
+
+
     useFrame((state, delta) => {
+
 
         UpdateLogic(delta);
 
-        Uniforms.Eye = THREE.scene.camera.position;
+        Uniforms.Eye = THREE.camera.position;
+        
+        materialRef.current.uniforms["Eye"].value = Uniforms.Eye;
 
-        UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key] = Uniforms[key]);
 
+        //UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key] = Uniforms[key]);
+
+        DebugDir(Uniforms);
     });
-
-
+    
     return(<group>
         {
             Array.from({length: Uniforms.NumSpheres}, (_, i) => <Goo key={i} index={i} />)
         }
+        <mesh
+            position={[0, 10, 0]}
+            rotation={[0, Math.PI, 0]}
+            ref={ref}
+        >
         <planeBufferGeometry 
             attach="geometry"
-            position={[0, 10, 0]}
-            rotation={[0, Math.PI/2, 0]}
             args={[50, 50]}
-        >
-            <shaderMaterial 
+        />
+        <shaderMaterial 
             attach="material" 
             ref={materialRef}
-            args={[{
-                uniforms: Uniforms,
-                fragmentShader: RaymarchBlobFragShader,
-                transparent: true,
-            }]}
-            />
-        </planeBufferGeometry>
+            fragmentShader={RaymarchBlobFragShader}
+            uniforms={Uniforms}
+        />
+
+        </mesh>
     </group>);
 }
