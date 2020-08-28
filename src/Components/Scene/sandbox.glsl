@@ -2,7 +2,7 @@
 #define MIN 1.
 #define MAX 100.
 #define EPSILON 0.005
-#define SMOOTHFACTOR 1.5
+#define SMOOTHFACTOR 2.5
 
 
 
@@ -26,36 +26,38 @@ const float factors[] = float[](
     29.65
 );
 
-
 vec3 getSphere(int i) {
     return vec3(
         sin(iTime + factors[i]), 
         cos(iTime + (factors[i] * 10.)), 
-        sin(iTime + (factors[i] * 100.))) * sin(iTime + (factors[i]) * 100.) * 2.;
-
+        sin(iTime + (factors[i] * 100.))) 
+        
+        * sin(iTime + (factors[i]) * 1000.) 
+        * (sin(iTime) + 0.5) * -2.;
 }
+
 
 
 /** TO UNIFORMS */
 
-const float Radius = 0.5;
+const float Radius = 0.2;
 
 const vec3 AmbientColor = vec3(0.1);
 const vec3 AmbientIntensity = vec3(1.);
 
-const vec3 DirectionLightColor = vec3(1.);
-const vec3 DirectionLightIntensity = vec3(10.);
 const vec3 DirectionLightPosition = vec3(0., 10., -10.);
-
+const vec3 DirectionLightColor = vec3(1.);
+const float DirectionLightIntensity = 10.;
 
 
 const vec3 ObjectSpecularColor = vec3(1.);
 const float ObjectSpecularIntensity = 100.;
 
-const vec4 GradientColorStep1 = vec4(0., 0., 1., .5);
-const vec4 GradientColorStep2 = vec4(0., 1., 1., 1.5);
-const vec4 GradientColorStep3 = vec4(1., 1., 0., 2.5);
-const vec4 GradientColorStep4 = vec4(1., 0.5, 0., 3.);
+const vec4 RGB = vec4(vec3(256.), 1.);
+const vec4 GradientColorStep1 = vec4(64, 31, 62, 1)/RGB;
+const vec4 GradientColorStep2 = vec4(69, 63, 120, 2.)/RGB;
+const vec4 GradientColorStep3 = vec4(117, 154, 171, 2.5)/RGB;
+const vec4 GradientColorStep4 = vec4(250, 242, 161, 3.5)/RGB;
 
 
 // end uniforms

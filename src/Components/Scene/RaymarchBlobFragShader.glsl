@@ -14,17 +14,16 @@ uniform vec3 Resolution;
 
 uniform vec3 AmbientLight = vec3(0.1);
 
-uniform vec3 DirectionLightColor = vec3(1.);
-uniform vec3 DirectionLightIntensity = vec3(10.);
 uniform vec3 DirectionLightPosition = vec3(5., 7., 1.);
+uniform vec3 DirectionLightColor = vec3(1.);
+uniform float DirectionLightIntensity = vec3(10.);
 
 uniform vec3 SpecularColor = vec3(1.);
 uniform float SpecularAlpha = 100.;
 
-uniform vec4 GradientColorStep1;
-uniform vec4 GradientColorStep2;
-uniform vec4 GradientColorStep3;
-uniform vec4 GradientColorStep4;
+
+// (r, g, b, colorDist)
+uniform vec4 GradientColorSteps[4];
 
 
 const vec3 DirectionLight = DirectionLightColor * DirectionLightIntensity;
@@ -137,17 +136,17 @@ vec3 GetDiffuseColor(float l) {
     bvec4 dist = lessThan(
         vec4(l), 
         vec4(
-            GradientColorStep1.a,
-            GradientColorStep2.a,
-            GradientColorStep3.a,
-            GradientColorStep4.a
+            GradientColorSteps[0].a,
+            GradientColorSteps[1].a,
+            GradientColorSteps[2].a,
+            GradientColorSteps[3].a
         ));
 
-    if      (dist.x) return GradientColorStep1.xyz;
-    else if (dist.y) return mixGrad(GradientColorStep1, GradientColorStep2, l);
-    else if (dist.z) return mixGrad(GradientColorStep2, GradientColorStep3, l);
-    else if (dist.a) return mixGrad(GradientColorStep3, GradientColorStep4, l);
-    else             return GradientColorStep4.xyz;
+    if      (dist.x) return GradientColorSteps[0].xyz;
+    else if (dist.y) return mixGrad(GradientColorSteps[0], GradientColorSteps[1], l);
+    else if (dist.z) return mixGrad(GradientColorSteps[1], GradientColorSteps[2], l);
+    else if (dist.a) return mixGrad(GradientColorSteps[2], GradientColorSteps[3], l);
+    else             return GradientColorSteps[3].xyz;
 
 }
 

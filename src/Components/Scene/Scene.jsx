@@ -10,8 +10,8 @@ import SkyShader from './SkyShader';
 import { Group, BoxBufferGeometry } from 'three';
 import { DebugList } from 'Tech/DebugTools';
 import SkyBox from './SkyBox';
-import Icos from './Icos';
-import { Ico } from './Icos';
+import Blob from './Blob';
+import { Ico } from './Blob';
 
 
 export default function Scene(props) {
@@ -38,15 +38,11 @@ export default function Scene(props) {
             <ambientLight intensity={0.4} />
             <directionalLight intensity={0.8} position={[-1, 1, -1]} args={[0xffffff]} />
 
-            <Ico />
-
-
-            <Icos />
+            <Blob />
 
             <Stats />
 
             <OrbitControls />
-
 
 
         </Suspense>
