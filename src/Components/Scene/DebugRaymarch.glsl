@@ -1,16 +1,17 @@
-#define MAX_STEPS 64
+#define MAX_STEPS 128
 #define MIN 1.
 #define MAX 100.
 #define EPSILON 0.005
 #define SMOOTHFACTOR 2.
 
+uniform bool DebugLocation;
 
-float NumSpheres = 15.;
-vec3 Spheres[15];
-float SphereRadius = 0.1;
+uniform float NumSpheres;
+uniform vec3 Spheres[15];
+uniform float SphereRadius;
 
-vec3 Eye = vec3(0., 0., -15.);
-vec3 Resolution = vec3(600., 800., 0);
+uniform vec3 Eye;
+uniform vec2 Resolution;
 
 uniform vec3 AmbientLight;
 
@@ -176,20 +177,19 @@ void main() {
     vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), vec2(gl_FragCoord));
     
     mat4 worldViewMatrix = GetViewMatrix(Eye, vec3(0.), vec3(0., 1., 0.));
-    vec3 worldDir = (worldViewMatrix * vec4(viewDir, 0.)).xyz;
+    vec3 worldDir = (worldViewMatrix * vec4(viewDir, 1.)).xyz;
     
     float dist = March(Eye, worldDir, MIN, MAX);
     
     if(dist > MAX - EPSILON) {
-        //gl_FragColor = vec4(0.);
-        gl_FragColor = vec4(0., 0., 0., 0.5);
+
+        if(DebugLocation) gl_FragColor = vec4(0., 0., 0., 0.5);
+        else              gl_FragColor = vec4(0.);
         return;
+        
     }
 
     vec3 surfacePoint = Eye + dist * worldDir;
-
-    gl_FragColor = vec4(0., 1.0, 0., 1.0);
-
 
     vec3 ObjectDiffuseColor = GetDiffuseColor(length(surfacePoint));
 
@@ -202,4 +202,5 @@ void main() {
         Eye);
     
     gl_FragColor = vec4(surfaceColor, 1.);
+    
 }

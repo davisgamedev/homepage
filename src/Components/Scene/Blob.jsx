@@ -19,7 +19,7 @@ import RaymarchBlobFragShader from './RaymarchBlobFragShader';
 import * as Three from 'three';
 
 
-const showDebugIcos = false;
+const showDebugIcos = true;
 
 
 /*
@@ -31,31 +31,37 @@ const showDebugIcos = false;
 */
 let Uniforms = {
 
-    DebugLocation: false,
+    DebugLocation: true,
 
     NumSpheres: 15, // check length below
     SphereRadius: 0.1,
 
     Spheres: Array.from({length: 15}, () => new Vector3()),
 
+    Overdraw: 2,
     Resolution: new Vector2(600, 800),
-    Eye: new Vector3(0, 0, -15),
+    Eye: new Vector3(0, 0, 0),
         
-    AmbientLight: new Vector3(0.1, 0.1, 0.1),
+    AmbientLight: new Vector3(0.3, 0.3, 0.3),
 
     DirectionLightPosition: new Vector3(-1, 1, -1),
     DirectionLightColor: new Vector3(1., 1., 1.),
-    DirectionLightIntensity: 15.,
+    DirectionLightIntensity: 1.2,
     
-    SpecularColor: new Vector3(1., 1., 1.),
-    SpecularAlpha: 100.,
+    SpecularColor: new Vector3(0.25, 0.25, 0.25),
+    SpecularAlpha: 30.,
 
     // r g b dist
     GradientColorSteps: [
-        new Vector4(64, 31, 62,       1.0 ), // to color
-        new Vector4(69, 63, 120,      2.0 ),
-        new Vector4(117, 154, 171,    2.5 ),
-        new Vector4(250, 242, 161,    3.5 ),
+        // new Vector4(64, 31, 62,       1.0 ), // to color
+        // new Vector4(69, 63, 120,      2.0 ),
+        // new Vector4(117, 154, 171,    2.5 ),
+        // new Vector4(250, 242, 161,    3.5 ),
+        new Vector4(256., 0., 0., 10.),        
+        new Vector4(256., 0., 0., 10.),
+        new Vector4(256., 0., 0., 10.),
+        new Vector4(256., 0., 0., 10.),
+
     ],
 
 }
@@ -89,7 +95,7 @@ const origin = new Vector(0, 0, -10);
 const originMass = 10000; // with each object being 1
 const inertia = 1;
 
-const grav = 0.01;
+const grav = 0.02;
 
 
 let gravForce;
@@ -100,7 +106,7 @@ const UpdateLogic = (delta) => {
 
     // slowdown
 
-    delta *= 0.8;
+    delta *= 0.9;
 
     GooUpdates.forEach((
         {mesh, rotationSpeed, position, velocity, mapped}, i
@@ -130,7 +136,7 @@ const UpdateLogic = (delta) => {
             mesh.current.position.y = position.y;
             mesh.current.position.z = position.z;
 
-            mapped = position.map(-10, 10, 1, -1);
+            mapped = position.map(-10, 10, 0.9, -0.9);
 
             if(Uniforms.Spheres.value[i])
              Uniforms.Spheres.value[i].set(mapped.x, mapped.y, mapped.z);
@@ -161,7 +167,7 @@ export function Goo(props) {
     let position;
     let velocity;
     
-    let color = "white";
+    let color = "red";
 
     useMemo(() => {
         rotationSpeed = new Vector().random();
@@ -220,21 +226,20 @@ export default function Blob(props) {
 
     const {windowWidth, windowHeight} = WindowDimensions();
 
-    Uniforms.Resolution.value = new Vector2(windowWidth * 1.5, windowHeight * 1.5);
+
+
+    Uniforms.Resolution.value = new Vector2(
+        windowWidth * Uniforms.Overdraw.value,
+        windowHeight * Uniforms.Overdraw.value);
     
     useFrame((state, delta) => {
 
         UpdateLogic(delta);
 
         let eye = THREE.camera.position.clone();
+
         eye.multiplyScalar(0.5);
-        
 
-        //off center
-
-        let half = eye.clone();
-        half.divideScalar(2);
-        eye.sub(half);
 
         Uniforms.Eye.value = eye;
         

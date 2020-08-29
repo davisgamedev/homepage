@@ -13,7 +13,7 @@ extend({Water})
 export default function Ocean(props) {
     const THREE = useThree();
     
-    var waterGeometry = new PlaneBufferGeometry(1000, 1000);
+    var waterGeometry = new PlaneBufferGeometry(10000, 10000);
 
     var textureLoader = new TextureLoader();
     var waterNormals = textureLoader.load('https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596832830/Textures/waternormals_vgvtks.jpg', function(map) {
@@ -28,12 +28,12 @@ export default function Ocean(props) {
         textureHeight: 1024,
         waterNormals: waterNormals,
         distortionScale: 15,
-        alpha: 0.7,
+        alpha: 0.9,
         sunDirection: new Vector3(0, 1, 0),
         waterColor: 0x000033,
     } );
 
-    water.position.y = -5;
+    water.position.y = -10;
     water.rotation.x = -Math.PI/2;
 
     water.material.side = THREE.BackSide;

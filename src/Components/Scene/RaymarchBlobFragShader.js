@@ -14,6 +14,7 @@ uniform float SphereRadius;
 
 uniform vec3 Eye;
 uniform vec2 Resolution;
+uniform float Overdraw;
 
 uniform vec3 AmbientLight;
 
@@ -122,7 +123,7 @@ vec3 ScenePhongIllumination(
     vec3 eye
 	) {
 	
-    vec3 color = AmbientLight * 
+    vec3 color = AmbientLight + 
         PhongDirectionLightContribution(diffuseColor, specularColor, alpha, point, eye);
    
     return color;
@@ -176,10 +177,14 @@ void main() {
 
     DirectionLight = DirectionLightColor * DirectionLightIntensity;
 
-    vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), vec2(gl_FragCoord));
+    vec2 originalRes = vec2(Resolution) - vec2(Resolution * (1./Overdraw));
+
+    vec2 overdrawComp = vec2(gl_FragCoord) + originalRes/2.;
+
+    vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), overdrawComp);
     
     mat4 worldViewMatrix = GetViewMatrix(Eye, vec3(0.), vec3(0., 1., 0.));
-    vec3 worldDir = (worldViewMatrix * vec4(viewDir, 0.)).xyz;
+    vec3 worldDir = (worldViewMatrix * vec4(viewDir, 1.)).xyz;
     
     float dist = March(Eye, worldDir, MIN, MAX);
     
@@ -205,6 +210,7 @@ void main() {
     
     gl_FragColor = vec4(surfaceColor, 1.);
     
-}`;
+}
+`;
 
 export default RaymarchBlobFragShader;
