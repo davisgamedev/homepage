@@ -3,7 +3,7 @@ import { Canvas, extend, useFrame, useThree } from "react-three-fiber";
 import WindowDimensions from "Tech/WindowDimensions";
 import Ocean from './Ocean';
 
-import { Sky, OrbitControls, Plane } from 'drei';
+import { Sky, OrbitControls, Plane, Icosahedron } from 'drei';
 import { DebugDir } from 'Tech/DebugTools';
 import DebugLog from 'Tech/DebugTools';
 import SkyShader from './SkyShader';
@@ -22,7 +22,6 @@ import { DebugColorLog } from 'Tech/DebugTools';
 
 
 const showDebugIcos = false;
-const planeDist = 10;
 
 
 /*
@@ -45,6 +44,7 @@ let Uniforms = {
     Overdraw: 1,
     Resolution: new Vector2(600, 800),
     Eye: new Vector3(0, 0, 0),
+    Center: new Vector3(0, 0, 0),
         
     AmbientLight: new Vector3(0.4, 0.4, 0.4),
 
@@ -55,7 +55,7 @@ let Uniforms = {
     SpecularColor: new Vector3(1., 1., 1.),
     SpecularAlpha: 30.,
 
-    // r g b dist
+    // r g b prevMeshCamDist
     GradientColorSteps: [
         new Vector4( 64, 31, 62,       3 ),
         new Vector4( 69, 63, 120,      7 ),
@@ -81,7 +81,7 @@ Object.keys(temp).forEach(k => {
 
 
 
-const UniformUpdateKeys = [ "Spheres", "Eye", "Resolution" ];
+const UniformUpdateKeys = [ "Spheres", "Eye", "Center", "Resolution" ];
 
 
 // GooUpdate: { mesh, rotationSpeed, position, velocity }
@@ -98,7 +98,7 @@ const grav = 0.025;
 
 
 let gravForce;
-let diff;
+let deltaCamPos;
 
 
 const UpdateLogic = (delta) => {
@@ -120,10 +120,10 @@ const UpdateLogic = (delta) => {
             mesh.current.rotation.z += rotationSpeed.z * delta;
 
             // vector from point to origin
-            diff = origin.sub(position);
-            gravForce = (grav * originMass / diff.sqMag()) * delta;
+            deltaCamPos = origin.sub(position);
+            gravForce = (grav * originMass / deltaCamPos.sqMag()) * delta;
 
-            velocity.add(diff.mult(gravForce, true), true);
+            velocity.add(deltaCamPos.mult(gravForce, true), true);
 
 
             velocity.mult(inertia, true);
@@ -241,60 +241,58 @@ export default function Blob(props) {
     let previousPosition;
     let previousRotation;
     let previousViewport;
+    let previousMeshPosition;
 
     let initSize = {width: 80, height: 80};
 
+
+
     useFrame((state, delta) => {
 
+        // gets new sphere position calculations
         UpdateLogic(delta);
 
-
-
-
+        // if the camera moved
         if(
             !previousPosition || !previousPosition.checkEach(THREE.camera.position) ||
             !previousRotation || !previousRotation.checkEach(THREE.camera.rotation) 
             ) {
 
-
+            // current camera positions
             let currentPosition = new Vector(THREE.camera.position);
             let currentRotation = new Vector(THREE.camera.rotation);
 
-            let dist;
+            // distance of previous camera to mesh
+            let prevMeshCamDist;
 
+            // if not a previous position, we'll base our future caluations form the current (initial) state
+            // otherwise:
             if(previousPosition) {
 
-                let diff = currentPosition.sub(previousPosition);
-                dist = new Vector(mesh.current.position).sub(previousPosition);
-                //dist.addToEach(mesh.current.position);
+                // get the previous distance (new target distance)
+                prevMeshCamDist = new Vector(mesh.current.position).sub(previousPosition);
 
-                /*
-                    With rotation, using a matrix thing works well
-                    With position, adding to real position works well
-                    Rest of this not so much
-
-                    could probs fix the translate problem actually
-                */
-                
+                // allign raymarch view plane to camera
                 mesh.current.position.copy(THREE.camera.position);
                 mesh.current.rotation.copy(THREE.camera.rotation);
                 mesh.current.updateMatrix();
 
-                mesh.current.translateZ(-dist.mag());
-
-
+                // push the plane to the correct position
+                mesh.current.translateZ(-prevMeshCamDist.mag());
             }
 
-            dist = dist || new Vector(mesh.current.position).sub(currentPosition)
+            // if this is our first time, we'll grab the distance for future updates
+            prevMeshCamDist = prevMeshCamDist || new Vector(mesh.current.position).sub(currentPosition);
 
-            // thank https://stackoverflow.com/a/13351534
-            // camera view in gl units
+            // make the plane take up the full screen viewport width
+            // camera view in gl units https://stackoverflow.com/a/13351534
             let vFOV = Three.MathUtils.degToRad( THREE.camera.fov );
 
             let currentViewport = {};
-            currentViewport.height = 2 * Math.tan( vFOV / 2 ) * dist.mag();
+            currentViewport.height = 2 * Math.tan( vFOV / 2 ) * prevMeshCamDist.mag();
             currentViewport.width = currentViewport.height * THREE.camera.aspect;   
 
+            // if we need to resize the plane do so
             if(!previousViewport || previousViewport != currentViewport) {
 
                 let scale = {
@@ -306,15 +304,35 @@ export default function Blob(props) {
 
             }
 
-            previousViewport = currentViewport;
 
+            // time to update the world calculations in the shader by updating eye and world center
+            let currentMeshPosition = new Vector(mesh.current.position);
+            let center = new Vector(Uniforms.Center.value);
+
+            // due to rounding errors we'll need to correct wrong negations and small changes during our checks
+            if(previousMeshPosition && 
+                !previousMeshPosition.abs().checkEach(currentMeshPosition.abs(), 5)) 
+                {
+
+                // add the change in mesh distance
+                // world to shader coords are roughly half
+                Uniforms.Center.value = 
+                    center.add(
+                        currentMeshPosition.sub(previousMeshPosition).mult(0.5)
+                    ).toArray();
+            }
+
+            // set the eye to the current position + world center
+            Uniforms.Eye.value = currentPosition.add(center).toArray();
+
+            // update the previous variables for the next frame update
             previousPosition = currentPosition;
             previousRotation = currentRotation;
-
-            Uniforms.Eye.value = currentPosition.mult(1).toArray();
+            previousViewport = currentViewport;
+            previousMeshPosition = currentMeshPosition;
         }
 
-
+        // update the uniforms according to the listed keys which signify what will need updates
         UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key].value = Uniforms[key].value);
     });
     
@@ -336,15 +354,31 @@ export default function Blob(props) {
             ref={materialRef}
             uniforms={Uniforms}
             fragmentShader={RaymarchBlobFragShader}
-            // uniforms={{
-            //     iResolution: new Three.Uniform(new Vector3(600, 800, 0)),
-            //     iTime: { value: 1.0 }
-            // }}
-            // fragmentShader={SandboxFragShader}
             transparent={true}
             depthTest={false}
         />
 
+        {
+            // viewport center
+            // will be squeeshed because of viewport scaling
+            showDebugIcos ? 
+            <Icosahedron args={[5, 2]}>
+                <meshPhongMaterial attach="material" color="pink" flatShading={true}/>
+            </Icosahedron> 
+            : null
+        }
+
         </mesh>
+
+        {
+            // world center
+            showDebugIcos? 
+            <Icosahedron args={[5, 2]}>
+                    <meshNormalMaterial attach="material" flatShading={true}/>
+                </Icosahedron>
+            : null
+        }
+        
+
     </group>);
 }

@@ -293,7 +293,7 @@ export default function Vector(x, y, z) {
         else return new Vector(modifier.x||this.x, modifier.y||this.y, modifier.z||this.z);
     };
 
-    this.toString = () => `Vector{ ${this.x}, ${this.y}, ${this.z} }`;
+    this.toString = (decimalPlaces=3) => `Vector{ ${this.x.toFixed(decimalPlaces)}, ${this.y.toFixed(decimalPlaces)}, ${this.z.toFixed(decimalPlaces)} }`;
 
     this.toArray = () => [this.x, this.y, this.z];
 
@@ -303,8 +303,21 @@ export default function Vector(x, y, z) {
         obj.z = this.z;
     }
 
-    this.checkEach = (obj) => {
-        return  !(obj.x != this.x || obj.y != this.y || obj.z != this.z);
+    this.checkEach = (obj, fix = -1) => {
+        if(fix < 0) {
+            return  !(
+                obj.x != this.x || 
+                obj.y != this.y || 
+                obj.z != this.z
+                );
+        }
+        else {
+            return  !(
+                obj.x.toFixed(fix) != this.x.toFixed(fix) || 
+                obj.y.toFixed(fix) != this.y.toFixed(fix) || 
+                obj.z.toFixed(fix) != this.z.toFixed(fix)
+                );
+        }
     }
 
     this.addToEach = (obj) => {

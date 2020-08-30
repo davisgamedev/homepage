@@ -13,6 +13,7 @@ uniform float SphereRadius;
 
 uniform float SmoothFactor;
 
+uniform vec3 Center;
 uniform vec3 Eye;
 uniform vec2 Resolution;
 uniform float Overdraw;
@@ -210,7 +211,7 @@ void main() {
 
     vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), overdrawComp);
     
-    mat4 worldViewMatrix = GetViewMatrix(Eye, vec3(0.), vec3(0., 1., 0.));
+    mat4 worldViewMatrix = GetViewMatrix(Eye, Center, vec3(0., 1., 0.));
     vec3 worldDir = (worldViewMatrix * vec4(viewDir, 1.)).xyz;
     
     float dist = March(Eye, worldDir, MIN, MAX);
