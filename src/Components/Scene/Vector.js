@@ -30,9 +30,23 @@ const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2
  */
 export default function Vector(x, y, z) {
 
-    this.x = x;
-    this.y = y;
-    this.z = z;
+    if(Array.isArray(x)) {
+        this.x = x[0];
+        this.y = x[1];
+        this.z = x[2];
+    }
+
+    else if(x && isNaN(x)) {
+        this.x = x.x;
+        this.y = x.y;
+        this.z = x.z;
+    }
+
+    else {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 
     this.set = function(x, y, z) { this.x = x; this.y = y; this.z = z; return this; }
 
@@ -289,7 +303,11 @@ export default function Vector(x, y, z) {
         obj.z = this.z;
     }
 
-    this.addEach = (obj) => {
+    this.checkEach = (obj) => {
+        return  !(obj.x != this.x || obj.y != this.y || obj.z != this.z);
+    }
+
+    this.addToEach = (obj) => {
         obj.x += this.x;
         obj.y += this.y;
         obj.z += this.z;

@@ -17,6 +17,8 @@ import {MeshLambertMaterial, Color} from 'three';
 import RaymarchBlobFragShader from './RaymarchBlobFragShader';
 
 import * as Three from 'three';
+import { useEffect } from 'react';
+import { DebugColorLog } from 'Tech/DebugTools';
 
 
 const showDebugIcos = false;
@@ -32,10 +34,11 @@ const planeDist = 10;
 */
 let Uniforms = {
 
-    DebugLocation: true,
+    DebugLocation: false,
 
     NumSpheres: 15, // check length below
-    SphereRadius: 0.05,
+    SphereRadius: 0.5,
+    SmoothFactor: 7.5,
 
     Spheres: Array.from({length: 15}, () => new Vector4()),
 
@@ -54,15 +57,10 @@ let Uniforms = {
 
     // r g b dist
     GradientColorSteps: [
-        new Vector4(64, 31, 62,       1.0 ), // to color
-        new Vector4(69, 63, 120,      2.0 ),
-        new Vector4(117, 154, 171,    2.5 ),
-        new Vector4(250, 242, 161,    3.5 ),
-        // new Vector4(256., 0., 0., 10.),        
-        // new Vector4(256., 0., 0., 10.),
-        // new Vector4(256., 0., 0., 10.),
-        // new Vector4(256., 0., 0., 10.),
-
+        new Vector4( 64, 31, 62,       3 ),
+        new Vector4( 69, 63, 120,      7 ),
+        new Vector4( 117, 154, 171,    10 ),
+        new Vector4( 250, 242, 161,    13 ),
     ],
 
 }
@@ -89,14 +87,14 @@ const UniformUpdateKeys = [ "Spheres", "Eye", "Resolution" ];
 // GooUpdate: { mesh, rotationSpeed, position, velocity }
 const GooUpdates = [];
 
-const spread = 50;
+const spread = 30;
 const initialSpeed = 15;
 
 const origin = new Vector(0, 0, -10);
-const originMass = 10000; // with each object being 1
+const originMass = 3000; // with each object being 1
 const inertia = 1;
 
-const grav = 0.05;
+const grav = 0.025;
 
 
 let gravForce;
@@ -107,7 +105,11 @@ const UpdateLogic = (delta) => {
 
     // slowdown
 
-    delta *= 0.5;
+    //delta *= 1;
+
+    // todo: dodge unnecessary tracing
+    // let minGoo = GooUpdates[0].position;
+    // let maxGoo = GooUpdates[10].position;
 
     GooUpdates.forEach((
         {mesh, rotationSpeed, position, velocity, mapped}, i
@@ -137,7 +139,8 @@ const UpdateLogic = (delta) => {
             mesh.current.position.y = position.y;
             mesh.current.position.z = position.z;
 
-            mapped = position.map(-10, 10, 0.9, -0.9);
+            // closest to actual icos is from 100 - -100, sphere size 1
+            mapped = position.map(-200, 200, 75, -75);
 
             
             
@@ -237,29 +240,78 @@ export default function Blob(props) {
 
     let previousPosition;
     let previousRotation;
-    
+    let previousViewport;
+
+    let initSize = {width: 80, height: 80};
 
     useFrame((state, delta) => {
 
         UpdateLogic(delta);
 
-        if(THREE.camera.position != previousPosition) {
 
 
-            let currentPosition = new Vector(...THREE.camera.position.toArray());
-            let currentRotation = new Vector(...THREE.camera.rotation.toArray());
+
+        if(
+            !previousPosition || !previousPosition.checkEach(THREE.camera.position) ||
+            !previousRotation || !previousRotation.checkEach(THREE.camera.rotation) 
+            ) {
+
+
+            let currentPosition = new Vector(THREE.camera.position);
+            let currentRotation = new Vector(THREE.camera.rotation);
+
+            let dist;
 
             if(previousPosition) {
 
-                currentPosition.sub(previousPosition).addEach(mesh.current.position);
-                currentRotation.sub(previousRotation).addEach(mesh.current.rotation);
+                let diff = currentPosition.sub(previousPosition);
+                dist = new Vector(mesh.current.position).sub(previousPosition);
+                //dist.addToEach(mesh.current.position);
+
+                /*
+                    With rotation, using a matrix thing works well
+                    With position, adding to real position works well
+                    Rest of this not so much
+
+                    could probs fix the translate problem actually
+                */
                 
+                mesh.current.position.copy(THREE.camera.position);
+                mesh.current.rotation.copy(THREE.camera.rotation);
+                mesh.current.updateMatrix();
+
+                mesh.current.translateZ(-dist.mag());
+
+
             }
+
+            dist = dist || new Vector(mesh.current.position).sub(currentPosition)
+
+            // thank https://stackoverflow.com/a/13351534
+            // camera view in gl units
+            let vFOV = Three.MathUtils.degToRad( THREE.camera.fov );
+
+            let currentViewport = {};
+            currentViewport.height = 2 * Math.tan( vFOV / 2 ) * dist.mag();
+            currentViewport.width = currentViewport.height * THREE.camera.aspect;   
+
+            if(!previousViewport || previousViewport != currentViewport) {
+
+                let scale = {
+                    width: currentViewport.width/initSize.width,
+                    height: currentViewport.height/initSize.height
+                };
+
+                mesh.current.scale.set(scale.width, scale.height, 1);
+
+            }
+
+            previousViewport = currentViewport;
 
             previousPosition = currentPosition;
             previousRotation = currentRotation;
 
-            Uniforms.Eye.value = currentPosition.mult(0.2).toArray();
+            Uniforms.Eye.value = currentPosition.mult(1).toArray();
         }
 
 
@@ -277,7 +329,7 @@ export default function Blob(props) {
         >
         <planeBufferGeometry 
             attach="geometry"
-            args={[80, 80]}
+            args={[initSize.width, initSize.height]}
         />
         <shaderMaterial 
             attach="material" 

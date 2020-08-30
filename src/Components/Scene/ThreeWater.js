@@ -24,7 +24,7 @@ import {
  * http://29a.ch/ && http://29a.ch/slides/2012/webglwater/ : Water shader explanations in WebGL
  */
 
-const Water = function ( geometry, options ) {
+var Water = function ( geometry, options ) {
 
 	Mesh.call( this, geometry );
 

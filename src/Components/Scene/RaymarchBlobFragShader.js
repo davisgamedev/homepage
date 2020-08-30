@@ -1,16 +1,17 @@
 const RaymarchBlobFragShader = //frag`
 `
 #define MAX_STEPS 128
-#define MIN 1.
-#define MAX 100.
-#define EPSILON 0.005
-#define SMOOTHFACTOR 2.5
+#define MIN 25.
+#define MAX 125.
+#define EPSILON 0.01
 
 uniform bool DebugLocation;
 
 uniform float NumSpheres;
 uniform vec4 Spheres[15];
 uniform float SphereRadius;
+
+uniform float SmoothFactor;
 
 uniform vec3 Eye;
 uniform vec2 Resolution;
@@ -53,7 +54,7 @@ float Scene(vec3 point) {
     for(float i = 1.; i < NumSpheres; ++i) {
         vec4 sphere = Spheres[int(i)];
         float distA = SphereSDF(point + sphere.xyz);
-        dist = SmoothMinSDF(dist, distA, sphere.a * SMOOTHFACTOR);
+        dist = SmoothMinSDF(dist, distA, sphere.a * SmoothFactor);
     }
 
     return dist;
@@ -214,7 +215,7 @@ void main() {
     
     float dist = March(Eye, worldDir, MIN, MAX);
     
-    if(dist > MAX - EPSILON) {
+    if(dist >= MAX - EPSILON * 0.99) {
 
         if(DebugLocation) gl_FragColor = vec4(0., 0., 0., 0.5);
         else              gl_FragColor = vec4(0.);
