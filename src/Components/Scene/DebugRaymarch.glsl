@@ -7,11 +7,12 @@
 uniform bool DebugLocation;
 
 uniform float NumSpheres;
-uniform vec3 Spheres[15];
+uniform vec4 Spheres[15];
 uniform float SphereRadius;
 
 uniform vec3 Eye;
 uniform vec2 Resolution;
+uniform float Overdraw;
 
 uniform vec3 AmbientLight;
 
@@ -31,10 +32,10 @@ vec3 DirectionLight;
 
 
 
-float SmoothMinSDF( float a, float b )
+float SmoothMinSDF( float a, float b, float smoothFactor )
 {
-    float h = max( SMOOTHFACTOR-abs(a-b), 0.0 )/SMOOTHFACTOR;
-    return min( a, b ) - h*h*h*SMOOTHFACTOR*(1.0/6.0);
+    float h = max( smoothFactor-abs(a-b), 0.0 )/smoothFactor;
+    return min( a, b ) - h*h*h*smoothFactor*(1.0/6.0);
 }
 
 
@@ -45,11 +46,12 @@ float SphereSDF(vec3 point) {
 
 float Scene(vec3 point) {
 
-    float dist = SphereSDF(point + Spheres[0]);
+    float dist = SphereSDF(point + Spheres[0].xyz);
 
     for(float i = 1.; i < NumSpheres; ++i) {
-        float distA = SphereSDF(point + Spheres[int(i)]);
-        dist = SmoothMinSDF(dist, distA);
+        vec4 sphere = Spheres[int(i)];
+        float distA = SphereSDF(point + sphere.xyz);
+        dist = SmoothMinSDF(dist, distA, sphere.a * SMOOTHFACTOR);
     }
 
     return dist;
@@ -87,6 +89,32 @@ mat4 GetViewMatrix(vec3 eye, vec3 center, vec3 up) {
 	);
 }
 
+
+vec3 BlinnPhongLighting(
+    vec3 point,
+    vec3 eye,
+    vec3 N,
+    vec3 ambient,
+    vec3 diffuse,
+    vec3 specular,
+    float specularAlpha
+){
+    vec3 L = normalize(DirectionLightPosition);
+    vec3 V = normalize(eye - point);
+    vec3 H = normalize(L + V);
+
+    float dotNH = clamp(dot(N, H), 0., 1.);
+    float dotNL = clamp(dot(N, L), 0., 1.);
+
+
+    vec3 ambientColor = diffuse * AmbientLight;
+    vec3 diffColor = dotNL * diffuse;
+    vec3 specColor = pow(dotNH, specularAlpha) * specular;
+
+    return ambientColor + (DirectionLight * (diffColor + specColor));
+}
+
+
 vec3 PhongDirectionLightContribution(
     vec3 diffuseColor,
     vec3 specularColor,
@@ -120,10 +148,9 @@ vec3 ScenePhongIllumination(
     vec3 eye
 	) {
 	
-    vec3 color = AmbientLight * 
-        PhongDirectionLightContribution(diffuseColor, specularColor, alpha, point, eye);
-   
-    return color;
+        return BlinnPhongLighting(
+            point, eye, EstimateNormal(point), 
+            AmbientLight, diffuseColor, specularColor, alpha);
 }
 
 
@@ -174,7 +201,11 @@ void main() {
 
     DirectionLight = DirectionLightColor * DirectionLightIntensity;
 
-    vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), vec2(gl_FragCoord));
+    vec2 originalRes = vec2(Resolution) - vec2(Resolution * (1./Overdraw));
+
+    vec2 overdrawComp = vec2(gl_FragCoord) + originalRes/2.;
+
+    vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), overdrawComp);
     
     mat4 worldViewMatrix = GetViewMatrix(Eye, vec3(0.), vec3(0., 1., 0.));
     vec3 worldDir = (worldViewMatrix * vec4(viewDir, 1.)).xyz;

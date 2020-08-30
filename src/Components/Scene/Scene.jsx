@@ -34,10 +34,10 @@ export default function Scene(props) {
     <Suspense fallback={null}>
 
             <SkyBox />
-            {/* <Ocean /> */}
+            <Ocean />
 
             <ambientLight intensity={0.4} />
-            <directionalLight intensity={0.8} position={[-1, 1, -1]} args={[0xffffff]} />
+            <directionalLight intensity={1.} position={[-1, 1, -1]} args={[0xffffff]} />
 
             <Blob />
 

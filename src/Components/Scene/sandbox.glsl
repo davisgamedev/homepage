@@ -26,14 +26,19 @@ const float factors[] = float[](
     29.65
 );
 
-vec3 getSphere(int i) {
-    return vec3(
-        sin(iTime + factors[i]), 
-        cos(iTime + (factors[i] * 10.)), 
-        sin(iTime + (factors[i] * 100.))) 
+vec4 getSphere(int i) {
+
+    float time = iTime/2.;
+
+    return vec4(
+        sin(time + factors[i]), 
+        cos(time + (factors[i] * 10.)), 
+        sin(time + (factors[i] * 100.)),
+        float(i % 2) * 2. - 1.
+        ) 
         
-        * sin(iTime + (factors[i]) * 1000.) 
-        * (sin(iTime) + 0.5) * -2.;
+        * sin(time + (factors[i]) * 1000.) 
+        * (sin(time) + 0.5) * -2.;
 }
 
 
@@ -42,18 +47,19 @@ vec3 getSphere(int i) {
 
 const float Radius = 0.2;
 
-const vec3 AmbientColor = vec3(0.1);
-const vec3 AmbientIntensity = vec3(1.);
+const vec3 AmbientColor = vec3(1.);
+const vec3 AmbientIntensity = vec3(0.4);
 
 const vec3 DirectionLightPosition = vec3(0., 10., -10.);
 const vec3 DirectionLightColor = vec3(1.);
-const float DirectionLightIntensity = 10.;
+const float DirectionLightIntensity = 1.;
 
 
 const vec3 ObjectSpecularColor = vec3(1.);
-const float ObjectSpecularIntensity = 100.;
+const float ObjectSpecularIntensity = 30.;
 
 const vec4 RGB = vec4(vec3(256.), 1.);
+//const vec4 GradientColorStep1 = vec4(1., 0., 0., 1000.);
 const vec4 GradientColorStep1 = vec4(64, 31, 62, 1)/RGB;
 const vec4 GradientColorStep2 = vec4(69, 63, 120, 2.)/RGB;
 const vec4 GradientColorStep3 = vec4(117, 154, 171, 2.5)/RGB;
@@ -87,10 +93,10 @@ float DifferenceSDF(float distA, float distB) {
 
 
 // polynomial smooth min (k = 0.1);
-float SmoothMinSDF( float a, float b )
+float SmoothMinSDF( float a, float b, float smoothFactor )
 {
-    float h = max( SMOOTHFACTOR-abs(a-b), 0.0 )/SMOOTHFACTOR;
-    return min( a, b ) - h*h*h*SMOOTHFACTOR*(1.0/6.0);
+    float h = max( smoothFactor-abs(a-b), 0.0 )/smoothFactor;
+    return min( a, b ) - h*h*h*smoothFactor*(1.0/6.0);
 }
 
 
@@ -106,7 +112,7 @@ float SphereSDF(vec3 point, float rad) {
 /** Full Scene Intersect */
 float SceneSDF(vec3 point) {
 
-    float dist = SphereSDF(point + getSphere(0), Radius);
+    float dist = SphereSDF(point + getSphere(0).xyz, Radius);
 
     // for(int i = 0; i < 12; ++i) {
     //     dist += SmoothMinSDF(dist, SphereSDF(point + getSphere(i), 0.1));
@@ -114,8 +120,9 @@ float SceneSDF(vec3 point) {
 
     
     for(int i = 1; i < 12; ++i) {
-        float distA = SphereSDF(point + getSphere(i), Radius);
-        dist = SmoothMinSDF(dist, distA);
+        vec4 sphere = getSphere(i);
+        float distA = SphereSDF(point + sphere.xyz, Radius);
+        dist = SmoothMinSDF(dist, distA, sphere.a * SMOOTHFACTOR);
     }
 
 
@@ -205,6 +212,33 @@ vec3 PhongPointLightContribution(
     return lightIntensity * (diffuseColor * dotLN + specularColor * pow(dotRV, alpha));
 }
 
+
+vec3 BlinnPhongLighting(
+    vec3 point,
+    vec3 eye,
+    vec3 N,
+    vec3 ambient,
+    vec3 diffuse,
+    vec3 specular,
+    float specularAlpha
+){
+    vec3 L = normalize(DirectionLightPosition);
+    vec3 V = normalize(eye - point);
+    vec3 H = normalize(L + V);
+
+    float dotNH = clamp(dot(N, H), 0., 1.);
+    float dotNL = clamp(dot(N, L), 0., 1.);
+
+
+    vec3 ambientColor = diffuse * AmbientLight;
+    vec3 diffColor = dotNL * diffuse;
+    vec3 specColor = pow(dotNH, specularAlpha) * specular;
+
+    return ambientColor + (DirectionLight * (diffColor + specColor));
+}
+
+
+
 vec3 PhongDirectionLightContribution(
     vec3 diffuseColor,
     vec3 specularColor,
@@ -215,7 +249,7 @@ vec3 PhongDirectionLightContribution(
     
     // phong NLVR calculations
  	vec3 N = EstimateNormal(point);
-    vec3 L = normalize(DirectionLightPosition);
+    vec3 L = normalize(DirectionLightPosition - point);
     vec3 V = normalize(eye - point);
     vec3 R = normalize(reflect(-L, N));
     
@@ -244,10 +278,9 @@ vec3 ScenePhongIllumination(
     vec3 eye
 	) {
 	
-    vec3 color = AmbientLight * 
-        PhongDirectionLightContribution(diffuseColor, specularColor, alpha, point, eye);
-   
-    return color;
+    return BlinnPhongLighting(
+        point, eye, EstimateNormal(point), 
+        AmbientLight, diffuseColor, specularColor, alpha);
 }
 
 
@@ -317,11 +350,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec3 worldDir = (worldViewMatrix * vec4(viewDir, 0.)).xyz;
     
     
-    
     float dist = March(eye, worldDir, MIN, MAX);
     
     if(dist > MAX - EPSILON) {
-        fragColor = vec4(0.);
+        fragColor = vec4(0.7);
         return;
         
     }
@@ -332,9 +364,6 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float l = length(surfacePoint);
 
     vec3 ObjectDiffuseColor = GetDiffuseColor(l);
-
-
-    
 
     
     vec3 surfaceColor = ScenePhongIllumination(

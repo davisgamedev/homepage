@@ -250,6 +250,10 @@ export default function Vector(x, y, z) {
         );
     }
 
+    this.dot = (v) => {
+        return this.x * v.x + this.y * v.y + this.z * v.z;
+    }
+
 
     this.abs = (self=false) => {
         if (self) {
@@ -276,6 +280,20 @@ export default function Vector(x, y, z) {
     };
 
     this.toString = () => `Vector{ ${this.x}, ${this.y}, ${this.z} }`;
+
+    this.toArray = () => [this.x, this.y, this.z];
+
+    this.setEach = (obj) => {
+        obj.x = this.x;
+        obj.y = this.y;
+        obj.z = this.z;
+    }
+
+    this.addEach = (obj) => {
+        obj.x += this.x;
+        obj.y += this.y;
+        obj.z += this.z;
+    }
 }
 
 export {map};

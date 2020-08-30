@@ -11,7 +11,7 @@ import { Vector2, Vector3, IcosahedronBufferGeometry, Vector4 } from 'three';
 import { DebugList } from 'Tech/DebugTools';
 import SkyBox from './SkyBox';
 import { useMemo } from 'react';
-import Vector from './Vector';
+import Vector, {map} from './Vector';
 import {MeshLambertMaterial, Color} from 'three';
 
 import RaymarchBlobFragShader from './RaymarchBlobFragShader';
@@ -19,7 +19,8 @@ import RaymarchBlobFragShader from './RaymarchBlobFragShader';
 import * as Three from 'three';
 
 
-const showDebugIcos = true;
+const showDebugIcos = false;
+const planeDist = 10;
 
 
 /*
@@ -34,33 +35,33 @@ let Uniforms = {
     DebugLocation: true,
 
     NumSpheres: 15, // check length below
-    SphereRadius: 0.1,
+    SphereRadius: 0.05,
 
-    Spheres: Array.from({length: 15}, () => new Vector3()),
+    Spheres: Array.from({length: 15}, () => new Vector4()),
 
-    Overdraw: 2,
+    Overdraw: 1,
     Resolution: new Vector2(600, 800),
     Eye: new Vector3(0, 0, 0),
         
-    AmbientLight: new Vector3(0.3, 0.3, 0.3),
+    AmbientLight: new Vector3(0.4, 0.4, 0.4),
 
-    DirectionLightPosition: new Vector3(-1, 1, -1),
+    DirectionLightPosition: new Vector3(0., 10., -10.),
     DirectionLightColor: new Vector3(1., 1., 1.),
-    DirectionLightIntensity: 1.2,
+    DirectionLightIntensity: 1.,
     
-    SpecularColor: new Vector3(0.25, 0.25, 0.25),
+    SpecularColor: new Vector3(1., 1., 1.),
     SpecularAlpha: 30.,
 
     // r g b dist
     GradientColorSteps: [
-        // new Vector4(64, 31, 62,       1.0 ), // to color
-        // new Vector4(69, 63, 120,      2.0 ),
-        // new Vector4(117, 154, 171,    2.5 ),
-        // new Vector4(250, 242, 161,    3.5 ),
-        new Vector4(256., 0., 0., 10.),        
-        new Vector4(256., 0., 0., 10.),
-        new Vector4(256., 0., 0., 10.),
-        new Vector4(256., 0., 0., 10.),
+        new Vector4(64, 31, 62,       1.0 ), // to color
+        new Vector4(69, 63, 120,      2.0 ),
+        new Vector4(117, 154, 171,    2.5 ),
+        new Vector4(250, 242, 161,    3.5 ),
+        // new Vector4(256., 0., 0., 10.),        
+        // new Vector4(256., 0., 0., 10.),
+        // new Vector4(256., 0., 0., 10.),
+        // new Vector4(256., 0., 0., 10.),
 
     ],
 
@@ -89,13 +90,13 @@ const UniformUpdateKeys = [ "Spheres", "Eye", "Resolution" ];
 const GooUpdates = [];
 
 const spread = 50;
-const initialSpeed = 5;
+const initialSpeed = 15;
 
 const origin = new Vector(0, 0, -10);
 const originMass = 10000; // with each object being 1
 const inertia = 1;
 
-const grav = 0.02;
+const grav = 0.05;
 
 
 let gravForce;
@@ -106,7 +107,7 @@ const UpdateLogic = (delta) => {
 
     // slowdown
 
-    delta *= 0.9;
+    delta *= 0.5;
 
     GooUpdates.forEach((
         {mesh, rotationSpeed, position, velocity, mapped}, i
@@ -138,8 +139,12 @@ const UpdateLogic = (delta) => {
 
             mapped = position.map(-10, 10, 0.9, -0.9);
 
+            
+            
+            //map(position.dot(position.add(velocity)), -500, 500, -1, 1);
+
             if(Uniforms.Spheres.value[i])
-             Uniforms.Spheres.value[i].set(mapped.x, mapped.y, mapped.z);
+             Uniforms.Spheres.value[i].set(mapped.x, mapped.y, mapped.z, 1);
     });
 
 };
@@ -218,33 +223,47 @@ export function Goo(props) {
 
 export default function Blob(props) {
 
-
+    const mesh = React.useRef();
     const materialRef = React.useRef();
-    const ref = React.useRef();
 
     const THREE = useThree();
-
     const {windowWidth, windowHeight} = WindowDimensions();
-
 
 
     Uniforms.Resolution.value = new Vector2(
         windowWidth * Uniforms.Overdraw.value,
         windowHeight * Uniforms.Overdraw.value);
+
+
+    let previousPosition;
+    let previousRotation;
     
+
     useFrame((state, delta) => {
 
         UpdateLogic(delta);
 
-        let eye = THREE.camera.position.clone();
-
-        eye.multiplyScalar(0.5);
+        if(THREE.camera.position != previousPosition) {
 
 
-        Uniforms.Eye.value = eye;
-        
+            let currentPosition = new Vector(...THREE.camera.position.toArray());
+            let currentRotation = new Vector(...THREE.camera.rotation.toArray());
+
+            if(previousPosition) {
+
+                currentPosition.sub(previousPosition).addEach(mesh.current.position);
+                currentRotation.sub(previousRotation).addEach(mesh.current.rotation);
+                
+            }
+
+            previousPosition = currentPosition;
+            previousRotation = currentRotation;
+
+            Uniforms.Eye.value = currentPosition.mult(0.2).toArray();
+        }
+
+
         UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key].value = Uniforms[key].value);
-
     });
     
     return(<group>
@@ -254,7 +273,7 @@ export default function Blob(props) {
         <mesh
             position={[0, 0, 0]}
             rotation={[0, Math.PI, 0]}
-            ref={ref}
+            ref={mesh}
         >
         <planeBufferGeometry 
             attach="geometry"
@@ -271,7 +290,7 @@ export default function Blob(props) {
             // }}
             // fragmentShader={SandboxFragShader}
             transparent={true}
-
+            depthTest={false}
         />
 
         </mesh>

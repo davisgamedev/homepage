@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Water } from 'three/examples/jsm/objects/Water.js';
 import { extend, useThree, useLoader, useFrame } from 'react-three-fiber';
 import { PlaneBufferGeometry, Vector2, TextureLoader, RepeatWrapping, Vector3, SphereBufferGeometry, IcosahedronBufferGeometry, TorusKnotBufferGeometry } from 'three';
 import { DebugDir } from 'Tech/DebugTools';
+
+import Water from './ThreeWater';
 
 extend({Water})
 
@@ -27,19 +28,20 @@ export default function Ocean(props) {
         textureWidth: 1024,
         textureHeight: 1024,
         waterNormals: waterNormals,
-        distortionScale: 15,
+        distortionScale: -1,
         alpha: 0.9,
         sunDirection: new Vector3(0, 1, 0),
         waterColor: 0x000033,
     } );
 
-    water.position.y = -10;
-    water.rotation.x = -Math.PI/2;
+    water.position.y = -25;
+    water.rotation.x = Math.PI * -0.5;//3.5/6
 
-    water.material.side = THREE.BackSide;
+    water.material.side = THREE.FrontSide;
 
     useFrame((state, delta) => {
         water.material.uniforms['time'].value += 0.5 * delta;
+        
     });
 
 
