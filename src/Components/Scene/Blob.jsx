@@ -1,25 +1,16 @@
 import React, { Suspense } from 'react';
-import { Canvas, extend, useFrame, useThree } from "react-three-fiber";
+import { useFrame, useThree } from "react-three-fiber";
 import WindowDimensions from "Tech/WindowDimensions";
-import Ocean from './Ocean';
 
-import { Sky, OrbitControls, Plane, Icosahedron } from 'drei';
-import { DebugDir } from 'Tech/DebugTools';
-import DebugLog from 'Tech/DebugTools';
-import SkyShader from './SkyShader';
-import { Vector2, Vector3, IcosahedronBufferGeometry, Vector4 } from 'three';
-import { DebugList } from 'Tech/DebugTools';
-import SkyBox from './SkyBox';
+import { Icosahedron, Reflector } from 'drei';
+import { Vector2, Vector3, IcosahedronBufferGeometry, Vector4, PlaneBufferGeometry } from 'three';
 import { useMemo } from 'react';
 import Vector, {map} from './Vector';
-import {MeshLambertMaterial, Color} from 'three';
 
 import RaymarchBlobFragShader from './RaymarchBlobFragShader';
 
 import * as Three from 'three';
-import { useEffect } from 'react';
-import { DebugColorLog } from 'Tech/DebugTools';
-
+import { DebugDir } from 'Tech/DebugTools';
 
 const showDebugIcos = false;
 
@@ -44,7 +35,7 @@ let Uniforms = {
     Overdraw: 1,
     Resolution: new Vector2(600, 800),
     Eye: new Vector3(0, 0, 0),
-    Center: new Vector3(0, 0, 0),
+    Center: new Vector3(0, -2, 0),
         
     AmbientLight: new Vector3(0.4, 0.4, 0.4),
 
@@ -57,10 +48,14 @@ let Uniforms = {
 
     // r g b prevMeshCamDist
     GradientColorSteps: [
-        new Vector4( 64, 31, 62,       3 ),
-        new Vector4( 69, 63, 120,      7 ),
-        new Vector4( 117, 154, 171,    10 ),
-        new Vector4( 250, 242, 161,    13 ),
+        // new Vector4( 143,207,209     ,  3 ),
+        // new Vector4( 223,94,136    ,  7 ),
+        // new Vector4( 246,171,108  , 10 ),
+        // new Vector4( 246,239,166  , 13 ),
+        new Vector4( 0,168,181    ,  3 ),
+        new Vector4( 119,72,152   ,  7 ),
+        new Vector4( 230,42,118  , 10 ),
+        new Vector4( 251,185,1  , 13 ),
     ],
 
 }
@@ -103,6 +98,8 @@ let deltaCamPos;
 
 const UpdateLogic = (delta) => {
 
+    if(delta > 0.5) return;
+
     // slowdown
 
     //delta *= 1;
@@ -141,10 +138,6 @@ const UpdateLogic = (delta) => {
 
             // closest to actual icos is from 100 - -100, sphere size 1
             mapped = position.map(-200, 200, 75, -75);
-
-            
-            
-            //map(position.dot(position.add(velocity)), -500, 500, -1, 1);
 
             if(Uniforms.Spheres.value[i])
              Uniforms.Spheres.value[i].set(mapped.x, mapped.y, mapped.z, 1);
@@ -218,12 +211,14 @@ export function Goo(props) {
 }
 
 
-
-
-
-
-
-
+/*
+    Thoughts:
+        - we do a lot of work to update a plane to fit the screen when we probably 
+            could've used a ShaderPass
+            However:
+                - Shaderpass would implicitly add an overdraw due to it using a single triangle, no?
+                - That would involve more raycasts
+*/
 export default function Blob(props) {
 
     const mesh = React.useRef();
@@ -234,8 +229,8 @@ export default function Blob(props) {
 
 
     Uniforms.Resolution.value = new Vector2(
-        windowWidth * Uniforms.Overdraw.value,
-        windowHeight * Uniforms.Overdraw.value);
+        windowWidth * Uniforms.Overdraw.value * window.pixelRatio, // set in Scene
+        windowHeight * Uniforms.Overdraw.value * window.pixelRatio);
 
 
     let previousPosition;
@@ -330,7 +325,9 @@ export default function Blob(props) {
             previousRotation = currentRotation;
             previousViewport = currentViewport;
             previousMeshPosition = currentMeshPosition;
+
         }
+
 
         // update the uniforms according to the listed keys which signify what will need updates
         UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key].value = Uniforms[key].value);
@@ -378,6 +375,7 @@ export default function Blob(props) {
                 </Icosahedron>
             : null
         }
+
         
 
     </group>);

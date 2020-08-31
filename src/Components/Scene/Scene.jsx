@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Canvas, extend } from "react-three-fiber";
+import { Canvas, extend, useFrame } from "react-three-fiber";
 import WindowDimensions from "Tech/WindowDimensions";
 import Ocean from './Ocean';
 
@@ -12,11 +12,48 @@ import { DebugList } from 'Tech/DebugTools';
 import SkyBox from './SkyBox';
 import Blob from './Blob';
 import { Ico } from './Blob';
+import { EffectComposer, Bloom, SSAO, SMAA, Scanline, Noise, DepthOfField } from 'react-postprocessing';
+import { BlendFunction, Resizer, KernelSize, GammaCorrectionEffect } from 'postprocessing';
 
+import * as Three from 'three';
+
+export function Effects(props) {
+
+    const depth = React.useRef();
+
+    const {windowWidth, windowHeight} = WindowDimensions();
+
+
+    return(
+    <EffectComposer>
+
+    <DepthOfField 
+    ref={depth}
+    focusDistance={0.8} 
+    focalLength={0.8} 
+    bokehScale={1.5} 
+    />
+
+    <Bloom 
+    intensity={1} // The bloom intensity.
+    kernelSize={KernelSize.LARGE} // blur kernel size
+    luminanceThreshold={0.65} // luminance threshold. Raise this value to mask out darker elements in the scene.
+    luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
+    />
+    <Noise 
+    opacity={0.02} 
+    premultiply
+    />
+
+    </EffectComposer>
+    );
+}
 
 export default function Scene(props) {
 
     const {windowWidth, windowHeight} = WindowDimensions();
+
+    window.pixelRatio = window.devicePixelRatio * 1/3;
 
     return(
         <Canvas
@@ -25,15 +62,27 @@ export default function Scene(props) {
             camera={
                 { 
                     fov: 55, 
-                    position: [0, 0, -75],
+                    position: [0, 0, -55],
                 }}
-            gl={{ antialias: true, logarithmicDepthBuffer: true }}
-            onCreated={({gl}) => { gl.setClearColor('black'); }}
+            gl={{ 
+                logarithmicDepthBuffer: false,
+
+                antialias: false, 
+                depth: false,
+                powerPreference: "high-performance",
+                stencil: false,
+            }}
+            onCreated={({gl}) => { 
+                gl.setClearColor('black');
+            }}
+            shadowMap={false}
+            pixelRatio={window.pixelRatio}
         >
 
     <Suspense fallback={null}>
 
             <SkyBox />
+            {/* <SkyShader /> */}
             <Ocean />
 
             <ambientLight intensity={0.4} />
@@ -43,8 +92,10 @@ export default function Scene(props) {
 
             <Stats />
 
-
             <OrbitControls />
+
+            <Effects />
+
         </Suspense>
 
         </Canvas>

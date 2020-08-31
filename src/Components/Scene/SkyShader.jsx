@@ -11,11 +11,11 @@ export default function SkyShader() {
 
     const uniforms = {
         turbidity: 1.5,
-        rayleigh: 0.2,
+        rayleigh: 0.425,
         mieCoefficient: 0.034,
         mieDirectionalG: 0.7,
-        inclination: 0.34, // elevation / inclination
-        azimuth: 0.47, // Facing front,
+        inclination: 0.2, // elevation / inclination
+        azimuth: 0.3, // Facing front,
     };
 
     let uniformsSet = false;

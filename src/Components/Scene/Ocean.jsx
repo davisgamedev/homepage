@@ -28,16 +28,18 @@ export default function Ocean(props) {
         textureWidth: 1024,
         textureHeight: 1024,
         waterNormals: waterNormals,
-        distortionScale: -1,
+        distortionScale: 25,
         alpha: 0.9,
         sunDirection: new Vector3(0, 1, 0),
         waterColor: 0x000033,
     } );
 
-    water.position.y = -25;
-    water.rotation.x = Math.PI * -0.5;//3.5/6
+    water.position.y = -15;
+    water.rotation.x = Math.PI * -3.25/6
 
     water.material.side = THREE.FrontSide;
+
+    DebugDir(water);
 
     useFrame((state, delta) => {
         water.material.uniforms['time'].value += 0.5 * delta;

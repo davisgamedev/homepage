@@ -246,7 +246,7 @@ var Water = function ( geometry, options ) {
 
 		rotationMatrix.extractRotation( camera.matrixWorld );
 
-		lookAtPosition.set( 0, 0, - 1 );
+		lookAtPosition.set( 0, 0, -1 );
 		lookAtPosition.applyMatrix4( rotationMatrix );
 		lookAtPosition.add( cameraWorldPosition );
 
@@ -254,7 +254,10 @@ var Water = function ( geometry, options ) {
 		target.reflect( normal ).negate();
 		target.add( mirrorWorldPosition );
 
-		mirrorCamera.position.copy( view );
+        let viewAdjust = view.clone();
+        viewAdjust.y -= 0.5;
+
+		mirrorCamera.position.copy( viewAdjust );
 		mirrorCamera.up.set( 0, 1, 0 );
 		mirrorCamera.up.applyMatrix4( rotationMatrix );
 		mirrorCamera.up.reflect( normal );
@@ -266,10 +269,16 @@ var Water = function ( geometry, options ) {
 		mirrorCamera.projectionMatrix.copy( camera.projectionMatrix );
 
 		// Update the texture matrix
-		textureMatrix.set(
-			0.5, 0.0, 0.0, 0.5,
-			0.0, 0.5, 0.0, 0.5,
-			0.0, 0.0, 0.5, 0.5,
+		// textureMatrix.set(
+		// 	-1, 0.0, 0.0, 0.75,
+		// 	0.0, 1, 0.0, 1,
+		// 	0.0, 0.0, -1, 0.75,
+		// 	0.0, 0.0, 0.0, 1.0
+        // );
+        textureMatrix.set(
+			-0.75, 0.0, 0.0, 0.75,
+			0.0, 0.75, 0.0, 0.35,
+			0.0, 0.0, 0.75, 0.75,
 			0.0, 0.0, 0.0, 1.0
 		);
 		textureMatrix.multiply( mirrorCamera.projectionMatrix );
@@ -280,22 +289,29 @@ var Water = function ( geometry, options ) {
 		mirrorPlane.setFromNormalAndCoplanarPoint( normal, mirrorWorldPosition );
 		mirrorPlane.applyMatrix4( mirrorCamera.matrixWorldInverse );
 
-		clipPlane.set( mirrorPlane.normal.x, mirrorPlane.normal.y, mirrorPlane.normal.z, mirrorPlane.constant );
+		clipPlane.set( 
+            mirrorPlane.normal.x, 
+            mirrorPlane.normal.y, 
+            mirrorPlane.normal.z, 
+            mirrorPlane.constant );
 
 		var projectionMatrix = mirrorCamera.projectionMatrix;
 
-		q.x = ( Math.sign( clipPlane.x ) + projectionMatrix.elements[ 8 ] ) / projectionMatrix.elements[ 0 ];
-		q.y = ( Math.sign( clipPlane.y ) + projectionMatrix.elements[ 9 ] ) / projectionMatrix.elements[ 5 ];
-		q.z = - 1.0;
+        q.x = ( Math.sign( clipPlane.x ) + projectionMatrix.elements[ 8 ] ) / 
+                    projectionMatrix.elements[ 0 ];
+        
+        q.y = ( Math.sign( clipPlane.y ) + projectionMatrix.elements[ 9 ] ) / 
+                projectionMatrix.elements[ 5 ];
+		q.z = -1.0;
 		q.w = ( 1.0 + projectionMatrix.elements[ 10 ] ) / projectionMatrix.elements[ 14 ];
 
 		// Calculate the scaled plane vector
-		clipPlane.multiplyScalar( 2.0 / clipPlane.dot( q ) );
+		clipPlane.multiplyScalar( 1.0 / clipPlane.dot( q ) );
 
 		// Replacing the third row of the projection matrix
 		projectionMatrix.elements[ 2 ] = clipPlane.x;
 		projectionMatrix.elements[ 6 ] = clipPlane.y;
-		projectionMatrix.elements[ 10 ] = clipPlane.z + 1.0 - clipBias;
+		projectionMatrix.elements[ 10 ] = clipPlane.z;// + 1.0 - clipBias;
 		projectionMatrix.elements[ 14 ] = clipPlane.w;
 
 		eye.setFromMatrixPosition( camera.matrixWorld );

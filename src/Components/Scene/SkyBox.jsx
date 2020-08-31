@@ -1,6 +1,6 @@
 import React from 'react';
 import { useThree } from "react-three-fiber";
-import { CubeTextureLoader } from 'three';
+import { CubeTextureLoader, TextureLoader } from 'three';
 
 /*
 Quarry
@@ -42,7 +42,19 @@ Blue Beach
 */
 
 
+/*
+insanity
+[
+    'https://res.cloudinary.com/dyzmnhqpr/image/upload/a_hflip/v1596836432/Maps/Blue%20Sunrise/pz_jcfzlj.png',
+    'https://res.cloudinary.com/dyzmnhqpr/image/upload/a_hflip/v1596836432/Maps/Blue%20Sunrise/pz_jcfzlj.png',
 
+    'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/py_lcshrf.png',
+    'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/py_lcshrf.png',
+
+    'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/pz_jcfzlj.png',
+    'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/pz_jcfzlj.png',
+]
+*/
 
 
 
@@ -55,19 +67,25 @@ export function getSkyBox() { return skyBox; }
 
 export default function SkyBox() {
     const { scene } = useThree();
-    const loader = new  CubeTextureLoader();
-    // The CubeTextureLoader load method takes an array of urls representing all 6 sides of the cube.
+    // const loader = new  CubeTextureLoader();
+    // // The CubeTextureLoader load method takes an array of urls representing all 6 sides of the cube.
     
+    // const texture = loader.load(
+    //     [
+    //         'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/px_fuzanw.png',
+    //         'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/nx_hkqur2.png',
+    //         'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/py_lcshrf.png',
+    //         'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/ny_yaytac.png',
+    //         'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/pz_jcfzlj.png',
+    //         'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/nz_g1rtcf.png',
+    //     ]
+    // );
+
+    const loader = new TextureLoader();
     const texture = loader.load(
-        [
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/px_fuzanw.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/nx_hkqur2.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/py_lcshrf.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/ny_yaytac.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836432/Maps/Blue%20Sunrise/pz_jcfzlj.png',
-            'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/nz_g1rtcf.png',
-        ]
-    );
+        'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1598829307/pz_modified_j2baxh.png'
+        );
+
     // Set the scene background property to the resulting texture.
     scene.background = texture;
     skyBox = texture;

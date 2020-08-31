@@ -46,6 +46,7 @@
     "prettier": "2.0.5",
     "react-clonewithprops": "^1.0.1",
     "react-material-ui-form-validator": "^2.1.0",
+    "react-postprocessing": "^1.1.6",
     "react-scroll": "^1.8.0",
     "react-smooth-scrollbar": "^8.0.6",
     "react-spring": "^8.0.27",

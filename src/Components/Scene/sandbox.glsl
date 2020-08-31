@@ -30,15 +30,16 @@ vec4 getSphere(int i) {
 
     float time = iTime/2.;
 
-    return vec4(
+    vec3 sizePos = vec3(
         sin(time + factors[i]), 
         cos(time + (factors[i] * 10.)), 
-        sin(time + (factors[i] * 100.)),
-        float(i % 2) * 2. - 1.
-        ) 
+        sin(time + (factors[i] * 100.))
+        );
         
-        * sin(time + (factors[i]) * 1000.) 
-        * (sin(time) + 0.5) * -2.;
+    sizePos *= sin(time + (factors[i]) * 1000.) * (sin(time) + 0.5) * -2.;
+
+    return vec4(sizePos, 1.);
+        
 }
 
 
