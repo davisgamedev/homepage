@@ -27,6 +27,9 @@ export function Effects(props) {
     return(
     <EffectComposer>
 
+    
+    
+    fuck me we're going to write a Bokeh shader aren't we
     <DepthOfField 
     ref={depth}
     focusDistance={0.8} 
@@ -41,7 +44,7 @@ export function Effects(props) {
     luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
     />
     <Noise 
-    opacity={0.02} 
+    opacity={0.04} 
     premultiply
     />
 
@@ -91,8 +94,8 @@ export default function Scene(props) {
             <Blob />
 
             <Stats />
-
-            <OrbitControls />
+{/* 
+            <OrbitControls /> */}
 
             <Effects />
 

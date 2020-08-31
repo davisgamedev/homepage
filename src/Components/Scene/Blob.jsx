@@ -48,14 +48,27 @@ let Uniforms = {
 
     // r g b prevMeshCamDist
     GradientColorSteps: [
-        // new Vector4( 143,207,209     ,  3 ),
-        // new Vector4( 223,94,136    ,  7 ),
-        // new Vector4( 246,171,108  , 10 ),
-        // new Vector4( 246,239,166  , 13 ),
-        new Vector4( 0,168,181    ,  3 ),
-        new Vector4( 119,72,152   ,  7 ),
-        new Vector4( 230,42,118  , 10 ),
-        new Vector4( 251,185,1  , 13 ),
+
+        // new Vector4( 0,168,181    ,  3 ),
+        // new Vector4( 119,72,152   ,  7 ),
+        // new Vector4( 230,42,118  , 10 ),
+        // new Vector4( 251,185,1  , 13 ),
+
+        // new Vector4( 239, 39, 27  ,  3 ),
+        // new Vector4( 234, 23, 68   ,  7 ),
+        // new Vector4( 245, 100, 22  , 10 ),
+        // new Vector4( 226, 132, 19 , 13 ),
+
+        // new Vector4( 1, 142, 66,  3 ),
+        // new Vector4( 247, 208, 2  , 5 ),
+        // new Vector4( 239, 39, 27  ,  11 ),
+        // new Vector4( 234, 23, 68  ,  15 ),
+
+        new Vector4( 135, 0, 88,  3 ),
+        new Vector4( 242, 66, 54  ,  7 ),
+        new Vector4( 245, 247, 73 , 9 ),
+        new Vector4( 38, 196, 133 , 12 ),
+
     ],
 
 }

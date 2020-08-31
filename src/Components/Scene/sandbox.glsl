@@ -28,7 +28,7 @@ const float factors[] = float[](
 
 vec4 getSphere(int i) {
 
-    float time = iTime/2.;
+    float time = iTime/3.;
 
     vec3 sizePos = vec3(
         sin(time + factors[i]), 
@@ -322,8 +322,9 @@ float March(vec3 eye, vec3 dir, float start, float end) {
     
 	float depth = start;
     
-    for(int i = 0; i < MAX_STEPS; ++i) {
-        
+    int i = 0;
+    do {
+
         // check against scene
      	float dist = SceneSDF(eye + depth * dir);
         
@@ -335,8 +336,10 @@ float March(vec3 eye, vec3 dir, float start, float end) {
         
         // too big, hit the void
         if(depth >= end) return end;
+
     }
-    
+    while(i++ < MAX_STEPS);
+
     return end;
 }
     

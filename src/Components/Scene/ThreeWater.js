@@ -276,9 +276,9 @@ var Water = function ( geometry, options ) {
 		// 	0.0, 0.0, 0.0, 1.0
         // );
         textureMatrix.set(
-			-0.75, 0.0, 0.0, 0.75,
+			-0.75, 0.0, 0.0, 0.55,
 			0.0, 0.75, 0.0, 0.35,
-			0.0, 0.0, 0.75, 0.75,
+			0.0, 0.0, 0.75, 0.55,
 			0.0, 0.0, 0.0, 1.0
 		);
 		textureMatrix.multiply( mirrorCamera.projectionMatrix );

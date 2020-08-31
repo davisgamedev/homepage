@@ -39,8 +39,6 @@ export default function Ocean(props) {
 
     water.material.side = THREE.FrontSide;
 
-    DebugDir(water);
-
     useFrame((state, delta) => {
         water.material.uniforms['time'].value += 0.5 * delta;
         

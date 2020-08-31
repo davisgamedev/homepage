@@ -14,9 +14,6 @@ import Scene from 'Components/Scene/Scene';
 // import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
 
 // import './index.css';
-// import BackgroundFiberDemoScene from 'Components/WebGL/BackgroundFiberDemoScene';
-// import IcoBackgroundScene from 'Components/WebGL/IcoBackgroundScene';
-// import { Backdrop } from '@material-ui/core';
 
 var hist = createBrowserHistory();
 

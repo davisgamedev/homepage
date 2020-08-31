@@ -187,7 +187,8 @@ float March(vec3 eye, vec3 dir, float start, float end) {
     
 	float depth = start;
   
-    for(int i = 0; i < MAX_STEPS; ++i) {
+    int i = 0;
+    do {
         
      	float dist = Scene(eye + depth * dir);
         
@@ -196,8 +197,10 @@ float March(vec3 eye, vec3 dir, float start, float end) {
         depth += dist;
         
         if(depth >= end) return end;
-    }
     
+    }
+    while(i++ < MAX_STEPS);
+
     return end;
 }
     
