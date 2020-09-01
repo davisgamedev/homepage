@@ -344,6 +344,7 @@ float March(vec3 eye, vec3 dir, float start, float end) {
 }
     
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+
     vec3 viewDir = GetRayDirection(45., iResolution.xy, fragCoord);
     
     // distance from viewplane

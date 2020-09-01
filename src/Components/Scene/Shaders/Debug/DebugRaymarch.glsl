@@ -1,8 +1,7 @@
 #define MAX_STEPS 128
-#define MIN 1.
-#define MAX 100.
-#define EPSILON 0.005
-#define SMOOTHFACTOR 2.
+#define MIN 25.
+#define MAX 125.
+#define EPSILON 0.01
 
 uniform bool DebugLocation;
 
@@ -10,9 +9,17 @@ uniform float NumSpheres;
 uniform vec4 Spheres[15];
 uniform float SphereRadius;
 
+uniform float SmoothFactor;
+
+uniform vec3 Center;
 uniform vec3 Eye;
 uniform vec2 Resolution;
 uniform float Overdraw;
+
+
+unfirom bool DrawOrSample;
+uniform float SampleSize;
+uniform sampler2d SampleTexture;
 
 uniform vec3 AmbientLight;
 
@@ -51,7 +58,7 @@ float Scene(vec3 point) {
     for(float i = 1.; i < NumSpheres; ++i) {
         vec4 sphere = Spheres[int(i)];
         float distA = SphereSDF(point + sphere.xyz);
-        dist = SmoothMinSDF(dist, distA, sphere.a * SMOOTHFACTOR);
+        dist = SmoothMinSDF(dist, distA, sphere.a * SmoothFactor);
     }
 
     return dist;
@@ -183,7 +190,8 @@ float March(vec3 eye, vec3 dir, float start, float end) {
     
 	float depth = start;
   
-    for(int i = 0; i < MAX_STEPS; ++i) {
+    int i = 0;
+    do {
         
      	float dist = Scene(eye + depth * dir);
         
@@ -192,8 +200,10 @@ float March(vec3 eye, vec3 dir, float start, float end) {
         depth += dist;
         
         if(depth >= end) return end;
-    }
     
+    }
+    while(i++ < MAX_STEPS);
+
     return end;
 }
     
@@ -207,12 +217,12 @@ void main() {
 
     vec3 viewDir = GetRayDirection(45., vec2(Resolution.xy), overdrawComp);
     
-    mat4 worldViewMatrix = GetViewMatrix(Eye, vec3(0.), vec3(0., 1., 0.));
+    mat4 worldViewMatrix = GetViewMatrix(Eye, Center, vec3(0., 1., 0.));
     vec3 worldDir = (worldViewMatrix * vec4(viewDir, 1.)).xyz;
     
     float dist = March(Eye, worldDir, MIN, MAX);
     
-    if(dist > MAX - EPSILON) {
+    if(dist >= MAX - EPSILON * 0.99) {
 
         if(DebugLocation) gl_FragColor = vec4(0., 0., 0., 0.5);
         else              gl_FragColor = vec4(0.);

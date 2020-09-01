@@ -7,7 +7,7 @@ import { Vector2, Vector3, IcosahedronBufferGeometry, Vector4, PlaneBufferGeomet
 import { useMemo } from 'react';
 import Vector, {map} from './Vector';
 
-import RaymarchBlobFragShader from './RaymarchBlobFragShader';
+import RaymarchBlobFragShader from './Shaders/RaymarchBlobFragShader';
 
 import * as Three from 'three';
 import { DebugDir } from 'Tech/DebugTools';
@@ -231,6 +231,7 @@ export function Goo(props) {
             However:
                 - Shaderpass would implicitly add an overdraw due to it using a single triangle, no?
                 - That would involve more raycasts
+                - Object scene distance if over screen and not in scene
 */
 export default function Blob(props) {
 
@@ -252,6 +253,13 @@ export default function Blob(props) {
     let previousMeshPosition;
 
     let initSize = {width: 80, height: 80};
+
+
+    useMemo(() => {
+        
+
+    })
+
 
 
 

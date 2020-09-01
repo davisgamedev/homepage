@@ -18,6 +18,11 @@ uniform vec3 Eye;
 uniform vec2 Resolution;
 uniform float Overdraw;
 
+
+unfirom bool DrawOrSample;
+uniform float SampleSize;
+uniform sampler2d SampleTexture;
+
 uniform vec3 AmbientLight;
 
 uniform vec3 DirectionLightPosition;
