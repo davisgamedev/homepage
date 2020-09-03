@@ -15,7 +15,7 @@ uniform float GammaAdjust;
 
 vec4 RotateBlur(vec2 fragCoord, float GaussianSize) {
     
-    const float total = GaussianDepth * GaussianRingSamples;
+    float total = GaussianDepth * GaussianRingSamples;
     
     vec2 uvCoord = fragCoord/iResolution.xy;
     vec4 avgs = texture(iChannel0, uvCoord);
@@ -53,13 +53,9 @@ vec4 RotateBlur(vec2 fragCoord, float GaussianSize) {
     
 }
 
-
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-    //vec4 color = texture(iChannel0, fragCoord/iResolution.xy);
-    
-    
-    fragColor = RotateBlur(fragCoord, mix(1., 6., 1. - fragCoord.y/iResolution.y));
+void main() {
+    gl_FragColor = RotateBlur(gl_FragCoord.xy, mix(1., 6., 1. - gl_FragCoord.y/iResolution.y));
 }
+
 `;
 export default GaussianBottomUp;

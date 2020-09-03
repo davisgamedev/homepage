@@ -288,6 +288,8 @@ export default function Blob(props) {
         Uniforms.iChannel1 = {value: bufferBRenderTarget.texture};
     }
 
+    setBuffers();
+
 
     function renderBuffers() {
 
@@ -313,7 +315,18 @@ export default function Blob(props) {
         THREE.gl.setRenderTarget(currentRenderTarget);
     }
 
-    setBuffers();
+
+    function setMesh(mesh, prevMeshCamDist) {
+
+        // allign raymarch view plane to camera
+        mesh.current.position.copy(THREE.camera.position);
+        mesh.current.rotation.copy(THREE.camera.rotation);
+        mesh.current.updateMatrix();
+
+        // push the plane to the correct position
+        mesh.current.translateZ(-prevMeshCamDist.mag());
+    }
+
 
 
     // todo: use Camera.scissor
@@ -339,31 +352,12 @@ export default function Blob(props) {
             // if not a previous position, we'll base our future caluations form the current (initial) state
             // otherwise:
             if(previousPosition) {
-
                 // get the previous distance (new target distance)
                 prevMeshCamDist = new Vector(mesh.current.position).sub(previousPosition);
 
-                // allign raymarch view plane to camera
-                mesh.current.position.copy(THREE.camera.position);
-                mesh.current.rotation.copy(THREE.camera.rotation);
-                mesh.current.updateMatrix();
-
-                
-                // push the plane to the correct position
-                mesh.current.translateZ(-prevMeshCamDist.mag());
-
-                // THREE's matrix cloning logic is entirely broken
-                //  we will have to set transformations identically to mesh
-                meshBufferA.current.position.copy(THREE.camera.position);
-                meshBufferA.current.rotation.copy(THREE.camera.rotation);
-                meshBufferA.current.updateMatrix();
-                meshBufferA.current.translateZ(-prevMeshCamDist.mag());
-
-                meshBufferB.current.position.copy(THREE.camera.position);
-                meshBufferB.current.rotation.copy(THREE.camera.rotation);
-                meshBufferB.current.updateMatrix();
-                meshBufferB.current.translateZ(-prevMeshCamDist.mag());
-
+                setMesh(mesh, prevMeshCamDist);
+                setMesh(meshBufferA, prevMeshCamDist);
+                setMesh(meshBufferB, prevMeshCamDist);
             }
 
             // if this is our first time, we'll grab the distance for future updates
@@ -390,7 +384,7 @@ export default function Blob(props) {
                 mesh.current.scale.set(scale.width, scale.height, 1);
                 meshBufferA.current.scale.set(scale.width, scale.height, 1);
                 meshBufferB.current.scale.set(scale.width, scale.height, 1);
-            
+
             }
 
             // time to update the world calculations in the shader by updating eye and world center
@@ -429,105 +423,75 @@ export default function Blob(props) {
                 meshBufferB.current.material.uniforms[key].value = Uniforms[key].value;
             });
 
-            
-            
-        // if(mesh.current) {
-        //     if(!mesh.current.material.uniforms["iChannel0"]) {
-        //         meshBufferB .current.material.uniforms["iChannel0"] = {value: bufferARenderTarget.texture};
-        //         mesh        .current.material.uniforms["iChannel0"] = {value: bufferARenderTarget.texture};
-        //         mesh        .current.material.uniforms["iChannel1"] = {value: bufferBRenderTarget.texture};
-        //     }
-        // }
+        meshGaussPrepass.current.material.uniforms["iResolution"] = Uniforms.Resolution;
+
         renderBuffers();
 
     });
 
-    const defaultMeshProps = {
+    const meshProps = {
         position: [0, 0, 0],
         rotation: [0, Math.PI, 0],
     }
 
-    const defaultGeoProps = {
+    const geoProps = {
         attach: "geometry",
         args: [initSize.width, initSize.height]
     }
 
 
-    const defaultMatProps = {
+    const matProps = {
         attach: "material",
         transparent: true,
         depthTest: false,
     }
     
     return(<group>
+
         {
             Array.from({length: Uniforms.NumSpheres.value}, (_, i) => <Goo key={i} index={i} />)
         }
-        <mesh ref={mesh} renderOrder={10} {...defaultMeshProps} >
-        <planeBufferGeometry {...defaultGeoProps} />
+
+        <mesh {...meshProps} ref={mesh} renderOrder={10} >
+        <planeBufferGeometry {...geoProps} />
         <shaderMaterial 
-            attach="material" 
+            {...matProps}
             uniforms={Uniforms}
             fragmentShader={RaymarchPostpass}
-            transparent={true}
-            depthTest={false}
             premultipliedAlpha={true}
         />
-        {
-            // viewport center
-            // will be squeeshed because of viewport scaling
-            showDebugIcos ? 
-            <Icosahedron args={[5, 2]}>
-                <meshPhongMaterial attach="material" color="pink" flatShading={true}/>
-            </Icosahedron> 
-            : null
-        }
+        {showDebugIcos ? <Icosahedron args={[5, 2]}> <meshPhongMaterial attach="material" color="pink" flatShading={true}/></Icosahedron> : null}
         </mesh>
 
 
-        <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}
-            ref={meshBufferA}
-        >
-        <planeBufferGeometry 
-            attach="geometry"
-            args={[initSize.width, initSize.height]}
-        />
+
+        <mesh {...meshProps} ref={meshBufferA} >
+        <planeBufferGeometry {...geoProps} />
+        <shaderMaterial {...matProps} uniforms={Uniforms} fragmentShader={RaymarchPrepass}/>
+        </mesh>
+
+        <mesh {...meshProps} ref={meshBufferB} >
+        <planeBufferGeometry {...geoProps} />
+        <shaderMaterial {...matProps} uniforms={Uniforms} fragmentShader={RaymarchMain} />
+        </mesh>
+
+        <mesh {...meshProps} ref={meshGaussPrepass} renderOrder={9} >
+        <planeBufferGeometry {...geoProps} />
         <shaderMaterial 
-            attach="material" 
-            uniforms={Uniforms}
-            fragmentShader={RaymarchPrepass}
-            transparent={true}
-            depthTest={false}
-        />
-        </mesh>
-        <mesh
-            position={[0, 0, 0]}
-            rotation={[0, Math.PI, 0]}
-            ref={meshBufferB}
-        >
-        <planeBufferGeometry 
-            attach="geometry"
-            args={[initSize.width, initSize.height]}
-        />
-        <shaderMaterial 
-            attach="material" 
-            uniforms={Uniforms}
-            fragmentShader={RaymarchMain}
-            transparent={true}
-            depthTest={false}
+        {...matProps} 
+        fragmentShader={GaussianBottomUp} 
+        Uniforms={{
+            iChannel0: {value: THREE.gl.texture},
+            iResolution: Uniforms.Resolution,
+            GaussianDepth: Uniforms.GaussianDepth,
+            GaussianRingSamples: Uniforms.GaussianRingSamples,
+            GammaAdjust: Uniforms.GammaAdjust,
+        }}
         />
         </mesh>
 
 
-
-        {
-            // world center
-            showDebugIcos? 
-            <Icosahedron args={[5, 2]}>
-                    <meshNormalMaterial attach="material" flatShading={true}/>
-                </Icosahedron>
-            : null
-        }
+        {showDebugIcos? <Icosahedron args={[5, 2]}> <meshNormalMaterial attach="material" flatShading={true}/> </Icosahedron> : null}
 
 
     </group>);
