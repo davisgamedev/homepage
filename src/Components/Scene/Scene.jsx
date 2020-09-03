@@ -27,9 +27,6 @@ export function Effects(props) {
     return(
     <EffectComposer>
 
-    
-    
-    fuck me we're going to write a Bokeh shader aren't we
     <DepthOfField 
     ref={depth}
     focusDistance={0.8} 
@@ -74,9 +71,11 @@ export default function Scene(props) {
                 depth: false,
                 powerPreference: "high-performance",
                 stencil: false,
+                alpha: true,
             }}
             onCreated={({gl}) => { 
                 gl.setClearColor('black');
+                gl.setClearAlpha(0);
             }}
             shadowMap={false}
             pixelRatio={window.pixelRatio}
@@ -85,19 +84,17 @@ export default function Scene(props) {
     <Suspense fallback={null}>
 
             <SkyBox />
-            {/* <SkyShader /> */}
             <Ocean />
-
             <ambientLight intensity={0.4} />
             <directionalLight intensity={1.} position={[-1, 1, -1]} args={[0xffffff]} />
 
             <Blob />
 
             <Stats />
-{/* 
-            <OrbitControls /> */}
 
-            <Effects />
+            <OrbitControls />
+
+            {/* <Effects /> */}
 
         </Suspense>
 

@@ -7,7 +7,12 @@ import { Vector2, Vector3, IcosahedronBufferGeometry, Vector4, PlaneBufferGeomet
 import { useMemo } from 'react';
 import Vector, {map} from './Vector';
 
-import RaymarchBlobFragShader from './Shaders/RaymarchBlobFragShader';
+//import RaymarchBlobFragShader from './Shaders/Old_RaymarchBlobFragShader';
+
+import RaymarchMain from './Shaders/RaymarchMain.js';
+import RaymarchPrepass from './Shaders/RaymarchPrepass';
+import RaymarchPostpass from './Shaders/RaymarchPostpass';
+import GaussianBottomUp from './Shaders/GaussianBottomUp';
 
 import * as Three from 'three';
 import { DebugDir } from 'Tech/DebugTools';
@@ -26,17 +31,32 @@ let Uniforms = {
 
     DebugLocation: false,
 
+    SampleSize: 10,
+
     NumSpheres: 15, // check length below
     SphereRadius: 0.5,
     SmoothFactor: 7.5,
 
     Spheres: Array.from({length: 15}, () => new Vector4()),
 
-    Overdraw: 1,
-    Resolution: new Vector2(600, 800),
-    Eye: new Vector3(0, 0, 0),
     Center: new Vector3(0, -2, 0),
-        
+    Eye: new Vector3(0, 0, 0),
+    Resolution: new Vector2(600, 800),
+    Overdraw: 1,
+
+    BokehStart: 50,
+    BokehEnd: 10,
+    BokehAdjust: 0.8, 
+
+    GaussianDepth: 2,
+    GaussianRingSamples: 12,
+    GaussianSizeStart: 1.,
+    GaussianSizeEnd: 24.,
+    BokehMult: 2.25,
+    GammaAdjust: 0.,
+
+    BlurTileDist: 5,
+
     AmbientLight: new Vector3(0.4, 0.4, 0.4),
 
     DirectionLightPosition: new Vector3(0., 10., -10.),
@@ -48,29 +68,14 @@ let Uniforms = {
 
     // r g b prevMeshCamDist
     GradientColorSteps: [
-
-        // new Vector4( 0,168,181    ,  3 ),
-        // new Vector4( 119,72,152   ,  7 ),
-        // new Vector4( 230,42,118  , 10 ),
-        // new Vector4( 251,185,1  , 13 ),
-
-        // new Vector4( 239, 39, 27  ,  3 ),
-        // new Vector4( 234, 23, 68   ,  7 ),
-        // new Vector4( 245, 100, 22  , 10 ),
-        // new Vector4( 226, 132, 19 , 13 ),
-
-        // new Vector4( 1, 142, 66,  3 ),
-        // new Vector4( 247, 208, 2  , 5 ),
-        // new Vector4( 239, 39, 27  ,  11 ),
-        // new Vector4( 234, 23, 68  ,  15 ),
-
         new Vector4( 135, 0, 88,  3 ),
         new Vector4( 242, 66, 54  ,  7 ),
         new Vector4( 245, 247, 73 , 9 ),
         new Vector4( 38, 196, 133 , 12 ),
-
     ],
 
+    iChannel0: new Three.Texture(),
+    iChannel1: new Three.Texture(),
 }
 
 
@@ -113,13 +118,7 @@ const UpdateLogic = (delta) => {
 
     if(delta > 0.5) return;
 
-    // slowdown
-
     //delta *= 1;
-
-    // todo: dodge unnecessary tracing
-    // let minGoo = GooUpdates[0].position;
-    // let maxGoo = GooUpdates[10].position;
 
     GooUpdates.forEach((
         {mesh, rotationSpeed, position, velocity, mapped}, i
@@ -236,7 +235,10 @@ export function Goo(props) {
 export default function Blob(props) {
 
     const mesh = React.useRef();
-    const materialRef = React.useRef();
+    const meshBufferA = React.useRef();
+    const meshBufferB = React.useRef();
+
+    const meshGaussPrepass = React.useRef();
 
     const THREE = useThree();
     const {windowWidth, windowHeight} = WindowDimensions();
@@ -254,15 +256,68 @@ export default function Blob(props) {
 
     let initSize = {width: 80, height: 80};
 
+    let bufferAScene;
+    let bufferARenderTarget ;
+    let bufferBScene;
+    let bufferBRenderTarget;
 
-    useMemo(() => {
+
+    function setBuffers() {
+        bufferARenderTarget = new Three.WebGLRenderTarget(
+            Uniforms.Resolution.value.x, Uniforms.Resolution.value.y,
+            {
+                depthBuffer: false,
+                stencilBuffer: false, 
+                format: Three.RGBAFormat,
+                minFilter: Three.LinearFilter, 
+                magFilter: Three.LinearFilter,
+                generateMipmaps: false,
+            });
+        bufferBRenderTarget  = new Three.WebGLRenderTarget(
+            Uniforms.Resolution.value.x, Uniforms.Resolution.value.y,
+            {
+                depthBuffer: false,
+                stencilBuffer: false, 
+                format: Three.RGBAFormat,
+                minFilter: Three.LinearFilter, 
+                magFilter: Three.LinearFilter,
+                generateMipmaps: false,
+            });
         
+        Uniforms.iChannel0 = {value: bufferARenderTarget.texture};
+        Uniforms.iChannel1 = {value: bufferBRenderTarget.texture};
+    }
 
-    })
+
+    function renderBuffers() {
+
+        if(!bufferAScene) {
+            bufferAScene = new Three.Scene();
+            bufferAScene.add(meshBufferA.current);
+            
+            bufferBScene = new Three.Scene();
+            bufferBScene.add(meshBufferB.current);
+
+            THREE.scene.remove(meshBufferA.current.name);
+            THREE.scene.remove(meshBufferB.current.name);
+        }
+
+        let currentRenderTarget = THREE.gl.getRenderTarget();
+
+        THREE.gl.setRenderTarget(bufferARenderTarget);
+        THREE.gl.render(bufferAScene, THREE.camera);
+
+        THREE.gl.setRenderTarget(bufferBRenderTarget);
+        THREE.gl.render(bufferBScene, THREE.camera);
+
+        THREE.gl.setRenderTarget(currentRenderTarget);
+    }
+
+    setBuffers();
 
 
-
-
+    // todo: use Camera.scissor
+    // todo: Camera.depthBuffer, then we can unblock ThreeWater bs
     useFrame((state, delta) => {
 
         // gets new sphere position calculations
@@ -293,8 +348,22 @@ export default function Blob(props) {
                 mesh.current.rotation.copy(THREE.camera.rotation);
                 mesh.current.updateMatrix();
 
+                
                 // push the plane to the correct position
                 mesh.current.translateZ(-prevMeshCamDist.mag());
+
+                // THREE's matrix cloning logic is entirely broken
+                //  we will have to set transformations identically to mesh
+                meshBufferA.current.position.copy(THREE.camera.position);
+                meshBufferA.current.rotation.copy(THREE.camera.rotation);
+                meshBufferA.current.updateMatrix();
+                meshBufferA.current.translateZ(-prevMeshCamDist.mag());
+
+                meshBufferB.current.position.copy(THREE.camera.position);
+                meshBufferB.current.rotation.copy(THREE.camera.rotation);
+                meshBufferB.current.updateMatrix();
+                meshBufferB.current.translateZ(-prevMeshCamDist.mag());
+
             }
 
             // if this is our first time, we'll grab the distance for future updates
@@ -311,15 +380,18 @@ export default function Blob(props) {
             // if we need to resize the plane do so
             if(!previousViewport || previousViewport != currentViewport) {
 
+                setBuffers();
+
                 let scale = {
                     width: currentViewport.width/initSize.width,
                     height: currentViewport.height/initSize.height
                 };
 
                 mesh.current.scale.set(scale.width, scale.height, 1);
-
+                meshBufferA.current.scale.set(scale.width, scale.height, 1);
+                meshBufferB.current.scale.set(scale.width, scale.height, 1);
+            
             }
-
 
             // time to update the world calculations in the shader by updating eye and world center
             let currentMeshPosition = new Vector(mesh.current.position);
@@ -349,33 +421,58 @@ export default function Blob(props) {
 
         }
 
-
         // update the uniforms according to the listed keys which signify what will need updates
-        UniformUpdateKeys.forEach(key => materialRef.current.uniforms[key].value = Uniforms[key].value);
+        UniformUpdateKeys.forEach(
+            key =>{
+                mesh.current.material.uniforms[key].value = Uniforms[key].value;
+                meshBufferA.current.material.uniforms[key].value = Uniforms[key].value;
+                meshBufferB.current.material.uniforms[key].value = Uniforms[key].value;
+            });
+
+            
+            
+        // if(mesh.current) {
+        //     if(!mesh.current.material.uniforms["iChannel0"]) {
+        //         meshBufferB .current.material.uniforms["iChannel0"] = {value: bufferARenderTarget.texture};
+        //         mesh        .current.material.uniforms["iChannel0"] = {value: bufferARenderTarget.texture};
+        //         mesh        .current.material.uniforms["iChannel1"] = {value: bufferBRenderTarget.texture};
+        //     }
+        // }
+        renderBuffers();
+
     });
+
+    const defaultMeshProps = {
+        position: [0, 0, 0],
+        rotation: [0, Math.PI, 0],
+    }
+
+    const defaultGeoProps = {
+        attach: "geometry",
+        args: [initSize.width, initSize.height]
+    }
+
+
+    const defaultMatProps = {
+        attach: "material",
+        transparent: true,
+        depthTest: false,
+    }
     
     return(<group>
         {
             Array.from({length: Uniforms.NumSpheres.value}, (_, i) => <Goo key={i} index={i} />)
         }
-        <mesh
-            position={[0, 0, 0]}
-            rotation={[0, Math.PI, 0]}
-            ref={mesh}
-        >
-        <planeBufferGeometry 
-            attach="geometry"
-            args={[initSize.width, initSize.height]}
-        />
+        <mesh ref={mesh} renderOrder={10} {...defaultMeshProps} >
+        <planeBufferGeometry {...defaultGeoProps} />
         <shaderMaterial 
             attach="material" 
-            ref={materialRef}
             uniforms={Uniforms}
-            fragmentShader={RaymarchBlobFragShader}
+            fragmentShader={RaymarchPostpass}
             transparent={true}
             depthTest={false}
+            premultipliedAlpha={true}
         />
-
         {
             // viewport center
             // will be squeeshed because of viewport scaling
@@ -385,8 +482,43 @@ export default function Blob(props) {
             </Icosahedron> 
             : null
         }
-
         </mesh>
+
+
+        <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}
+            ref={meshBufferA}
+        >
+        <planeBufferGeometry 
+            attach="geometry"
+            args={[initSize.width, initSize.height]}
+        />
+        <shaderMaterial 
+            attach="material" 
+            uniforms={Uniforms}
+            fragmentShader={RaymarchPrepass}
+            transparent={true}
+            depthTest={false}
+        />
+        </mesh>
+        <mesh
+            position={[0, 0, 0]}
+            rotation={[0, Math.PI, 0]}
+            ref={meshBufferB}
+        >
+        <planeBufferGeometry 
+            attach="geometry"
+            args={[initSize.width, initSize.height]}
+        />
+        <shaderMaterial 
+            attach="material" 
+            uniforms={Uniforms}
+            fragmentShader={RaymarchMain}
+            transparent={true}
+            depthTest={false}
+        />
+        </mesh>
+
+
 
         {
             // world center
@@ -397,7 +529,6 @@ export default function Blob(props) {
             : null
         }
 
-        
 
     </group>);
 }
