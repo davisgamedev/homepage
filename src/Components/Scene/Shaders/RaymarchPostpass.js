@@ -89,7 +89,7 @@ void main()
     }
     
     if(length(distColor.xyz) <= 0.1) {
-        gl_FragColor = texture(iChannel1, gl_FragCoord.xy/Resolution.xy);
+        gl_FragColor = texture(iChannel1, gl_FragCoord.xy/Resolution.xy);// + vec4(0.1);
         return;
     }
     

@@ -172,8 +172,9 @@ void main() {
 
     // Comment out below to cancel optimizations
     if(length(distColor.xyz) <= 0.1) {
-     	if(DebugLocation) gl_FragColor = vec4(vec3(0.), 0.5);
-        return;
+         if(DebugLocation) 
+            gl_FragColor = vec4(vec3(0.), 0.5);
+        //return;
     }
     
     DirectionLight = DirectionLightColor * DirectionLightIntensity;

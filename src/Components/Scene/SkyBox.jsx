@@ -82,13 +82,11 @@ export default function SkyBox() {
     // );
 
     const loader = new TextureLoader();
-    const texture = loader.load(
+    // Set the scene background property to the resulting texture.
+    scene.background = new TextureLoader().load(
         'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1598829307/pz_modified_j2baxh.png'
         );
-
-    // Set the scene background property to the resulting texture.
-    scene.background = texture;
-    skyBox = texture;
+;
 
     return null;
   }

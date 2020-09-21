@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Canvas, extend, useFrame } from "react-three-fiber";
+import { Canvas, extend, useFrame, useThree } from "react-three-fiber";
 import WindowDimensions from "Tech/WindowDimensions";
 import Ocean from './Ocean';
 
@@ -12,42 +12,64 @@ import { DebugList } from 'Tech/DebugTools';
 import SkyBox from './SkyBox';
 import Blob from './Blob';
 import { Ico } from './Blob';
-import { EffectComposer, Bloom, SSAO, SMAA, Scanline, Noise, DepthOfField } from 'react-postprocessing';
-import { BlendFunction, Resizer, KernelSize, GammaCorrectionEffect } from 'postprocessing';
+import { Bloom, SSAO, SMAA, Scanline, Noise, DepthOfField, EffectComposerContext, EffectComposer } from 'react-postprocessing';
+//import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
+
+import { BlendFunction, Resizer, KernelSize, RenderPass } from 'postprocessing';
+
+//import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+
 
 import * as Three from 'three';
+import GaussianBottomUpPass from './GaussianEffect';
+import { useMemo } from 'react';
+import { GaussianPass } from './GaussianEffect';
+import GaussianBottomUp from './Shaders/GaussianBottomUp';
+import PostProcessingEffects from './Postprocesses';
 
-export function Effects(props) {
+// extend({EffectComposer, RenderPass, GaussianPass})
 
-    const depth = React.useRef();
+const RenderPassComp = React.forwardRef(({}, ref) => {
+        const effect = useMemo(() => new RenderPass(), [])
+        return <primitive ref={ref} object={effect} dispose={null} />
+    });
 
-    const {windowWidth, windowHeight} = WindowDimensions();
+// export function Effects(props) {
 
 
-    return(
-    <EffectComposer>
+//     const THREE = useThree();
 
-    <DepthOfField 
-    ref={depth}
-    focusDistance={0.8} 
-    focalLength={0.8} 
-    bokehScale={1.5} 
-    />
+//     const composer = React.useRef();
+    
 
-    <Bloom 
-    intensity={1} // The bloom intensity.
-    kernelSize={KernelSize.LARGE} // blur kernel size
-    luminanceThreshold={0.65} // luminance threshold. Raise this value to mask out darker elements in the scene.
-    luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
-    />
-    <Noise 
-    opacity={0.04} 
-    premultiply
-    />
+//     return(
 
-    </EffectComposer>
-    );
-}
+//         // <effectComposer ref={composer} args={[THREE.scene, THREE.camera]}>
+//         //     <renderPass attachArray="passes" args={[THREE.scene, THREE.camera]} />
+            
+//         // </effectComposer>
+//     // <effectComposer ref={composer} args={[THREE.gl]}>
+//     //     <renderPass attachArray="passes" scene={THREE.scene} camera={THREE.camera}/>
+//     //     <gaussianPass />
+//     <EffectComposer>
+//         <RenderPassComp />
+//     </EffectComposer>
+        
+// // {/* 
+// //         <renderPass attachArray="passes" scene={THREE.scene} camera={THREE.camera} /> */}
+// //     {/* <Bloom 
+// //     intensity={1} // The bloom intensity.
+// //     kernelSize={KernelSize.LARGE} // blur kernel size
+// //     luminanceThreshold={0.65} // luminance threshold. Raise this value to mask out darker elements in the scene.
+// //     luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
+// //     /> */}
+// //     {/* <Noise 
+// //     opacity={0.04} 
+// //     premultiply
+// //     /> */}
+
+//     );
+// }
 
 export default function Scene(props) {
 
@@ -83,18 +105,17 @@ export default function Scene(props) {
 
     <Suspense fallback={null}>
 
-            <SkyBox />
-            <Ocean />
             <ambientLight intensity={0.4} />
             <directionalLight intensity={1.} position={[-1, 1, -1]} args={[0xffffff]} />
 
+            <Ocean />
             <Blob />
 
             <Stats />
 
             <OrbitControls />
 
-            {/* <Effects /> */}
+            <PostProcessingEffects />
 
         </Suspense>
 

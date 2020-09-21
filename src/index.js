@@ -13,37 +13,66 @@ import Scene from 'Components/Scene/Scene';
 // import Breakpoints from 'Tech/Breakpoints';
 // import RouteUpdateHandler from 'Tech/RouteUpdateHandler';
 
-// import './index.css';
+ import './index.css';
 
 var hist = createBrowserHistory();
 
-// window.resetPath = false;
+window.resetPath = false;
 
-// not necessary after migration
-// const ResetHomePath = withRouter(({location, history}) => {
-//     if(window.resetPath) return null;
+const ResetHomePath = withRouter(({location, history}) => {
+    if(window.resetPath) return null;
 
-//     if(location.hash !== "") {
-//         history.push(location.hash.replace('#', ''));
-//     }
-//     // add a check here for redirected to projects
+    if(location.hash !== "") {
+        history.push(location.hash.replace('#', ''));
+    }
+    // add a check here for redirected to projects
 
-//     window.resetPath = true;
-//     return null;
-// });
+    window.resetPath = true;
+    return null;
+});
+
+// setTimeout(() => {
+//     var canvas = document.getElementById("myFogCanvas");
+//     var ctx = canvas.getContext('2d');
+//     //all the drawing stuff for canvas ... moveTo, lineTo, etc.
+//     ctx.filter = 'blur(15px)';
+//     ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+//     ctx.lineWidth = 5;
+//     ctx.stroke();
+
+//     console.log("mounted");
+
+// }, 5000);
 
 ReactDOM.render(
     <Router history={hist} basename={process.env.PUBLIC_URL}>
-       {/*
-        <Breakpoints>
+       
+        {/* <Breakpoints>
             <RouteUpdateHandler />
             <ResetHomePath />
             <Switch>
                 <Route path="" component={Home}/>
             </Switch>
-        </Breakpoints>
-       */}
-       <Scene />
+        </Breakpoints> */}
+      
+      <Scene />
+       {/* <div style={{
+           position: 'absolute',
+           top: 200,
+           left: 0,
+           width: '100%',
+           height: 40000,
+           zIndex: 100000000,
+           fontSize: 100,
+           overflow: 'scroll',
+       }}
+       id="important"
+       >
+           Hello
+           <canvas id="myFogCanvas"></canvas>
+       </div>
+       <div style={{position: "relative", top: 400000}}>Scroll to me</div> */}
+
     </Router>,
     document.getElementById("root")
 );

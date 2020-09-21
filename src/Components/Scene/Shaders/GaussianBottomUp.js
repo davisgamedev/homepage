@@ -5,9 +5,6 @@ uniform sampler2D iChannel0;
 
 uniform float GaussianDepth;
 uniform float GaussianRingSamples;
-
-uniform float BlurTileDist;
-uniform float BokehMult;
 uniform float GammaAdjust;
 
 #define TAU 6.28318530718

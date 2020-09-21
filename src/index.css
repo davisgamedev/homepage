@@ -36,7 +36,16 @@ body {
 .no-backdrop .MuiPaper-root {
     backdrop-filter: blur(10px) brightness(2) grayscale(30%) !important;
 } */
-
+#myFogCanvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }
+  
 div.MuiPaper-root {
     backdrop-filter: blur(5px) brightness(2) grayscale(30%) !important;
     transform: translateZ(0);
@@ -60,7 +69,11 @@ div.MuiSnackbar-root {
 }
 
 
-
+div#important {
+    
+    background-color: #ffffff55;
+    /* backdrop-filter: blur(5px) brightness(2) grayscale(30%) !important; */
+}
 
 a {
     font-family: 'Playfair Display';

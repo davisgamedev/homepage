@@ -12,7 +12,6 @@ import Vector, {map} from './Vector';
 import RaymarchMain from './Shaders/RaymarchMain.js';
 import RaymarchPrepass from './Shaders/RaymarchPrepass';
 import RaymarchPostpass from './Shaders/RaymarchPostpass';
-import GaussianBottomUp from './Shaders/GaussianBottomUp';
 
 import * as Three from 'three';
 import { DebugDir } from 'Tech/DebugTools';
@@ -31,7 +30,7 @@ let Uniforms = {
 
     DebugLocation: false,
 
-    SampleSize: 10,
+    SampleSize: 20,
 
     NumSpheres: 15, // check length below
     SphereRadius: 0.5,
@@ -224,13 +223,7 @@ export function Goo(props) {
 
 
 /*
-    Thoughts:
-        - we do a lot of work to update a plane to fit the screen when we probably 
-            could've used a ShaderPass
-            However:
-                - Shaderpass would implicitly add an overdraw due to it using a single triangle, no?
-                - That would involve more raycasts
-                - Object scene distance if over screen and not in scene
+   Object instead of shaderpass to be used with ocean reflections and easier rendering order
 */
 export default function Blob(props) {
 
@@ -260,7 +253,6 @@ export default function Blob(props) {
     let bufferARenderTarget ;
     let bufferBScene;
     let bufferBRenderTarget;
-
 
     function setBuffers() {
         bufferARenderTarget = new Three.WebGLRenderTarget(
@@ -423,11 +415,9 @@ export default function Blob(props) {
                 meshBufferB.current.material.uniforms[key].value = Uniforms[key].value;
             });
 
-        meshGaussPrepass.current.material.uniforms["iResolution"] = Uniforms.Resolution;
-
         renderBuffers();
 
-    });
+    }, 0);
 
     const meshProps = {
         position: [0, 0, 0],
@@ -473,21 +463,6 @@ export default function Blob(props) {
         <mesh {...meshProps} ref={meshBufferB} >
         <planeBufferGeometry {...geoProps} />
         <shaderMaterial {...matProps} uniforms={Uniforms} fragmentShader={RaymarchMain} />
-        </mesh>
-
-        <mesh {...meshProps} ref={meshGaussPrepass} renderOrder={9} >
-        <planeBufferGeometry {...geoProps} />
-        <shaderMaterial 
-        {...matProps} 
-        fragmentShader={GaussianBottomUp} 
-        Uniforms={{
-            iChannel0: {value: THREE.gl.texture},
-            iResolution: Uniforms.Resolution,
-            GaussianDepth: Uniforms.GaussianDepth,
-            GaussianRingSamples: Uniforms.GaussianRingSamples,
-            GammaAdjust: Uniforms.GammaAdjust,
-        }}
-        />
         </mesh>
 
 
