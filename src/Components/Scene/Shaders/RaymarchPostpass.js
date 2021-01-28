@@ -88,10 +88,12 @@ void main()
         distColor += color;
     }
     
-    if(length(distColor.xyz) <= 0.1) {
-        gl_FragColor = texture(iChannel1, gl_FragCoord.xy/Resolution.xy);// + vec4(0.1);
+    ///* this optimization creates a lot of issues
+    if(bokehCount <= 1.) {
+        gl_FragColor = vec4(0.);// texture(iChannel1, gl_FragCoord.xy/Resolution.xy);// + vec4(0.1);
         return;
     }
+   // */
     
     
     vec2 nearestTile = vec2(

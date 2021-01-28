@@ -1,6 +1,6 @@
 import React from 'react';
 import { useThree } from "react-three-fiber";
-import { CubeTextureLoader, TextureLoader } from 'three';
+import { CubeTextureLoader, TextureLoader, Texture } from 'three';
 
 /*
 Quarry
@@ -81,12 +81,59 @@ export default function SkyBox() {
     //     ]
     // );
 
-    const loader = new TextureLoader();
-    // Set the scene background property to the resulting texture.
-    scene.background = new TextureLoader().load(
-        'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1598829307/pz_modified_j2baxh.png'
-        );
-;
+//     const loader = new TextureLoader();
+//     // Set the scene background property to the resulting texture.
+//     scene.background = new TextureLoader().load(
+//                   'https://res.cloudinary.com/dyzmnhqpr/image/upload/v1596836431/Maps/Blue%20Sunrise/py_lcshrf.png',
+//         );
+// ;
+
+    let size = 512;
+
+	let canvas = document.createElement( 'canvas' );
+	canvas.width = size;
+	canvas.height = size;
+
+	// get context
+	let context = canvas.getContext( '2d' );
+
+	// draw gradient
+    context.rect( 0, 0, size, size );
+    
+    let gradient = context.createLinearGradient( size/2, size, size/2, 0 );
+    
+    let colors = [
+        //'#80A0B1',
+        '#1e66b8',
+        '#4E84A4',
+        '#CEC5B9',
+        '#CEC5B9',
+        // '#A7BACC',
+        '#c3d4e5',
+        '#c3d4e5',
+        '#76aac6',
+        '#76aac6',
+        // '#2F67A3'/
+
+        // 'red',
+        // 'green',
+        // 'blue'
+    ];
+    colors.forEach((c, i) => gradient.addColorStop(i/(colors.length-1), c));
+
+	//gradient.addColorStop(0, '#99ddff'); // light blue 
+	//gradient.addColorStop(1, '#ffff00'); // dark blue
+	context.fillStyle = gradient;
+    context.fill();
+    
+    context.fillStyle = 'rgba(200, 255, 255, 0.4)';
+    context.fill();
+
+
+    let texture = new Texture(canvas);
+
+    texture.needsUpdate = true;
+    scene.background = texture;
 
     return null;
   }

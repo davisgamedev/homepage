@@ -108,6 +108,7 @@ export default function Scene(props) {
             <ambientLight intensity={0.4} />
             <directionalLight intensity={1.} position={[-1, 1, -1]} args={[0xffffff]} />
 
+            <SkyBox />
             <Ocean />
             <Blob />
 
@@ -115,7 +116,7 @@ export default function Scene(props) {
 
             <OrbitControls />
 
-            <PostProcessingEffects />
+            {/* <PostProcessingEffects /> */}
 
         </Suspense>
 

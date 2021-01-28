@@ -9,6 +9,7 @@ import {
 	NoToneMapping,
 	PerspectiveCamera,
 	Plane,
+    Quaternion,
 	RGBFormat,
 	ShaderMaterial,
 	UniformsLib,
@@ -255,7 +256,8 @@ var Water = function ( geometry, options ) {
 		target.add( mirrorWorldPosition );
 
         let viewAdjust = view.clone();
-        viewAdjust.y -= 0.5;
+        viewAdjust.y -= 0.4;
+        viewAdjust.x -= 0.2;
 
 		mirrorCamera.position.copy( viewAdjust );
 		mirrorCamera.up.set( 0, 1, 0 );
@@ -282,7 +284,41 @@ var Water = function ( geometry, options ) {
 			0.0, 0.0, 0.0, 1.0
 		);
 		textureMatrix.multiply( mirrorCamera.projectionMatrix );
-		textureMatrix.multiply( mirrorCamera.matrixWorldInverse );
+        textureMatrix.multiply( mirrorCamera.matrixWorldInverse );
+
+
+
+        /**
+         * So, this might look wierd becaus
+         * 
+         * 
+         */
+        let transformations = [
+
+            // fix skybox
+            new Matrix4().makeScale(0.125, 0.125, -0.125),
+            new Matrix4().makeRotationX(-Math.PI/4),
+                
+            // move reflection downwards a bit, fix scale
+            new Matrix4().makeTranslation(280, 100, 50),
+            
+            //new Matrix4().makeScale(0.18, 0.18, -0.18),
+            //new Matrix4().makeTranslation(180, 200, -150),
+           new Matrix4().makeScale(5, 5, 2),
+        ];
+
+        transformations.forEach(t => textureMatrix.multiply(t));
+
+        
+        /*
+        this is damn close but leads to the gradient messing up
+            new Matrix4().makeScale(0.18, 0.18, -0.18),
+            new Matrix4().makeTranslation(180, 200, -150),
+            new Matrix4().makeScale(5, 5, 5),
+        */
+
+
+        //textureMatrix.multiply(rot);
 
 		// Now update projection matrix with new clip plane, implementing code from: http://www.terathon.com/code/oblique.html
 		// Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf

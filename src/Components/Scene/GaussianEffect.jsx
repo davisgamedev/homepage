@@ -47,6 +47,7 @@ export class GaussianEffectPass extends Pass {
 	constructor() {
         super();
         this.uniforms = GaussUniforms;
+        console.dir(this.uniforms);
 
         this.material = new GaussianMaterial();
         this.quad = new Pass.FullScreenQuad(this.material);
@@ -61,20 +62,21 @@ export class GaussianEffectPass extends Pass {
                 magFilter: Three.LinearFilter,
                 generateMipmaps: false,
             });
-        for(let [key, val] of this.uniforms.entries()) {
-            this.material.uniforms['key'] = val;
+        for(let key in this.uniforms) {
+            this.material.uniforms[key] = this.uniforms[key];
         }
     }
 
 
 	render(renderer, writeBuffer, readBuffer) {
 
-		// const material = this.getFullscreenMaterial();
-		// material.uniforms.iChannel0.value = inputBuffer.texture;
+		const material = this.getFullscreenMaterial();
+		//material.uniforms.iChannel0.value = inputBuffer.texture;
 
-		// renderer.setRenderTarget(this.renderToScreen ? null : outputBuffer);
-        // renderer.render(this.scene, this.camera);
+		//renderer.setRenderTarget(this.renderToScreen ? null : outputBuffer);
+        renderer.render(this.scene, this.camera);
         
+        this.renderer.setRenderTarget(writeBuffer);
         this.uniforms.iChannel0.value = readBuffer;
         this.quad.render(renderer);
         

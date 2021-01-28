@@ -28,10 +28,10 @@ export default function Ocean(props) {
         textureWidth: 1024,
         textureHeight: 1024,
         waterNormals: waterNormals,
-        distortionScale: 25,
-        alpha: 0.9,
+        distortionScale: 9,
+        alpha: 0.9, 
         sunDirection: new Vector3(0, 1, 0),
-        waterColor: 0x000033,
+        waterColor: 0x000055,
     } );
 
     water.position.y = -15;

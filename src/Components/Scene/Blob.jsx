@@ -33,7 +33,7 @@ let Uniforms = {
     SampleSize: 20,
 
     NumSpheres: 15, // check length below
-    SphereRadius: 0.5,
+    SphereRadius: 0.25,
     SmoothFactor: 7.5,
 
     Spheres: Array.from({length: 15}, () => new Vector4()),
@@ -45,7 +45,7 @@ let Uniforms = {
 
     BokehStart: 50,
     BokehEnd: 10,
-    BokehAdjust: 0.8, 
+    BokehAdjust: 1.2, 
 
     GaussianDepth: 2,
     GaussianRingSamples: 12,
@@ -54,7 +54,7 @@ let Uniforms = {
     BokehMult: 2.25,
     GammaAdjust: 0.,
 
-    BlurTileDist: 5,
+    BlurTileDist: 20,
 
     AmbientLight: new Vector3(0.4, 0.4, 0.4),
 
@@ -107,6 +107,7 @@ const originMass = 3000; // with each object being 1
 const inertia = 1;
 
 const grav = 0.025;
+const slow = 0.9;
 
 
 let gravForce;
@@ -122,6 +123,8 @@ const UpdateLogic = (delta) => {
     GooUpdates.forEach((
         {mesh, rotationSpeed, position, velocity, mapped}, i
             ) => {
+                
+            delta *= slow;
 
             mesh.current.rotation.x += rotationSpeed.x * delta;
             mesh.current.rotation.y += rotationSpeed.y * delta;
