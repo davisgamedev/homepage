@@ -15,6 +15,7 @@ import RaymarchPostpass from './Shaders/RaymarchPostpass';
 
 import * as Three from 'three';
 import { DebugDir } from 'Tech/DebugTools';
+import GaussianBottomUp from './Shaders/GaussianBottomUp';
 
 const showDebugIcos = false;
 
@@ -33,7 +34,7 @@ let Uniforms = {
     SampleSize: 20,
 
     NumSpheres: 15, // check length below
-    SphereRadius: 0.25,
+    SphereRadius: 0.5,
     SmoothFactor: 7.5,
 
     Spheres: Array.from({length: 15}, () => new Vector4()),
@@ -84,13 +85,22 @@ Uniforms.GradientColorSteps.forEach(c => {
     c.z /= 256;
 });
 
+let GaussianUniforms = {
+    iResolution: new Vector2(600, 800),
+    GaussianDepth: 2.,
+    GaussianRingSamples: 8.,
+    GammaAdjust: 0.0,
+    iChannel0: new Three.Texture()
+};
 
 // Convert each property to a Three 'Uniform' object
-let temp = Uniforms;
-Object.keys(temp).forEach(k => {
-    Uniforms[k] = new Three.Uniform(temp[k])
+Object.keys(Uniforms).forEach(k => {
+    Uniforms[k] = new Three.Uniform(Uniforms[k])
 });
 
+Object.keys(GaussianUniforms).forEach(k => {
+    GaussianUniforms[k] = new Three.Uniform(GaussianUniforms[k])
+});
 
 
 const UniformUpdateKeys = [ "Spheres", "Eye", "Center", "Resolution" ];
@@ -224,6 +234,13 @@ export function Goo(props) {
     );
 }
 
+function removeObjectFromScene(scene, obj) {
+    //scene.remove(scene.getObjectByName(obj.name));
+}
+
+window.waterReflectScene = null;
+window.renderPipelineContext = null;
+
 
 /*
    Object instead of shaderpass to be used with ocean reflections and easier rendering order
@@ -234,7 +251,8 @@ export default function Blob(props) {
     const meshBufferA = React.useRef();
     const meshBufferB = React.useRef();
 
-    const meshGaussPrepass = React.useRef();
+    const meshGaussPrerender = React.useRef();
+    const meshGaussShaderpass = React.useRef();
 
     const THREE = useThree();
     const {windowWidth, windowHeight} = WindowDimensions();
@@ -256,6 +274,12 @@ export default function Blob(props) {
     let bufferARenderTarget ;
     let bufferBScene;
     let bufferBRenderTarget;
+    
+    let gaussPrerenderScene;
+    let gaussPrerenderTarget;
+
+    let gaussShaderpassScene;
+    let gaussShaderpassTarget;
 
     function setBuffers() {
         bufferARenderTarget = new Three.WebGLRenderTarget(
@@ -281,6 +305,29 @@ export default function Blob(props) {
         
         Uniforms.iChannel0 = {value: bufferARenderTarget.texture};
         Uniforms.iChannel1 = {value: bufferBRenderTarget.texture};
+
+        gaussPrerenderTarget  = new Three.WebGLRenderTarget(
+            Uniforms.Resolution.value.x, Uniforms.Resolution.value.y,
+            {
+                depthBuffer: false,
+                stencilBuffer: false, 
+                format: Three.RGBAFormat,
+                minFilter: Three.LinearFilter, 
+                magFilter: Three.LinearFilter,
+                generateMipmaps: false,
+            });
+        GaussianUniforms.iChannel0 = { value: gaussPrerenderTarget.texture };
+
+        gaussShaderpassTarget  = new Three.WebGLRenderTarget(
+            Uniforms.Resolution.value.x, Uniforms.Resolution.value.y,
+            {
+                depthBuffer: false,
+                stencilBuffer: false, 
+                format: Three.RGBAFormat,
+                minFilter: Three.LinearFilter, 
+                magFilter: Three.LinearFilter,
+                generateMipmaps: false,
+            });
     }
 
     setBuffers();
@@ -288,26 +335,88 @@ export default function Blob(props) {
 
     function renderBuffers() {
 
+
         if(!bufferAScene) {
+
             bufferAScene = new Three.Scene();
             bufferAScene.add(meshBufferA.current);
             
             bufferBScene = new Three.Scene();
             bufferBScene.add(meshBufferB.current);
 
-            THREE.scene.remove(meshBufferA.current.name);
-            THREE.scene.remove(meshBufferB.current.name);
+            [meshBufferA, meshBufferB, meshGaussPrerender].forEach(
+                buff => THREE.scene.remove(buff)
+            );
+
+            /*
+                Gauss buffer summary
+                - the gauss effect is meant to appy to all elements in the scene except the raymarch
+                - the gauss effect does however include the reflection in the water of the raymarch
+                - so after the ocean renders the scene into its reflection, and then renders itself into the scene
+                - we have to go in and render all of that to a new buffer, copy that buffer through a shader, and return
+
+                Scene:
+                    - exclude non-scene buffers
+                Gauss Prerender Scene
+                    - elements in the scene we want to render to a buffer
+                    - does not include the shader pass
+
+                    TODO will this mean the main blob will need to be included in there for the ocean reflection?
+
+                Shader pass scene
+                    - only includes the pre render buffer mesh
+
+                Render order:
+                    -> render the main scene to the prerender buffer
+                    -> render the prerender buffer into the shaderpass
+                    -> load the shaderpass into a texture on the main scene
+
+            */
+
+            gaussPrerenderScene = THREE.scene.clone(true);
+            gaussPrerenderScene.remove(meshGaussShaderpass.current);
+            gaussPrerenderScene.remove(mesh.current);
+
+            gaussShaderpassScene = new Three.Scene();
+            gaussShaderpassScene.add(meshGaussPrerender.current);
+
+            //waterReflectScene = THREE.scene.clone(true);
+            //waterReflectScene.remove(meshGaussShaderpass.current);
+
+            window.waterReflectScene = (() => {
+                let reflectScene = THREE.scene.clone(true);
+                reflectScene.remove(meshGaussShaderpass.current);
+                return reflectScene;
+            })();
+
+            DebugDir(THREE);
+            DebugDir(THREE.scene);
+
+            //THREE.scene.children.forEach(c => {THREE.scene.remove(c)});
         }
 
         let currentRenderTarget = THREE.gl.getRenderTarget();
 
+
+        // blob buffers
         THREE.gl.setRenderTarget(bufferARenderTarget);
         THREE.gl.render(bufferAScene, THREE.camera);
 
         THREE.gl.setRenderTarget(bufferBRenderTarget);
         THREE.gl.render(bufferBScene, THREE.camera);
 
+        //gauss buffers
+        THREE.gl.setRenderTarget(gaussPrerenderTarget);
+        THREE.gl.render(gaussPrerenderScene, THREE.camera);
+
+        THREE.gl.setRenderTarget(gaussShaderpassTarget);
+        THREE.gl.render(gaussShaderpassScene, THREE.camera);
+
+        //meshGaussTextureTarget.current.material.map = gaussBufferRenderTarget.texture;
+        meshGaussShaderpass.current.material.map = gaussShaderpassTarget.texture;
+
         THREE.gl.setRenderTarget(currentRenderTarget);
+
     }
 
 
@@ -353,6 +462,10 @@ export default function Blob(props) {
                 setMesh(mesh, prevMeshCamDist);
                 setMesh(meshBufferA, prevMeshCamDist);
                 setMesh(meshBufferB, prevMeshCamDist);
+                setMesh(meshGaussPrerender, prevMeshCamDist);
+                setMesh(meshGaussShaderpass, prevMeshCamDist);
+
+                //meshGaussPrerender.current.position.z -= 1;
             }
 
             // if this is our first time, we'll grab the distance for future updates
@@ -379,6 +492,8 @@ export default function Blob(props) {
                 mesh.current.scale.set(scale.width, scale.height, 1);
                 meshBufferA.current.scale.set(scale.width, scale.height, 1);
                 meshBufferB.current.scale.set(scale.width, scale.height, 1);
+                meshGaussPrerender.current.scale.set(scale.width, scale.height, 1);
+                meshGaussShaderpass.current.scale.set(scale.width, scale.height, 1);
 
             }
 
@@ -417,6 +532,8 @@ export default function Blob(props) {
                 meshBufferA.current.material.uniforms[key].value = Uniforms[key].value;
                 meshBufferB.current.material.uniforms[key].value = Uniforms[key].value;
             });
+        
+        meshGaussPrerender.current.material.uniforms['iResolution'].value = Uniforms.Resolution.value;
 
         renderBuffers();
 
@@ -429,7 +546,7 @@ export default function Blob(props) {
 
     const geoProps = {
         attach: "geometry",
-        args: [initSize.width, initSize.height]
+        args: [initSize.width, initSize.height],
     }
 
 
@@ -439,13 +556,13 @@ export default function Blob(props) {
         depthTest: false,
     }
     
-    return(<group>
+    return(<>
 
         {
             Array.from({length: Uniforms.NumSpheres.value}, (_, i) => <Goo key={i} index={i} />)
         }
 
-        <mesh {...meshProps} ref={mesh} renderOrder={10} >
+        <mesh {...meshProps} ref={mesh} renderOrder={10} name="blob_main" >
         <planeBufferGeometry {...geoProps} />
         <shaderMaterial 
             {...matProps}
@@ -458,19 +575,31 @@ export default function Blob(props) {
 
 
 
-        <mesh {...meshProps} ref={meshBufferA} >
+        <mesh {...meshProps} ref={meshBufferA} name="blob_buffA">
         <planeBufferGeometry {...geoProps} />
-        <shaderMaterial {...matProps} uniforms={Uniforms} fragmentShader={RaymarchPrepass}/>
+        <shaderMaterial {...matProps} uniforms={Uniforms} fragmentShader={RaymarchPrepass} />
         </mesh>
 
-        <mesh {...meshProps} ref={meshBufferB} >
+        <mesh {...meshProps} ref={meshBufferB} name="blob_buff">
         <planeBufferGeometry {...geoProps} />
         <shaderMaterial {...matProps} uniforms={Uniforms} fragmentShader={RaymarchMain} />
+        </mesh>
+
+
+
+        <mesh {...meshProps} ref={meshGaussPrerender} name="gauss_prepass">
+        <planeBufferGeometry {...geoProps} />
+        <shaderMaterial {...matProps} uniforms={GaussianUniforms} fragmentShader={GaussianBottomUp} />
+        </mesh>
+
+        <mesh {...meshProps} ref={meshGaussShaderpass} name="gauss_texture_target">
+        <planeBufferGeometry {...geoProps} />
+        <meshPhongMaterial {...matProps} needsUpdate={true}/>
         </mesh>
 
 
         {showDebugIcos? <Icosahedron args={[5, 2]}> <meshNormalMaterial attach="material" flatShading={true}/> </Icosahedron> : null}
 
 
-    </group>);
+    </>);
 }

@@ -386,8 +386,9 @@ var Water = function ( geometry, options ) {
 
 		renderer.state.buffers.depth.setMask( true ); // make sure the depth buffer is writable so it can be properly cleared, see #18897
 
-		if ( renderer.autoClear === false ) renderer.clear();
-		renderer.render( scene, mirrorCamera );
+        if ( renderer.autoClear === false ) renderer.clear();
+        
+		renderer.render( window.waterReflectScene || scene, mirrorCamera );
 
 		scope.visible = true;
 
@@ -404,7 +405,8 @@ var Water = function ( geometry, options ) {
 
 			renderer.state.viewport( viewport );
 
-		}
+        }
+        
 
 	};
 

@@ -51,7 +51,13 @@ vec4 RotateBlur(vec2 fragCoord, float GaussianSize) {
 }
 
 void main() {
-    gl_FragColor = RotateBlur(gl_FragCoord.xy, mix(1., 6., 1. - gl_FragCoord.y/iResolution.y));
+    gl_FragColor = RotateBlur(gl_FragCoord.xy, mix(0., 6., 1. - gl_FragCoord.y/iResolution.y));
+
+    // debug
+    // gl_FragColor = vec4(mix(0., 1., 1. - (gl_FragCoord.xy/iResolution.xy).y),0., 0., 0.5);
+    //gl_FragColor = texture(iChannel0, gl_FragCoord.xy/iResolution.xy);
+    //gl_FragColor.a = 1.;
+
 }
 
 `;
