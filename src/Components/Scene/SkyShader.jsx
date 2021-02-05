@@ -27,8 +27,8 @@ export default function SkyShader() {
 
             Object.keys(uniforms).forEach(k => {
 
-                if(ref.current.material.uniforms[k]) ref.current.material.uniforms[k].value = uniforms[k];
-
+                ref.current.material.uniforms[k]?.value = uniforms;
+                
             });
             
             var theta = Math.PI * ( uniforms.inclination - 0.5 );

@@ -234,10 +234,6 @@ export function Goo(props) {
     );
 }
 
-function removeObjectFromScene(scene, obj) {
-    //scene.remove(scene.getObjectByName(obj.name));
-}
-
 window.waterReflectScene = null;
 window.renderPipelineContext = null;
 
@@ -254,7 +250,7 @@ export default function Blob(props) {
     const meshGaussPrerender = React.useRef();
     const meshGaussShaderpass = React.useRef();
 
-    const THREE = useThree();
+    const tctx = useThree();
     const {windowWidth, windowHeight} = WindowDimensions();
 
 
@@ -344,8 +340,11 @@ export default function Blob(props) {
             bufferBScene = new Three.Scene();
             bufferBScene.add(meshBufferB.current);
 
-            [meshBufferA, meshBufferB, meshGaussPrerender].forEach(
-                buff => THREE.scene.remove(buff)
+            [meshBufferA, meshBufferB, meshGaussPrerender, 
+            
+                meshGaussShaderpass
+            ].forEach(
+                buff => tctx.scene.remove(buff)
             );
 
             /*
@@ -373,7 +372,7 @@ export default function Blob(props) {
 
             */
 
-            gaussPrerenderScene = THREE.scene.clone(true);
+            gaussPrerenderScene = tctx.scene.clone(true);
             gaussPrerenderScene.remove(meshGaussShaderpass.current);
             gaussPrerenderScene.remove(mesh.current);
 
@@ -383,39 +382,41 @@ export default function Blob(props) {
             //waterReflectScene = THREE.scene.clone(true);
             //waterReflectScene.remove(meshGaussShaderpass.current);
 
-            window.waterReflectScene = (() => {
-                let reflectScene = THREE.scene.clone(true);
-                reflectScene.remove(meshGaussShaderpass.current);
-                return reflectScene;
-            })();
+            // window.waterReflectScene = (() => {
+            //     let reflectScene = THREE.scene.clone(true);
+            //     reflectScene.remove(meshGaussShaderpass.current);
+            //     return reflectScene;
+            // })();
 
-            DebugDir(THREE);
-            DebugDir(THREE.scene);
+            DebugDir(tctx);
+            DebugDir(tctx.scene);
 
             //THREE.scene.children.forEach(c => {THREE.scene.remove(c)});
         }
 
-        let currentRenderTarget = THREE.gl.getRenderTarget();
+        let currentRenderTarget = tctx.gl.getRenderTarget();
 
 
         // blob buffers
-        THREE.gl.setRenderTarget(bufferARenderTarget);
-        THREE.gl.render(bufferAScene, THREE.camera);
+        tctx.gl.setRenderTarget(bufferARenderTarget);
+        tctx.gl.render(bufferAScene, tctx.camera);
 
-        THREE.gl.setRenderTarget(bufferBRenderTarget);
-        THREE.gl.render(bufferBScene, THREE.camera);
+        tctx.gl.setRenderTarget(bufferBRenderTarget);
+        tctx.gl.render(bufferBScene, tctx.camera);
+
+        
 
         //gauss buffers
-        THREE.gl.setRenderTarget(gaussPrerenderTarget);
-        THREE.gl.render(gaussPrerenderScene, THREE.camera);
+        tctx.gl.setRenderTarget(gaussPrerenderTarget);
+        tctx.gl.render(gaussPrerenderScene, tctx.camera);
 
-        THREE.gl.setRenderTarget(gaussShaderpassTarget);
-        THREE.gl.render(gaussShaderpassScene, THREE.camera);
+        tctx.gl.setRenderTarget(gaussShaderpassTarget);
+        tctx.gl.render(gaussShaderpassScene, tctx.camera);
 
         //meshGaussTextureTarget.current.material.map = gaussBufferRenderTarget.texture;
-        meshGaussShaderpass.current.material.map = gaussShaderpassTarget.texture;
+        //meshGaussShaderpass.current.material.map = gaussShaderpassTarget.texture;
 
-        THREE.gl.setRenderTarget(currentRenderTarget);
+        tctx.gl.setRenderTarget(currentRenderTarget);
 
     }
 
@@ -423,8 +424,8 @@ export default function Blob(props) {
     function setMesh(mesh, prevMeshCamDist) {
 
         // allign raymarch view plane to camera
-        mesh.current.position.copy(THREE.camera.position);
-        mesh.current.rotation.copy(THREE.camera.rotation);
+        mesh.current.position.copy(tctx.camera.position);
+        mesh.current.rotation.copy(tctx.camera.rotation);
         mesh.current.updateMatrix();
 
         // push the plane to the correct position
@@ -442,13 +443,13 @@ export default function Blob(props) {
 
         // if the camera moved
         if(
-            !previousPosition || !previousPosition.checkEach(THREE.camera.position) ||
-            !previousRotation || !previousRotation.checkEach(THREE.camera.rotation) 
+            !previousPosition || !previousPosition.checkEach(tctx.camera.position) ||
+            !previousRotation || !previousRotation.checkEach(tctx.camera.rotation) 
             ) {
 
             // current camera positions
-            let currentPosition = new Vector(THREE.camera.position);
-            let currentRotation = new Vector(THREE.camera.rotation);
+            let currentPosition = new Vector(tctx.camera.position);
+            let currentRotation = new Vector(tctx.camera.rotation);
 
             // distance of previous camera to mesh
             let prevMeshCamDist;
@@ -473,11 +474,11 @@ export default function Blob(props) {
 
             // make the plane take up the full screen viewport width
             // camera view in gl units https://stackoverflow.com/a/13351534
-            let vFOV = Three.MathUtils.degToRad( THREE.camera.fov );
+            let vFOV = Three.MathUtils.degToRad( tctx.camera.fov );
 
             let currentViewport = {};
             currentViewport.height = 2 * Math.tan( vFOV / 2 ) * prevMeshCamDist.mag();
-            currentViewport.width = currentViewport.height * THREE.camera.aspect;   
+            currentViewport.width = currentViewport.height * tctx.camera.aspect;   
 
             // if we need to resize the plane do so
             if(!previousViewport || previousViewport != currentViewport) {
@@ -594,7 +595,7 @@ export default function Blob(props) {
 
         <mesh {...meshProps} ref={meshGaussShaderpass} name="gauss_texture_target">
         <planeBufferGeometry {...geoProps} />
-        <meshPhongMaterial {...matProps} needsUpdate={true}/>
+        {/* <meshPhongMaterial {...matProps} needsUpdate={true}/> */}
         </mesh>
 
 

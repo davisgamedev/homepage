@@ -30,7 +30,7 @@ export default class PostMount extends React.Component {
             () => {
             this.setState({mounted: true})
 
-            if(this.props.callback) this.props.callback();
+            this.props.callback?.();
     
             }, 1500
         )

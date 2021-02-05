@@ -388,7 +388,7 @@ var Water = function ( geometry, options ) {
 
         if ( renderer.autoClear === false ) renderer.clear();
         
-		renderer.render( window.waterReflectScene || scene, mirrorCamera );
+		renderer.render( scene, mirrorCamera );
 
 		scope.visible = true;
 

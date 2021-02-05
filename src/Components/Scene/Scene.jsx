@@ -71,6 +71,8 @@ const RenderPassComp = React.forwardRef(({}, ref) => {
 //     );
 // }
 
+
+
 export default function Scene(props) {
 
     const {windowWidth, windowHeight} = WindowDimensions();
