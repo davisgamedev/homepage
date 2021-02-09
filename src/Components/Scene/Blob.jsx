@@ -20,6 +20,22 @@ import GaussianBottomUp from './Shaders/GaussianBottomUp';
 const showDebugIcos = false;
 
 
+
+
+
+/**
+ * Random notes that should be included in documentation
+ * 
+ * Raymarch coordinates (eye, center, etc) 
+ *  are real fucky, but would take too long to tweak params
+ *  to correct. sorry :/
+ * 
+ * 
+ */
+
+
+
+
 /*
     Uniforms are passed into shader in Blob update,
     Update logic is called in Blob update
