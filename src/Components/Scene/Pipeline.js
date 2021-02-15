@@ -20,11 +20,6 @@ export function getBuffer(args) {
 
 }
 
-export function updateUniforms(args) {
-
-}
-
-
 
 // export function getPixelCoordinate(vec, cam, z=-1) {
 //     // -1 grabs near plane
@@ -45,27 +40,74 @@ export function updateUniforms(args) {
 //     }
 // }
 
-export function generateName(suffix) {
-    return suffix + Math.random() * 10000 * Date.now();
+function generateID(suffix) {
+    return Math.random() * 10000 * Date.now();
 }
 
 
-export default GraphicsPlane = React.forwardRef((
+
+/**
+ * each buffer needs a scene
+ * each buffer needs a target
+ */
+export function Buffer(targetGraphicsPlane, scene) {
+
+    
+
+
+}
+
+
+
+
+export default GraphicsPlane = (
     {
         meshName,
         preUpdateLogic,
         postUpdateLogic,
         shader: {fragmentShader, uniforms},
-        additionalArgs: {meshProps, geometryProps, materialProps}
-
-    }, 
-    meshRef
+        additionalArgs: {meshProps, geometryProps, materialProps},
+        createBuffer = true
+    }
     ) => {
+
+
+    const meshRef = React.useRef();
 
     const tctx = useThree();
     const {windowWidth, windowHeight} = WindowDimensions();
 
     const initSize = initialSize || {width: 80, height:80};
+    const defaultResolution = {x: 800, y: 600};
+
+
+    if(createBuffer) {
+        this.Buffer = new THREE.WebGLRenderTarget(
+            windowWidth * window.pixelRatio,
+            windowHeight * window.pixelRatio,
+            {
+                depthBuffer: false,
+                stencilBuffer: false, 
+                format: Three.RGBAFormat,
+                minFilter: Three.LinearFilter, 
+                magFilter: Three.LinearFilter,
+                generateMipmaps: false,
+            }
+        )
+    }
+
+
+
+
+    this.UpdateUniforms = function(uniforms) {
+        meshRef.current.material.uniforms = uniforms;
+    }
+
+    this.setBuffer = function() {
+        if(createBuffer) {
+            this.Buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
+        }
+    }
 
     // 
     let previousCameraPosition;
@@ -90,13 +132,12 @@ export default GraphicsPlane = React.forwardRef((
 
         getArgs = () => { 
             return {
-                tctx, 
-                state, 
-                delta,
+                mesh: meshRef.current,
+                tctx, state, delta,
                 camMoved,
-                prevCamPos: previousCameraPosition,
-                prevCamRot: previousCameraRotation,
-                prevVwport: previousViewport,
+                previousCameraPosition,
+                previousCameraRotation,
+                previousViewport,
             };
         };
         
@@ -145,9 +186,9 @@ export default GraphicsPlane = React.forwardRef((
             currentViewPort.height = 2 * Math.tan( vFOV / 2 ) * previousMeshCameraDistance.mag();
             currentViewPort.width = currentViewPort.height * tctx.camera.aspect;   
 
-            if(!previousViewport || previousViewport.center != currentViewPort.center) {
+            if(!previousViewport || previousViewport != currentViewPort) {
 
-                bufferInitFn?.();
+                setBuffer();
 
                 let scale = {
                     width:  currentViewPort.width/initSize.width,
@@ -155,7 +196,7 @@ export default GraphicsPlane = React.forwardRef((
                 };
 
                 meshRef.current.scale.set(scale.width, scale.height, 1);
-                
+
             }
 
             postUpdateLogic?.(meshRef, getArgs());
@@ -173,8 +214,10 @@ export default GraphicsPlane = React.forwardRef((
 
 
 
-
-    meshName = meshName || generateName("GraphicsPlane-");
+    let id = generateID();
+    meshName = meshName || ('GraphicsPlane_' + id);
+    let geometryName = geometryProps.name || (meshName + '_Geometry');
+    let materialName = materialProps.name || (meshName + '_Material');
 
     return (
         <mesh 
@@ -184,15 +227,33 @@ export default GraphicsPlane = React.forwardRef((
         ref={meshRef}
         name={meshName}
         >
-            <planeBufferGeometry
-                attach="geometry"
+            <planeBufferGeometry attach="geometry"
                 args={[initSize.width, initSize.height]}
-                {...geoProps} 
-                name={geoProps.name || ''}
+                name={geometryName}
+                {...geometryProps} 
              />
-            {shader? <shaderMaterial {...materialProps} uniforms={uniforms} shader
-            
-        }
+            {
+                shader? 
+                    <shaderMaterial attach="geometry"
+
+                    {...shader}
+                    // frag and unis should be unrolled above, but just in case
+                    fragmentShader={shader.fragmentShader}
+                    uniforms={shader.uniforms}
+
+                    transparent={true}
+                    depthTest={false}
+                    name={materialName}
+                    {...materialProps} 
+
+                    />
+                :
+                    <meshPhongMaterial attach="material" 
+                    flatShading={true} 
+                    name={materialName}
+                    {...materialProps}
+                    />
+            }
         </mesh>
     );
 });

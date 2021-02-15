@@ -13,6 +13,8 @@
             - position = position.add(velocity.mult(delta))
             - // or: 
             - position.add(velocity.mult(delta, false), true);
+    
+        - this used to be important, now we just need to move this to static methods
 
 */
 
