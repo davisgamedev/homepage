@@ -2,11 +2,13 @@ import React from 'react';
 import  {useFrame, useThree} from 'react-three-fiber';
 import WindowDimensions from 'Tech/WindowDimensions';
 
-import {Vector} from './Vector';
+import Vector from './Vector';
 
 import {Vector3} from 'three';
 import * as THREE from 'three';
 
+import {DebugLog, DebugDir} from 'Tech/DebugTools';
+import {GetScene, RegisterSceneObject, RenderBuffer} from './SceneBufferRegister';
 
 
 
@@ -46,30 +48,18 @@ function generateID(suffix) {
 
 
 
-/**
- * each buffer needs a scene
- * each buffer needs a target
- */
-export function Buffer(targetGraphicsPlane, scene) {
 
-    
-
-
-}
-
-
-
-
-export default GraphicsPlane = (
-    {
+const GraphicsPlane = ({
         meshName,
-        preUpdateLogic,
-        postUpdateLogic,
-        shader: {fragmentShader, uniforms},
-        additionalArgs: {meshProps, geometryProps, materialProps},
-        createBuffer = true
-    }
-    ) => {
+        excludeFromMainScene = false,
+        initialSize,
+        shader,
+        shader: {fragmentShader, getUniformsFn} = undefined,
+        objectProperties,
+        objectProperties: {meshProps, geometryProps, materialProps} = undefined,
+        bufferProperties,
+        bufferProperties: { bufferName, sceneObjects={}, sceneName=bufferName, excludeSelf=false } = null,
+    }) => {
 
 
     const meshRef = React.useRef();
@@ -79,92 +69,103 @@ export default GraphicsPlane = (
 
     const initSize = initialSize || {width: 80, height:80};
     const defaultResolution = {x: 800, y: 600};
+    
+    let id = generateID();
+    meshName = meshName || ('GraphicsPlane_' + id);
+    let geometryName = geometryProps.name || (meshName + '_Geometry');
+    let materialName = materialProps.name || (meshName + '_Material');
 
-
-    if(createBuffer) {
-        this.Buffer = new THREE.WebGLRenderTarget(
+    if(bufferProperties) {
+        this.buffer = new THREE.WebGLRenderTarget(
             windowWidth * window.pixelRatio,
             windowHeight * window.pixelRatio,
             {
                 depthBuffer: false,
                 stencilBuffer: false, 
-                format: Three.RGBAFormat,
-                minFilter: Three.LinearFilter, 
-                magFilter: Three.LinearFilter,
+                format: THREE.RGBAFormat,
+                minFilter: THREE.LinearFilter,  
+                magFilter: THREE.LinearFilter,
                 generateMipmaps: false,
             }
-        )
+        );
+        this.SetBufferTarget(bufferName, this.buffer);
     }
 
-
-
-
-    this.UpdateUniforms = function(uniforms) {
-        meshRef.current.material.uniforms = uniforms;
-    }
-
-    this.setBuffer = function() {
-        if(createBuffer) {
-            this.Buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
+    function setBuffer() {
+        if(bufferProperties) {
+            this.buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
+            this.bufferScene = GetScene(sceneName, sceneObjects);
         }
     }
 
-    // 
-    let previousCameraPosition;
-    let previousCameraRotation;
-    let previousViewport;
+
+    let _state;
+    let _delta;
+    let _init = false;
+
+    this.getState = function() {
+        return {
+            mesh: meshRef.current, 
+            meshName: meshName,
+            delta: _delta,
+            tctx: tctx,
+            ..._state
+        };
+    }
+
+    function init() {
+        if(excludeFromMainScene) tctx.scene.remove(meshRef.current);
+        if(!excludeSelf) sceneObjects[meshName] = meshRef.current;
+        RegisterSceneObject(meshName, meshRef.current);
+
+        _init = true;
+    }
 
     // notes: we grab the mesh position, so that this mesh can be moved in the future for better
     //          object staging, rather than having to move all objects relative to the graphics plane
-    let previousMeshPosition;
-
-    
-    // distance of previous camera to mesh
-    let previousMeshCameraDistance;
 
     useFrame((state, delta) => {
+
+        _delta = delta;
+        if(!_init) init();
+
+        let {
+            cameraPosition,
+            cameraRotation,
+            viewport,
+            meshPosition,
+            meshCameraDistance} = _state;
         
         // if the camera moved
-        let camMoved = (
-            !previousCameraPosition || !previousCameraPosition.checkEach(tctx.camera.position) ||
-            !previousCameraRotation || !previousCameraRotation.checkEach(tctx.camera.rotation) 
+        let moved = (
+            !cameraPosition || !cameraPosition.checkEach(tctx.camera.position) ||
+            !cameraRotation || !cameraRotation.checkEach(tctx.camera.rotation) 
         );
-
-        getArgs = () => { 
-            return {
-                mesh: meshRef.current,
-                tctx, state, delta,
-                camMoved,
-                previousCameraPosition,
-                previousCameraRotation,
-                previousViewport,
-            };
-        };
         
-        preUpdateLogic?.(meshRef, getArgs());
+        //preUpdateLogic?.(meshRef, getArgs());
 
-        if(camMoved) {
+        if(moved) {
             // current camera positions
-            let currCamPos = new Vector(tctx.camera.position);
-            let currCamRot = new Vector(tctx.camera.rotation);
+            let currentCameraPosition = new Vector(tctx.camera.position);
+            let currentCameraRotation = new Vector(tctx.camera.rotation);
 
 
                 // if not a previous position, we'll base our future caluations form the current (initial) state
             // otherwise:
-            if(previousCameraPosition) {
+            if(cameraPosition) {
                 // get the previous distance (new target distance)
-                previousMeshCameraDistance = new Vector(mesh.current.position).sub(previousCameraPosition);
+                meshCameraDistance = new Vector(meshRef.current.position).sub(cameraPosition);
 
                 meshRef.current.position.copy(tctx.camera.position);
                 meshRef.current.rotation.copy(tctx.camera.rotation);
                 meshRef.current.updateMatrix();
-                meshRef.current.translateZ(-previousMeshCameraDistance.mag());
+                meshRef.current.translateZ(-meshCameraDistance.mag());
 
             }
 
 
             // if this is our first time, we'll grab the distance for future updates
-            previousMeshCameraDistance = previousMeshCameraDistance || new Vector(mesh.current.position).sub(currCamPos);
+            meshCameraDistance = meshCameraDistance || new Vector(meshRef.current.position).sub(currentCameraPosition);
 
 
 
@@ -180,44 +181,55 @@ export default GraphicsPlane = (
                 I didn't write the code below but I'm pretty sure that's what it's doing
                  and far more elegantly than what I could do.
             */
-            let vFOV = Three.MathUtils.degToRad( tctx.camera.fov );
+            let vFOV = THREE.MathUtils.degToRad( tctx.camera.fov );
 
-            let currentViewPort = {};
-            currentViewPort.height = 2 * Math.tan( vFOV / 2 ) * previousMeshCameraDistance.mag();
-            currentViewPort.width = currentViewPort.height * tctx.camera.aspect;   
+            let currentViewport = {};
+            currentViewport.height = 2 * Math.tan( vFOV / 2 ) * meshCameraDistance.mag();
+            currentViewport.width = currentViewport.height * tctx.camera.aspect;   
 
-            if(!previousViewport || previousViewport != currentViewPort) {
+            if(!viewport || viewport != currentViewport) {
 
                 setBuffer();
 
                 let scale = {
-                    width:  currentViewPort.width/initSize.width,
-                    height: currentViewPort.height/initSize.height
+                    width:  currentViewport.width/initSize.width,
+                    height: currentViewport.height/initSize.height
                 };
 
                 meshRef.current.scale.set(scale.width, scale.height, 1);
 
             }
 
-            postUpdateLogic?.(meshRef, getArgs());
+            /*
+                cameraPostition,
+                cameraRotation,++++
+                meshPosition,
+                meshCameraDistance
+            */
 
-            previousCameraPosition = currCamPos;
-            previousCameraRotation = currCamRot;
-            previousViewport = currentViewPort;
+            Object.keys(_state).forEach(
+                key => {
+                    let newKey = 'previous' + key.slice(0, 1).toUpperCase() + key.slice(1, -1);
+                    _state[newKey] = _state[key];
+                });
+          
+            Object.assign(_state, {
+                cameraPosition: currentCameraPosition,
+                cameraRotation: currentCameraRotation,
+                viewport: currentViewport,
+                meshPosition: meshRef.current.position,
+                meshCameraDistance, 
+                moved
+            });
 
+            DebugDir(_state);
         }
 
+        meshRef.current.material.uniforms = this.getUniformsFn?.(this.GetState());
 
-        if(!moved) postUpdateLogic?.(meshRef, getArgs());
+        RenderBuffer(tctx, bufferName, sceneName);
         
     });
-
-
-
-    let id = generateID();
-    meshName = meshName || ('GraphicsPlane_' + id);
-    let geometryName = geometryProps.name || (meshName + '_Geometry');
-    let materialName = materialProps.name || (meshName + '_Material');
 
     return (
         <mesh 
@@ -238,8 +250,8 @@ export default GraphicsPlane = (
 
                     {...shader}
                     // frag and unis should be unrolled above, but just in case
-                    fragmentShader={shader.fragmentShader}
-                    uniforms={shader.uniforms}
+                    fragmentShader={fragmentShader}
+                    uniforms={getUniformsFn?.()}
 
                     transparent={true}
                     depthTest={false}
@@ -254,6 +266,7 @@ export default GraphicsPlane = (
                     {...materialProps}
                     />
             }
-        </mesh>
-    );
-});
+        </mesh>);
+};
+
+export default GraphicsPlane;

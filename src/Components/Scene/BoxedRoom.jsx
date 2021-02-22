@@ -4,7 +4,7 @@ import WindowDimensions from "Tech/WindowDimensions";
 import Ocean from './Ocean';
 
 import { Ico } from 'Components/webg-tests/TestIcoBackgroundScene';
-import { Sky, OrbitControls } from 'drei';
+import { Sky, OrbitControls } from '@react-three/drei';
 import { DebugDir } from 'Tech/DebugTools';
 import DebugLog from 'Tech/DebugTools';
 import SkyShader from './SkyShader';

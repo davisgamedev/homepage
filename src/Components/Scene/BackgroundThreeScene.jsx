@@ -3,7 +3,7 @@ import { Canvas, extend, useFrame, useThree } from "react-three-fiber";
 import WindowDimensions from "Tech/WindowDimensions";
 import Ocean from './Ocean';
 
-import { Sky, OrbitControls, Plane, Stats } from 'drei';
+import { Sky, OrbitControls, Plane, Stats } from '@react-three/drei'
 import { DebugDir } from 'Tech/DebugTools';
 import DebugLog from 'Tech/DebugTools';
 import SkyShader from './SkyShader';

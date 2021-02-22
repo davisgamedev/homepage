@@ -7,7 +7,7 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch, withRouter } from "react-router-dom";
 
 import "common/assets/scss/material-kit-react.scss?v=1.8.0";
-import Scene from 'Components/Scene/Scene';
+import BackgroundThreeScene from 'Components/Scene/BackgroundThreeScene';
 
 // import Home from "Views/Home";
 // import Breakpoints from 'Tech/Breakpoints';
@@ -55,7 +55,7 @@ ReactDOM.render(
             </Switch>
         </Breakpoints> */}
       
-      <Scene />
+      <BackgroundThreeScene />
        {/* <div style={{
            position: 'absolute',
            top: 200,

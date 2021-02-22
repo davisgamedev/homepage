@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sky } from 'drei';
+import { Sky } from '@react-three/drei';
 import { DebugDir } from 'Tech/DebugTools';
 import DebugLog from 'Tech/DebugTools';
 
@@ -27,7 +27,7 @@ export default function SkyShader() {
 
             Object.keys(uniforms).forEach(k => {
 
-                ref.current.material.uniforms[k]?.value = uniforms;
+                ref.current.material.uniforms[k].value = uniforms[k];
                 
             });
             
