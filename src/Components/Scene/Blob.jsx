@@ -4,7 +4,7 @@ import { useFrame } from "react-three-fiber";
 import WindowDimensions from "Tech/WindowDimensions";
 import * as Three from 'three';
 import { Vector2, Vector3, Vector4 } from 'three';
-import GraphicsPlane from './Pipeline';
+import GraphicsPlane from './GraphicsPlane.jsx';
 //import RaymarchBlobFragShader from './Shaders/Old_RaymarchBlobFragShader';
 import RaymarchMain from './Shaders/RaymarchMain.js';
 import RaymarchPostpass from './Shaders/RaymarchPostpass';
@@ -292,58 +292,47 @@ export default function Blob(props) {
         { Array.from({length: Uniforms.NumSpheres.value}, (_, i) => <Goo key={i} index={i} />) }
 
 
-        <GraphicsPlane props={{
+        <GraphicsPlane {...{
             meshName: meshMainName,
-            shader: {
-                fragmentShader: RaymarchPostpass,
-                getUniformsFn: getUniforms,
-            },
-            objectProperties: {
-                meshProperties: {
+
+            fragShader: RaymarchPostpass,
+            fragShaderGetUniFn: getUniforms,
+
+            bufferName: meshMainName,
+            
+            meshProps: {
                     renderOrder: 10
-                },
-                materialProps: {
-                    premultipliedAlpha: true
-                }
             },
-            bufferProperties: {
-                bufferName: meshMainName,
+            matProps: {
+                premultipliedAlpha: true
             }
         }}
         />
 
-        <GraphicsPlane props={{
+        <GraphicsPlane {...{
+
             meshName: meshAName,
             excludeFromMainScene: true,
-            shader: {
-                fragmentShader: RaymarchPrepass,
-                getUniformsFn: getUniforms,
-            },
-            bufferProperties: {
-                bufferName: bufferAName
-            }
+
+            fragShader: RaymarchPrepass,
+            fragShaderGetUniFn: getUniforms,
+
+            bufferName: bufferAName
+
         }}
         />
 
-        <GraphicsPlane props={{
+        <GraphicsPlane {...{
             meshName: meshBName,
             excludeFromMainScene: true,
-            shader: {
-                fragmentShader: RaymarchMain,
-                getUniformsFn: getUniforms,
-            }
-        }}
-        />
 
-        <GraphicsPlane props={{
-            meshName: meshBName,
-            excludeFromMainScene: true,
-            shader: {
-                fragmentShader: RaymarchMain,
-                getUniformsFn: getUniforms,
-            }
+            fragShader: RaymarchMain,
+            fragShaderGetUniFn: getUniforms,
+
+            bufferName: bufferBName
         }}
         />
+        
 
         {showDebugIcos ? <Icosahedron args={[5, 2]}> <meshPhongMaterial attach="material" color="pink" flatShading={true}/></Icosahedron> : null}
 

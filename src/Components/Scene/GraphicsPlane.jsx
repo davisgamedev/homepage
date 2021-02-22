@@ -7,20 +7,8 @@ import Vector from './Vector';
 import {Vector3} from 'three';
 import * as THREE from 'three';
 
-import {DebugLog, DebugDir} from 'Tech/DebugTools';
+import DebugLog, {DebugDir, DebugColorLog} from 'Tech/DebugTools';
 import {GetScene, RegisterSceneObject, RenderBuffer, SetBufferTarget} from './SceneBufferRegister';
-
-
-
-export function initBuffer(args) {
-
-
-
-}
-
-export function getBuffer(args) {
-
-}
 
 
 // export function getPixelCoordinate(vec, cam, z=-1) {
@@ -46,17 +34,32 @@ function generateID(suffix) {
     return Math.random() * 10000 * Date.now();
 }
 
-export default function GraphicsPlane({
+function nullify(obj) { return Object.keys(obj) > 0 ? obj : null; }
+
+export default function GraphicsPlane(props){
+
+    const {
         meshName,
+    
         excludeFromMainScene = false,
+        excludeFromBufferScene = false,
         initialSize,
-        shader,
-        shader: {fragmentShader, getUniformsFn} = {},
-        objectProperties,
-        objectProperties: {meshProps, geometryProps, materialProps} = {},
-        bufferProperties,
-        bufferProperties: { bufferName, sceneObjects={}, sceneName=bufferName, excludeSelf=false } = {},
-    }){
+    
+        meshProps = {}, 
+        geoProps  = {},
+        matProps  = {},
+    
+        fragShader,
+        fragShaderGetUniFn,
+    
+        bufferName, 
+        bufferSceneObjects = {}, 
+        bufferSceneName    = bufferName, 
+    
+        externalBufferOnly = false,
+        externalBufferSource = bufferName, 
+    
+    } = props;
 
     const meshRef = React.useRef();
 
@@ -67,27 +70,24 @@ export default function GraphicsPlane({
     const defaultResolution = {x: 800, y: 600};
     
     let id = generateID();
-    meshName = meshName || ('GraphicsPlane_' + id);
-    let geometryName = geometryProps?.name || (meshName + '_Geometry');
-    let materialName = materialProps?.name || (meshName + '_Material');
+    let _meshName = meshName || ('GraphicsPlane_' + id);
+    let geometryName = geoProps?.name || (_meshName + '_Geometry');
+    let materialName = matProps?.name || (_meshName + '_Material');
 
-    let _buffer;
+    let _buffer = !externalBufferOnly;
     let _state = {};
     let _delta;
     let _init = false;
 
 
     function setBuffer() {
-        if(bufferProperties) {
-            _buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
-        }
+        if(_buffer) _buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
     }
-
 
     function getState() {
         return {
             mesh: meshRef.current, 
-            meshName: meshName,
+            meshName: _meshName,
             delta: _delta,
             tctx: tctx,
             ..._state
@@ -95,11 +95,9 @@ export default function GraphicsPlane({
     }
 
     function init() {
-        if(excludeFromMainScene) tctx.scene.remove(meshRef.current);
-        if(!excludeSelf) sceneObjects[meshName] = meshRef.current;
-        RegisterSceneObject(meshName, meshRef.current);
+        RegisterSceneObject(_meshName, meshRef.current);
 
-        if(bufferProperties) {
+        if(_buffer) {
             _buffer = new THREE.WebGLRenderTarget(
                 windowWidth * window.pixelRatio,
                 windowHeight * window.pixelRatio,
@@ -115,6 +113,13 @@ export default function GraphicsPlane({
             SetBufferTarget(bufferName, _buffer);
         }
 
+        if(excludeFromMainScene) {
+            tctx.scene.remove(meshRef.current);
+        } 
+        if(!excludeFromBufferScene) {
+            bufferSceneObjects[_meshName] = meshRef.current;
+        }
+
         _init = true;
     }
 
@@ -123,22 +128,23 @@ export default function GraphicsPlane({
 
     useFrame((state, delta) => {
 
-        _delta = delta;
-        if(!_init) init();
-
         let {
             cameraPosition,
             cameraRotation,
             viewport,
             meshPosition,
-            meshCameraDistance} = _state;
+            meshCameraDistance
+        } = _state;
         
         // if the camera moved
-        let moved = (
+        let moved = _init || (
             !cameraPosition || !cameraPosition.checkEach(tctx.camera.position) ||
             !cameraRotation || !cameraRotation.checkEach(tctx.camera.rotation) 
         );
         
+        _delta = delta;
+        if(!_init) init();
+
         //preUpdateLogic?.(meshRef, getArgs());
 
         if(moved) {
@@ -203,28 +209,41 @@ export default function GraphicsPlane({
                 meshPosition,
                 meshCameraDistance
             */
+           
 
-            Object.keys(_state).forEach(
-                key => {
-                    let newKey = 'previous' + key.slice(0, 1).toUpperCase() + key.slice(1, -1);
-                    _state[newKey] = _state[key];
-                });
-          
-            Object.assign(_state, {
-                cameraPosition: currentCameraPosition,
-                cameraRotation: currentCameraRotation,
-                viewport: currentViewport,
-                meshPosition: meshRef.current.position,
-                meshCameraDistance, 
+            // this is gross, but this is much faster than fun key string trickery
+            _state = {
+
+                previousCameraPosition:     cameraPosition,
+                previousCameraRotation:     cameraRotation,
+                previousViewport:           viewport,
+                previousPosition:           meshPosition,
+                previousMeshCameraDistance: meshCameraDistance, 
+
+                cameraPosition:             currentCameraPosition,
+                cameraRoatation:            currentCameraRotation,
+                viewport:                   currentViewport,
+                meshPosition:               meshRef.current.position,
+                meshCameraDistance:         meshCameraDistance,
+
+                currentCameraPosition,
+                currentCameraRotation,
+                currentViewport,
+                currentMeshPosition:        meshRef.current.position,
+                currentMeshCameraDistance:  meshCameraDistance,
+                
                 moved
-            });
+            };
 
-            DebugDir(_state);
         }
+        DebugLog(fragShader);
 
-        meshRef.current.material.uniforms = getUniformsFn?.(getState());
-
-        RenderBuffer(tctx, bufferName, sceneName);
+        if(fragShader) {
+            DebugDir(getState());
+            if(fragShaderGetUniFn) {
+                meshRef.current.material.uniforms = fragShaderGetUniFn(getState());
+            }
+        }
         
     });
 
@@ -234,33 +253,30 @@ export default function GraphicsPlane({
         rotation={[0, Math.PI, 0]}
         {...meshProps} 
         ref={meshRef}
-        name={meshName}
+        name={_meshName}
         >
             <planeBufferGeometry attach="geometry"
                 args={[initSize.width, initSize.height]}
                 name={geometryName}
-                {...geometryProps} 
+                {...geoProps} 
              />
             {
-                shader? 
+                fragShader? 
                     <shaderMaterial attach="geometry"
 
-                    {...shader}
-                    // frag and unis should be unrolled above, but just in case
-                    fragmentShader={fragmentShader}
-                    uniforms={getUniformsFn?.()}
+                    fragmentShader={fragShader}
 
                     transparent={true}
                     depthTest={false}
                     name={materialName}
-                    {...materialProps} 
+                    {...matProps} 
 
                     />
-                :
+                : 
                     <meshPhongMaterial attach="material" 
                     flatShading={true} 
                     name={materialName}
-                    {...materialProps}
+                    {...matProps}
                     />
             }
         </mesh>);

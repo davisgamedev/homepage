@@ -4,6 +4,8 @@ import { Alert } from "@material-ui/lab";
 
 export const Debug = true;//"production" !== process.env.NODE_ENV;
 export const LogTrace = Debug && true;
+export const MessageTimeout = 3000;
+export const DoNotTimeoutLogs = true;
 
 /*
     The webpack package we have forces lint warnings despite eslintignore
@@ -22,7 +24,7 @@ function getLocalTrace() {
     Error.captureStackTrace(obj, getLocalTrace);
 
     let stack = obj.stack.replace(
-        /Report|DebugDir|DebugLog|DebugColorLog|Error|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
+        /Report|DebugDir|DebugLog|DebugColorLog|Error|ExecuteLog|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
     
     let split = stack
         .split(/\W/gm)
@@ -35,6 +37,8 @@ function getLocalTrace() {
     return message;
 }
 
+
+
 export function Report(func) {
     if(!LogTrace) return;
 
@@ -43,36 +47,35 @@ export function Report(func) {
     console.log(message, 'color: grey; font-size: 10px; font-style: italic');
 }
 
-export function DebugDir(obj) {
-    if(Debug) {
-        console.dir(obj);
-        Report(DebugDir);
+let messageCorner = new Map();
+
+export function ExecuteLog(func, source, ...args){
+    if(!Debug) return;
+    const key = [func, source, ...args].reduce((acc, curr) => acc+curr, "");
+    if(DoNotTimeoutLogs || !messageCorner.has(key) || Date.now() > messageCorner.get(key) + MessageTimeout) {
+        func(...args);
+        Report(source);
+        messageCorner.set(key, Date.now());
     }
 }
 
-export default function DebugLog(...args){
-    if(Debug) {
-        console.log(...args);
-        Report(DebugLog);
-    }
-}
+export function DebugDir(...args) { ExecuteLog(console.dir, DebugDir, ...args); }
+
+export default function DebugLog (...args) {ExecuteLog(console.log, DebugLog, ...args); }
+
 
 export function DebugColorLog(message, color, background='none') {
-    if(Debug) {
-        console.log('%c' + message, `color: ${color}; background-color: ${background}`);
-        Report(DebugColorLog);
-    }
+    ExecuteLog(console.log, DebugColorLog, '%c' + message, `color: ${color}; background-color: ${background}`);
 }
 
 export function DebugList(...args) {
     if(Debug) {
-        console.log(`
+        ExecuteLog(console.log, DebugList, `
         [ ${args.reduce(
             (acc, curr) => acc + curr + ', ',
             ''
         )}];
-        `)
-        Report(DebugList);
+        `);
     }
 }
 

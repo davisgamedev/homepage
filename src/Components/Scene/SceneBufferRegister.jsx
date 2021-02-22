@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import DebugLog, { DebugDir } from '../../Tech/DebugTools';
+import DebugLog, { DebugDir, DebugColorLog } from '../../Tech/DebugTools';
 
 let objectGlobalRegister = {};
 let sceneRegister = {};
@@ -37,19 +37,20 @@ export function SetBufferTarget(name, buffer) {
 };
 
 export function GetBufferContentsTexture(name) {
-    return bufferRegister[name].texture;
+    return bufferRegister[name]?.texture || null;;
 }
 
 
-const SceneNotRegisteredError = () => { throw new Error("Scene was not registered on buffer render!"); };
-const BufferNotRegisteredError = () => { throw new Error("Buffer was not registered on buffer render!"); };
 
 export function RenderBuffer({gl, camera}, bufferName, sceneName) {
-    let buffer = bufferRegister[bufferName] || BufferNotRegisteredError();
-    let scene =  sceneRegister[sceneName] || SceneNotRegisteredError();
-    
-    let prevRenderTarget = gl.getRenderTarget();
-    gl.setRenderTarget(buffer);
-    gl.render(scene, camera);
-    gl.setRenderTarget(prevRenderTarget);
+    let buffer = bufferRegister[bufferName];
+    let scene =  sceneRegister[sceneName];
+
+    if(buffer && scene) {
+        let prevRenderTarget = gl.getRenderTarget();
+        gl.setRenderTarget(buffer);
+        gl.render(scene, camera);
+        gl.setRenderTarget(prevRenderTarget);
+    }
+    else DebugColorLog(`Scene: ${sceneName}, Buffer: ${bufferName} could not be rendered!`, 'red');
 }
