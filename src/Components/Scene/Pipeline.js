@@ -8,7 +8,7 @@ import {Vector3} from 'three';
 import * as THREE from 'three';
 
 import {DebugLog, DebugDir} from 'Tech/DebugTools';
-import {GetScene, RegisterSceneObject, RenderBuffer} from './SceneBufferRegister';
+import {GetScene, RegisterSceneObject, RenderBuffer, SetBufferTarget} from './SceneBufferRegister';
 
 
 
@@ -46,21 +46,17 @@ function generateID(suffix) {
     return Math.random() * 10000 * Date.now();
 }
 
-
-
-
-const GraphicsPlane = ({
+export default function GraphicsPlane({
         meshName,
         excludeFromMainScene = false,
         initialSize,
         shader,
-        shader: {fragmentShader, getUniformsFn} = undefined,
+        shader: {fragmentShader, getUniformsFn} = {},
         objectProperties,
-        objectProperties: {meshProps, geometryProps, materialProps} = undefined,
+        objectProperties: {meshProps, geometryProps, materialProps} = {},
         bufferProperties,
-        bufferProperties: { bufferName, sceneObjects={}, sceneName=bufferName, excludeSelf=false } = null,
-    }) => {
-
+        bufferProperties: { bufferName, sceneObjects={}, sceneName=bufferName, excludeSelf=false } = {},
+    }){
 
     const meshRef = React.useRef();
 
@@ -72,38 +68,23 @@ const GraphicsPlane = ({
     
     let id = generateID();
     meshName = meshName || ('GraphicsPlane_' + id);
-    let geometryName = geometryProps.name || (meshName + '_Geometry');
-    let materialName = materialProps.name || (meshName + '_Material');
+    let geometryName = geometryProps?.name || (meshName + '_Geometry');
+    let materialName = materialProps?.name || (meshName + '_Material');
 
-    if(bufferProperties) {
-        this.buffer = new THREE.WebGLRenderTarget(
-            windowWidth * window.pixelRatio,
-            windowHeight * window.pixelRatio,
-            {
-                depthBuffer: false,
-                stencilBuffer: false, 
-                format: THREE.RGBAFormat,
-                minFilter: THREE.LinearFilter,  
-                magFilter: THREE.LinearFilter,
-                generateMipmaps: false,
-            }
-        );
-        this.SetBufferTarget(bufferName, this.buffer);
-    }
+    let _buffer;
+    let _state = {};
+    let _delta;
+    let _init = false;
+
 
     function setBuffer() {
         if(bufferProperties) {
-            this.buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
-            this.bufferScene = GetScene(sceneName, sceneObjects);
+            _buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
         }
     }
 
 
-    let _state;
-    let _delta;
-    let _init = false;
-
-    this.getState = function() {
+    function getState() {
         return {
             mesh: meshRef.current, 
             meshName: meshName,
@@ -117,6 +98,22 @@ const GraphicsPlane = ({
         if(excludeFromMainScene) tctx.scene.remove(meshRef.current);
         if(!excludeSelf) sceneObjects[meshName] = meshRef.current;
         RegisterSceneObject(meshName, meshRef.current);
+
+        if(bufferProperties) {
+            _buffer = new THREE.WebGLRenderTarget(
+                windowWidth * window.pixelRatio,
+                windowHeight * window.pixelRatio,
+                {
+                    depthBuffer: false,
+                    stencilBuffer: false, 
+                    format: THREE.RGBAFormat,
+                    minFilter: THREE.LinearFilter,  
+                    magFilter: THREE.LinearFilter,
+                    generateMipmaps: false,
+                }
+            );
+            SetBufferTarget(bufferName, _buffer);
+        }
 
         _init = true;
     }
@@ -225,7 +222,7 @@ const GraphicsPlane = ({
             DebugDir(_state);
         }
 
-        meshRef.current.material.uniforms = this.getUniformsFn?.(this.GetState());
+        meshRef.current.material.uniforms = getUniformsFn?.(getState());
 
         RenderBuffer(tctx, bufferName, sceneName);
         
@@ -268,5 +265,3 @@ const GraphicsPlane = ({
             }
         </mesh>);
 };
-
-export default GraphicsPlane;

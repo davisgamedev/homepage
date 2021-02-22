@@ -255,7 +255,7 @@ export default function Blob(props) {
         windowHeight * Uniforms.Overdraw.value * window.pixelRatio);
 
 
-    this.getUniforms = function({
+    const getUniforms = (function({
         previousMeshPosition,
         currentMeshPosition,
         currentCameraPosition,
@@ -279,7 +279,7 @@ export default function Blob(props) {
 
        return Uniforms;
 
-    }
+    }).bind(this);
 
     // todo: use Camera.scissor
     useFrame((state, delta) => {
@@ -296,7 +296,7 @@ export default function Blob(props) {
             meshName: meshMainName,
             shader: {
                 fragmentShader: RaymarchPostpass,
-                getUniformsFn: this.getUniforms,
+                getUniformsFn: getUniforms,
             },
             objectProperties: {
                 meshProperties: {
@@ -317,7 +317,7 @@ export default function Blob(props) {
             excludeFromMainScene: true,
             shader: {
                 fragmentShader: RaymarchPrepass,
-                getUniformsFn: this.getUniforms,
+                getUniformsFn: getUniforms,
             },
             bufferProperties: {
                 bufferName: bufferAName
@@ -330,7 +330,7 @@ export default function Blob(props) {
             excludeFromMainScene: true,
             shader: {
                 fragmentShader: RaymarchMain,
-                getUniformsFn: this.getUniforms,
+                getUniformsFn: getUniforms,
             }
         }}
         />
@@ -340,7 +340,7 @@ export default function Blob(props) {
             excludeFromMainScene: true,
             shader: {
                 fragmentShader: RaymarchMain,
-                getUniformsFn: this.getUniforms,
+                getUniformsFn: getUniforms,
             }
         }}
         />
