@@ -4,8 +4,8 @@ import { Alert } from "@material-ui/lab";
 
 export const Debug = true;//"production" !== process.env.NODE_ENV;
 export const LogTrace = Debug && true;
-export const MessageTimeout = 3000;
-export const DoNotTimeoutLogs = true;
+export const MessageTimeout = 1500;
+export const DoNotTimeoutLogs = true; // this needs work
 
 /*
     The webpack package we have forces lint warnings despite eslintignore
@@ -24,7 +24,7 @@ function getLocalTrace() {
     Error.captureStackTrace(obj, getLocalTrace);
 
     let stack = obj.stack.replace(
-        /Report|DebugDir|DebugLog|DebugColorLog|Error|ExecuteLog|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
+        /Report|DebugDir|DebugLog|DebugColorLog|Error|ExecuteLog|MakeScopeLogsPriority|\s*at\s+[^A-Z].*(\s|$)|(\(.*\))|at|[\w\d\/]+[.\[\]]+[\w\d]*|[\[][A-z]*/gm, '');
     
     let split = stack
         .split(/\W/gm)
@@ -48,11 +48,17 @@ export function Report(func) {
 }
 
 let messageCorner = new Map();
+let priorityMessages = new Set();
 
 export function ExecuteLog(func, source, ...args){
     if(!Debug) return;
     const key = [func, source, ...args].reduce((acc, curr) => acc+curr, "");
-    if(DoNotTimeoutLogs || !messageCorner.has(key) || Date.now() > messageCorner.get(key) + MessageTimeout) {
+    if(
+        DoNotTimeoutLogs || 
+        priorityMessages.has(getLocalTrace()) ||
+        !messageCorner.has(key) || 
+        Date.now() > messageCorner.get(key) + MessageTimeout
+        ) {
         func(...args);
         Report(source);
         messageCorner.set(key, Date.now());
@@ -62,6 +68,19 @@ export function ExecuteLog(func, source, ...args){
 export function DebugDir(...args) { ExecuteLog(console.dir, DebugDir, ...args); }
 
 export default function DebugLog (...args) {ExecuteLog(console.log, DebugLog, ...args); }
+
+export function MakeScopeLogsPriority() {
+
+    // let obj = {};
+    // Error.captureStackTrace(obj, MakeScopeLogsPriority);
+    // console.dir(obj);
+
+    let stack = getLocalTrace();
+
+    if(stack != '[anonymous callback]') 
+        priorityMessages.add(getLocalTrace());
+    //console.dir(priorityMessages);
+}
 
 
 export function DebugColorLog(message, color, background='none') {

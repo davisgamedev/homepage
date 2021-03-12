@@ -163,6 +163,8 @@ float March(vec3 eye, vec3 dir, float start, float end) {
     
 void main() {
 
+    //gl_FragColor = vec4(1.0, 0.5, 0., 1.); return;
+
     vec2 nearest = floor(gl_FragCoord.xy/SampleSize) * SampleSize;
     
     vec4 distColor = texture(iChannel0, nearest.xy/Resolution.xy);

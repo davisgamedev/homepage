@@ -47,7 +47,6 @@ export class GaussianEffectPass extends Pass {
 	constructor() {
         super();
         this.uniforms = GaussUniforms;
-        console.dir(this.uniforms);
 
         this.material = new GaussianMaterial();
         this.quad = new Pass.FullScreenQuad(this.material);

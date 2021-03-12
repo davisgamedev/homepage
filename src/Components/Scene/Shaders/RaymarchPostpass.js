@@ -67,6 +67,7 @@ vec4 RotateBlur(vec2 fragCoord, float GaussianSize) {
 
 void main()
 {  
+    //gl_FragColor = vec4(1., 0., 1., 1.); return;
     //gl_FragColor = texture(iChannel0, gl_FragCoord.xy/Resolution.xy); return;
 
     vec2 floorst = floor(gl_FragCoord.xy/SampleSize) * SampleSize;

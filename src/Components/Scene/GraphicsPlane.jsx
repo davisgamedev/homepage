@@ -7,8 +7,9 @@ import Vector from './Vector';
 import {Vector3} from 'three';
 import * as THREE from 'three';
 
-import DebugLog, {DebugDir, DebugColorLog} from 'Tech/DebugTools';
-import {GetScene, RegisterSceneObject, RenderBuffer, SetBufferTarget} from './SceneBufferRegister';
+import DebugLog, { DebugDir, DebugColorLog, MakeScopeLogsPriority} from 'Tech/DebugTools';
+import {GetScene, RegisterSceneObject, RenderBuffer, SetBufferTarget, GetBufferContentsTexture} from './SceneBufferRegister';
+import { RenderBufferExplicit } from './SceneBufferRegister.jsx';
 
 
 // export function getPixelCoordinate(vec, cam, z=-1) {
@@ -30,6 +31,15 @@ import {GetScene, RegisterSceneObject, RenderBuffer, SetBufferTarget} from './Sc
 //     }
 // }
 
+const copyShader = `
+    uniform sampler2D iChannel0;
+    uniform vec2 Resolution;
+
+    void main() {
+        gl_FragColor = texture(iChannel0, gl_FragCoord.xy/Resolution.xy);
+    }
+`;
+
 function generateID(suffix) {
     return Math.random() * 10000 * Date.now();
 }
@@ -41,8 +51,8 @@ export default function GraphicsPlane(props){
     const {
         meshName,
     
-        excludeFromMainScene = false,
-        excludeFromBufferScene = false,
+        excludeFromMainScene,
+        excludeFromBufferScene,
         initialSize,
     
         meshProps = {}, 
@@ -51,15 +61,18 @@ export default function GraphicsPlane(props){
     
         fragShader,
         fragShaderGetUniFn,
+
+        bufferSceneObjects,
     
         bufferName, 
-        bufferSceneObjects = {}, 
-        bufferSceneName    = bufferName, 
-    
-        externalBufferOnly = false,
-        externalBufferSource = bufferName, 
+        bufferSceneName = bufferName, 
+        externalBufferSource, 
     
     } = props;
+
+    let externalBufferOnly = externalBufferSource && true;
+
+    let _bufferSceneObjects = bufferSceneObjects || {};
 
     const meshRef = React.useRef();
 
@@ -74,15 +87,10 @@ export default function GraphicsPlane(props){
     let geometryName = geoProps?.name || (_meshName + '_Geometry');
     let materialName = matProps?.name || (_meshName + '_Material');
 
-    let _buffer = !externalBufferOnly;
+    let _buffer;
     let _state = {};
     let _delta;
     let _init = false;
-
-
-    function setBuffer() {
-        if(_buffer) _buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
-    }
 
     function getState() {
         return {
@@ -94,10 +102,20 @@ export default function GraphicsPlane(props){
         };
     }
 
+    let testTexture;
+
     function init() {
+
         RegisterSceneObject(_meshName, meshRef.current);
 
-        if(_buffer) {
+        if(excludeFromMainScene) {
+            tctx.scene.remove(meshRef.current);
+        } 
+        if(!excludeFromBufferScene) {
+            _bufferSceneObjects[_meshName] = meshRef.current;
+        }        
+        
+        if(!externalBufferOnly) {
             _buffer = new THREE.WebGLRenderTarget(
                 windowWidth * window.pixelRatio,
                 windowHeight * window.pixelRatio,
@@ -111,14 +129,11 @@ export default function GraphicsPlane(props){
                 }
             );
             SetBufferTarget(bufferName, _buffer);
+            GetScene(bufferSceneName, _bufferSceneObjects);
         }
 
-        if(excludeFromMainScene) {
-            tctx.scene.remove(meshRef.current);
-        } 
-        if(!excludeFromBufferScene) {
-            bufferSceneObjects[_meshName] = meshRef.current;
-        }
+
+        testTexture = new THREE.TextureLoader().load('https://gourav.io/_next/static/media/pages/clone-wars/img/og.png');
 
         _init = true;
     }
@@ -137,7 +152,7 @@ export default function GraphicsPlane(props){
         } = _state;
         
         // if the camera moved
-        let moved = _init || (
+        let moved = !_init || (
             !cameraPosition || !cameraPosition.checkEach(tctx.camera.position) ||
             !cameraRotation || !cameraRotation.checkEach(tctx.camera.rotation) 
         );
@@ -146,6 +161,7 @@ export default function GraphicsPlane(props){
         if(!_init) init();
 
         //preUpdateLogic?.(meshRef, getArgs());
+        
 
         if(moved) {
             // current camera positions
@@ -192,24 +208,17 @@ export default function GraphicsPlane(props){
 
             if(!viewport || viewport != currentViewport) {
 
-                setBuffer();
+                if(!externalBufferOnly)
+                    _buffer.setSize(windowWidth * window.pixelRatio, windowHeight * window.pixelRatio);
 
                 let scale = {
                     width:  currentViewport.width/initSize.width,
                     height: currentViewport.height/initSize.height
                 };
 
-                meshRef.current.scale.set(scale.width, scale.height, 1);
+                //meshRef.current.scale.set(scale.width, scale.height, 1);
 
             }
-
-            /*
-                cameraPostition,
-                cameraRotation,++++
-                meshPosition,
-                meshCameraDistance
-            */
-           
 
             // this is gross, but this is much faster than fun key string trickery
             _state = {
@@ -231,21 +240,44 @@ export default function GraphicsPlane(props){
                 currentViewport,
                 currentMeshPosition:        meshRef.current.position,
                 currentMeshCameraDistance:  meshCameraDistance,
-                
+
                 moved
             };
 
         }
-        DebugLog(fragShader);
 
         if(fragShader) {
-            DebugDir(getState());
             if(fragShaderGetUniFn) {
                 meshRef.current.material.uniforms = fragShaderGetUniFn(getState());
             }
         }
-        
+
+        if(!externalBufferOnly) {
+            RenderBufferExplicit(tctx, bufferName, _buffer, bufferSceneName, _bufferSceneObjects);
+        }
+        else {
+            const _texture = GetBufferContentsTexture(externalBufferSource);
+            
+            if(_texture) {
+                meshRef.current.material.uniforms.iChannel0.value = _texture;
+                meshRef.current.material.uniforms.Resolution.value = new THREE.Vector2(_texture.image.width, _texture.image.height);
+
+            }
+            
+            if(logs-- >0) {
+                console.log('--------buffer plane stuff:----- ');
+                console.log(_texture);
+                console.log(meshRef.current);
+                console.log(externalBufferSource);
+                console.log(props);
+                console.log(tctx);
+                console.log('-----------------');
+            }
+        }
+
     });
+
+    let logs = 15;
 
     return (
         <mesh 
@@ -262,9 +294,11 @@ export default function GraphicsPlane(props){
              />
             {
                 fragShader? 
-                    <shaderMaterial attach="geometry"
+                    <shaderMaterial attach="material"
 
                     fragmentShader={fragShader}
+                    premultipliedAlpha={true}
+                    uniforms={fragShaderGetUniFn(getState())}
 
                     transparent={true}
                     depthTest={false}
@@ -273,10 +307,19 @@ export default function GraphicsPlane(props){
 
                     />
                 : 
-                    <meshPhongMaterial attach="material" 
-                    flatShading={true} 
-                    name={materialName}
-                    {...matProps}
+                    <shaderMaterial attach="material"
+
+                        fragmentShader={copyShader}
+                        premultipliedAlpha={true}
+                        uniforms={{
+                            iChannel0: {value: new THREE.Texture()},
+                            Resolution: {value: new THREE.Vector2(0, 0)}
+                        }}
+                        transparent={true}
+                        depthTest={false}
+                        name={materialName}
+                        {...matProps} 
+
                     />
             }
         </mesh>);

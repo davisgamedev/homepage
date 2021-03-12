@@ -97,6 +97,8 @@ float March(vec3 eye, vec3 dir, float start, float end) {
 }
     
 void main(){
+
+    //gl_FragColor = vec4(0., 1., 0., 1.); return;
     
     float isZero = floor(mod(gl_FragCoord.x, SampleSize)) + floor(mod(gl_FragCoord.y, SampleSize));
 

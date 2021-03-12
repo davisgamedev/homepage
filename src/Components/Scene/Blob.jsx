@@ -12,6 +12,7 @@ import RaymarchPrepass from './Shaders/RaymarchPrepass';
 import Vector from './Vector';
 
 import {GetBufferContentsTexture} from './SceneBufferRegister';
+import { truncate } from 'fs';
 
 
 
@@ -247,8 +248,9 @@ export default function Blob(props) {
     const bufferAName = 'blobBufferA';
     const bufferBName = 'blobBufferB';
 
-    const {windowWidth, windowHeight} = WindowDimensions();
+    const gref = React.useRef();
 
+    const {windowWidth, windowHeight} = WindowDimensions();
 
     Uniforms.Resolution.value = new Vector2(
         windowWidth * Uniforms.Overdraw.value * window.pixelRatio, // set in Scene
@@ -259,7 +261,11 @@ export default function Blob(props) {
         previousMeshPosition,
         currentMeshPosition,
         currentCameraPosition,
+        moved
     }) {
+
+
+        if(!moved) return Uniforms;
 
        let center = new Vector(Uniforms.Center.value);
        if(previousMeshPosition && 
@@ -277,42 +283,68 @@ export default function Blob(props) {
        Uniforms.iChannel0 = {value: GetBufferContentsTexture(bufferAName)};
        Uniforms.iChannel1 = {value: GetBufferContentsTexture(bufferBName)};
 
+       gref.current.material.map = GetBufferContentsTexture(meshMainName);
+
+       if(logs-- > 0){
+           console.log('-------------- blob ref stuff: -------------');
+           console.log(meshMainName);
+           console.log(gref.current);
+           console.log('-----------------');
+       }
+
        return Uniforms;
 
     }).bind(this);
+
 
     // todo: use Camera.scissor
     useFrame((state, delta) => {
         UpdateGoos(delta);
     }, 0);
 
+    let logs = 10;
     
     return(<>
 
         { Array.from({length: Uniforms.NumSpheres.value}, (_, i) => <Goo key={i} index={i} />) }
 
+        <GraphicsPlane {...{
+            meshName: meshMainName + 'DisplayPlane',
+            externalBufferSource: meshMainName
+        }}/>
+
+        <mesh 
+            ref={gref}
+            position={[0, -1, 0]}
+            rotation={[0, Math.PI, 0]}
+        >
+            <planeBufferGeometry attach="geometry"
+            args={[20, 80]}
+            />
+            <meshPhongMaterial attach="material" 
+                    transparent={true}
+                    premultipliedAlpha={true}
+                    
+                    />
+        </mesh>
 
         <GraphicsPlane {...{
             meshName: meshMainName,
+            excludeFromMainScene: true,
+            excludeFromBufferScene: false,
 
             fragShader: RaymarchPostpass,
             fragShaderGetUniFn: getUniforms,
 
             bufferName: meshMainName,
-            
-            meshProps: {
-                    renderOrder: 10
-            },
-            matProps: {
-                premultipliedAlpha: true
-            }
         }}
         />
 
-        <GraphicsPlane {...{
+         <GraphicsPlane {...{
 
             meshName: meshAName,
             excludeFromMainScene: true,
+            excludeFromBufferScene: false,
 
             fragShader: RaymarchPrepass,
             fragShaderGetUniFn: getUniforms,
@@ -325,13 +357,14 @@ export default function Blob(props) {
         <GraphicsPlane {...{
             meshName: meshBName,
             excludeFromMainScene: true,
+            excludeFromBufferScene: false,
 
             fragShader: RaymarchMain,
             fragShaderGetUniFn: getUniforms,
 
             bufferName: bufferBName
         }}
-        />
+        /> 
         
 
         {showDebugIcos ? <Icosahedron args={[5, 2]}> <meshPhongMaterial attach="material" color="pink" flatShading={true}/></Icosahedron> : null}
